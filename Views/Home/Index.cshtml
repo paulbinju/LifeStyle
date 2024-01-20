@@ -1,0 +1,108 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_HomeArticles>
+
+@{
+    ViewBag.Title = "Home";
+}
+
+@*@Html.Partial("NewsTicker")*@
+
+<!---Section --->
+    
+        <section class="main-section">
+            <div class="container sub-sections" id="option1">
+              
+
+                <input type="hidden" id="cat" value="@Session["Category"]" style="color:#000000;" />
+
+                <div class="grid" id="divGrid" style="width:0; height:0;float:left;">
+                    <div class="grid-sizer"></div>
+                    @{
+                        Html.RenderAction("table_row", "Home", new { Model = Model, category = Session["Category"], type = Session["type"] });
+
+                    }
+                </div>
+            </div>
+
+            @if (ViewBag.loadMore == 1)
+            {
+                <div style="position:absolute; bottom:0px;">
+                    <p>@ViewBag.loadMore</p>
+
+                </div>
+            }
+
+            <div style="text-align:center;margin-bottom:20px;">
+                <div id="btnLoading" class="btn btn-lg" style="background-color:#de1a22;color:#fff;"><i class="fa fa-download"></i> Load more</div>
+            </div>
+            <div id="loadingdiv" style="text-align:center;display:none;margin-bottom:20px;">
+                <img src=@Url.Content("~/images/loader.gif") />
+            </div>
+
+            <script>
+
+                $(document).ready(function () {
+
+                    $('#divGrid').css('width', '100%');
+                    $('#divGrid').css('height', '100%');
+
+                    //$('#divGrid').css('position', 'relative');
+                    //$('#divGrid').css('left', '0px');
+                    //$('#divGrid').css('top', '0px');
+                });
+            </script>
+            <script>
+        var counter = 0;
+        //$(window).scroll(function () {
+        $("#btnLoading").click(function () {
+
+
+            var hT = $('#footer').offset().top - 300,
+                hH = $('#footer').outerHeight(),
+                wH = $(window).height(),
+                wS = $(this).scrollTop();
+            ////if ($(window).scrollTop() > $(document).height() - $(window).height())
+            //if ($(window).scrollTop() == $(document).height() - $(window).height())
+            ////if ($(window).scrollTop() > Number($("#divGrid").height()) / 2)
+            //if (wS > (hT + hH - wH))
+            //{
+            $("#btnLoading").hide();
+            $("#loadingdiv").show();
+            //alert($("#Tst").val());
+
+                $.post("@Url.Action("InfiniteScroll","Home")",
+                    function (data) {
+                        $("#divGrid").append(data.HTMLString);
+                        NoMoredata = data.NoMoredata;
+                        if (NoMoredata == 0) {
+
+                            $("#btnLoading").hide();
+                        } else {
+                            $("#btnLoading").show();
+                        }
+                        $("#loadingdiv").hide();
+
+
+                        var grid = document.querySelector('.grid');
+                        var msnry = new Masonry(grid, {
+                            itemSelector: '.grid-item',
+                            columnWidth: '.grid-sizer',
+                            percentPosition: true
+                        });
+                        imagesLoaded(grid).on('progress', function () {
+                            msnry.layout();
+                        });
+
+                    }
+                );
+
+
+           // }
+
+        });
+
+            </script>
+
+        </section>
+  
+<!-- End Section -->
+

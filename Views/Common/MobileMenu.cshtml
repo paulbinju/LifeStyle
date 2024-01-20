@@ -1,0 +1,15 @@
+﻿@{
+
+    foreach (var item in ViewBag.Menu)
+    {
+       
+            <a class="btn @item.Description @(item.CategoryName == ViewBag.ActivePage ? "active" : "")" href="@Url.Action("Index","Home",new { p = item.Description })"
+               style="margin:2px; color:#ffffff; font-weight:600; text-transform:uppercase;">
+                @item.CategoryName
+            </a>
+       
+
+    }
+}
+
+

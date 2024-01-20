@@ -1,0 +1,117 @@
+﻿@model IEnumerable<LifestyleBeta.Models.tblUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Facebook)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Twitter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Instagram)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProfileImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Follows)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Register)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Updated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblCountry.Code)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Facebook)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Twitter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Instagram)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfileImage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Follows)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Register)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Updated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblCountry.Code)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
+        </td>
+    </tr>
+}
+
+</table>

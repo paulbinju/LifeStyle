@@ -1,0 +1,44 @@
+﻿@model IEnumerable<LifestyleBeta.Models.tblUser>
+@{
+    ViewBag.Title = "All Editors";
+}
+
+<section class="main-section" style="font-family:Arial;font-size:12px;margin-top:280px;">
+    <div class="container sub-sections" id="option1">
+        <br style="clear:both" />
+        <br style="clear:both" />
+        <table class="table table-striped" style="font-family:Arial;font-size:12px;">
+            <tr>
+                <th>
+                    Full name
+                </th>
+
+                <th>
+                    Email
+                </th>
+                <th>
+                    Mobile
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Country
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a href="@Url.Content("~/Home/Author?UserId="+item.UserId)">@item.FullName</a></td>
+                    <td>@item.Email</td>
+                    <td>@item.Mobile</td>
+                    <td>@item.Gender</td>
+                    <td>@item.tblCountry.Name</td>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+</section>

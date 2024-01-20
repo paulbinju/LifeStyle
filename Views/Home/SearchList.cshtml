@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "Search List";
+}
+@using System.Text.RegularExpressions;
+<section class="block-wrapper"  id="SearchList">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+
+                <!-- block content -->
+                <div class="block-content">
+
+
+
+
+                    <!-- grid box -->
+                    <div class="grid-box">
+                        <div class="title-section">
+                            <h1><span>Search List Details - @ViewBag.SearchText</span></h1>
+                        </div>
+
+
+                        <!-- article box -->
+                        <div class="article-box">
+
+                            @{
+
+                                if (ViewBag.SearchType == "User")
+                                {
+                                    foreach (var users in ViewBag.UserList)
+                                    {
+                                        <div class="col-md-6 col-xs-12 SearchUserList" style="margin:0 0 5px 0; padding:0;">
+                                            <div class="col-md-3 col-xs-3" style="margin:0; padding:0; text-align:right;">
+                                                <a href="@Url.Action("Author", "Home" , new { UserId=users.UserId })">
+                                                    @if (users.ProfileImage != null && users.ProfileImage != "")
+                                                    {
+                                                        <img src="@Url.Content(users.ProfileImage)?@DateTime.Now" class="img-responsive" alt="avatar">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@Url.Content("~/images/user.png")" class="img-responsive" alt="avatar">
+                                                    }
+                                                </a>
+                                            </div>
+                                            <div class="col-md-9 col-xs-9" style="margin:0; padding:0;">
+                                                <h5 style="margin-bottom:4px;"><strong><a href="@Url.Action("Author", "Home" , new { UserId=users.UserId })">  @users.FullName </a></strong></h5>
+                                                <h6 style="margin:0px;"> @users.Name</h6>
+                                            </div>
+                                        </div>
+                                        @*<br style="clear:both;" />
+                                        <br style="clear:both;" />*@
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var Articles in ViewBag.SearchArticles)
+                                    {
+                                        <div class="news-post article-post">
+                                            <div class="row">
+                                                <div class="col-sm-5">
+                                                    <div class="post-gallery">
+                                                        @if (Articles.CoverImage != null && Articles.CoverImage != "")
+                                                        {
+                                                            <img alt="" src="@Url.Content(Articles.CoverImage)?@DateTime.Now">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="@Url.Content("~/images/ghostimg.png")" />
+                                                        }
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <div class="post-content">
+                                                        <h2><a href=@Url.Action("ArticleDetail", "Home", new { ArticleId = Articles.ArticleId, category = Articles.CategoryId })>@Articles.Title</a></h2>
+                                                        <ul class="post-tags">
+                                                            <li><sapn class="badge @Articles.CategoryClass" style="color:white; border-radius:4px;font-style:normal;">@Articles.CategoryName</sapn></li>
+                                                            <li><i class="fa fa-clock-o"></i>@string.Format("{0:d MMM yyyy}", Articles.Created)</li>
+                                                            <li><i class="fa fa-user"></i>by <a href="#">@Articles.UserName</a></li>
+                                                            <li><a href="#"><i class="fa fa-comments-o"></i><span>@Articles.Comments</span></a></li>
+                                                            <li><i class="fa fa-eye"></i>@Articles.Views</li>
+                                                        </ul>
+                                                        @*<p> @Convert.ToString(Articles.ArticleText).Substring(0, 100) .....</p>*@
+
+
+                                                        @{
+                                                            if (Articles.ArticleText != null && Articles.ArticleText != "")
+                                                            {
+
+                                                                string aText = Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty));
+                                                                int aTextCount = aText.Count();
+
+                                                                if (aTextCount > 0 && aText != null && aText != "")
+                                                                {
+                                                                    if (aTextCount >= 200)
+                                                                    {
+                                                                        <p> @aText.Substring(0, 150);</p>
+                                                                    }
+                                                                    else if (aTextCount >= 100)
+                                                                    {
+                                                                        <p>@aText.Substring(0, 100);</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p>@aText;</p>
+                                                                    }
+                                                                }
+                                                            }
+
+
+
+                                                            @*string aText = Articles.ArticleText;
+
+                                        if (Articles.ArticleText != null && Articles.ArticleText != "")
+                                        {
+                                            if (Convert.ToString(Articles.ArticleText).Length >= 200)
+                                            {
+                                                @Html.Raw(Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty)).Substring(0, 200));
+                                            }
+                                            else if (Convert.ToString(Articles.ArticleText).Length >= 100)
+                                            {
+                                                @Html.Raw(Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty)).Substring(0, 100));
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw(Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty)));
+                                            }
+
+                                        }*@
+                                                        }
+
+
+
+
+                                                        <br /><br />
+                                                        <a href=@Url.Action("ArticleDetail", "Home", new { ArticleId = Articles.ArticleId, category = Articles.CategoryId }) class="read-more-button">
+                                                            <i class="fa fa-arrow-circle-right"></i>Read More
+                                                        </a>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+
+
+
+
+
+                        </div>
+                        <!-- End article box -->
+                        <!-- pagination box -->
+                        @*<div class="pagination-box">
+                            <ul class="pagination-list">
+                                <li><a class="active" href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><span>...</span></li>
+                                <li><a href="#">9</a></li>
+                                <li><a href="#">Next</a></li>
+                            </ul>
+                            <p>Page 1 of 9</p>
+                        </div>*@
+                        <!-- End Pagination box -->
+
+                        @*<div class="center-button">
+                            <a href="#"><i class="fa fa-refresh"></i> Show me more</a>
+                        </div>*@
+
+                    </div>
+                    <!-- End grid box -->
+
+                </div>
+                <!-- End block content -->
+
+            </div>
+
+
+
+            @{
+                Html.RenderAction("Sidebar", "Common");
+            }
+
+
+        </div>
+
+    </div>
+</section>
+<style>
+    .SearchUserList img{
+        width:50px;
+        height:50px;
+        border-radius:50%;
+        margin-left:13px;
+    }
+</style>

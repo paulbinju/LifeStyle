@@ -1,0 +1,21 @@
+﻿@*@model LifestyleBeta.Models.View_ArticleLikes*@
+
+@foreach (var item in ViewBag.Likes)
+{
+    if (item.ProfileImage != null && item.ProfileImage != "")
+    {
+        <a href="@Url.Action("Author", "Home", new { UserId = item.ProfileId })">
+            <img style="width:45px;height:45px;border:1px solid #ececec" src="@Url.Content(item.ProfileImage)" class="img-circle" />
+        </a>
+    }
+    else
+    {
+        <a href="@Url.Action("Author", "Home", new { UserId = item.ProfileId })">
+            <img style="width:45px;height:45px;border:1px solid #ececec" src="@Url.Content("~/images/user.png")" class="img-circle" />
+        </a>
+
+    }
+    <a href="@Url.Action("Author", "Home", new { UserId = item.ProfileId })">
+        <span style="color:#2f3640;font-weight:600;">@item.FullName</span><br />
+    </a>
+}

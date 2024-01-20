@@ -1,0 +1,138 @@
+﻿@model LifestyleBeta.Models.tblUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Facebook)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Facebook)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Twitter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Twitter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Instagram)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Instagram)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProfileImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProfileImage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Follows)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Follows)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Register)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Register)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tblCountry.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblCountry.Code)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

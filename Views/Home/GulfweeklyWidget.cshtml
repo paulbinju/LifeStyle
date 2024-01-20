@@ -1,0 +1,199 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_HomeArticles>
+@{
+    Layout = null;
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+    body{
+        margin:0px;
+        padding:0px;
+    }
+    .wrapper {
+        width: 300px;
+    }
+
+    .container {
+        position: relative;
+        width: 144px;
+        float: left;
+        margin: 3px;
+        height:140px;
+        overflow:hidden;
+    }
+
+    .image {
+        display: block;
+        width: 100%;
+        height: auto;
+        min-height:140px;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        transition: .5s ease;
+        /*background-color: #008CBA;*/
+        /*background: rgba(0, 0, 0, 0.55)*/
+        /*background: linear-gradient(90deg, rgba(222,26,34,1) 29%, rgba(255,255,255,0.7343312324929971) 100%);*/
+    }
+
+    .container:hover .overlay {
+        opacity: 1;
+    }
+
+    .text a{
+        color: white;
+        text-decoration:none;
+        font-size: 14px;
+        font-family:Arial, Helvetica, sans-serif;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    .ALL {
+        background-color: #de1a22;
+    }
+
+    .motor {
+        background-color: rgba(69, 74, 85, 0.8);
+    }
+
+    .sport {
+        background-color: rgba(50, 84, 162, 0.8);
+    }
+
+    .travel {
+        background-color: rgba(0, 183, 202, 0.8);
+    }
+
+    .health {
+        background-color: rgba(108, 187, 71, 0.8);
+    }
+
+    .tech {
+        background-color: rgba(249, 163, 32, 0.8);
+    }
+
+    .entertainment {
+        background-color: rgba(243, 110, 38, 0.8);
+    }
+
+    .fashion {
+        background-color: rgba(235, 24, 99, 0.8);
+    }
+
+    .animals {
+        background-color: rgba(6, 113, 71, 0.8);
+    }
+
+    .education {
+        background-color: rgba(186, 74, 154, 0.8);
+    }
+
+    .people {
+        background-color: rgba(177, 113, 84, 0.8);
+    }
+
+    .finance {
+        background-color: rgba(0, 132, 202, 0.8);
+    }
+
+    .food {
+        background-color: rgba(238, 64, 49, 0.8);
+    }
+
+    .whatsOn {
+        background-color: rgba(191, 192, 194, 0.8);
+    }
+
+    .photo {
+        background-color: rgba(144, 59, 55, 0.8);
+    }
+
+    .property {
+        background-color: rgba(88, 61, 150, 0.8);
+    }
+    .cat{
+        color:#FFF;
+        font-size:11px;
+        font-weight:600;
+        font-family:Arial;
+    }
+</style>
+
+    @*<h3 style="font-family:Verdana;margin-bottom: 12px;">GulfWeekly on GDNLife</h3>*@
+<div id="gdnLifeSection" style="text-align:center; width:300px;">
+
+    <div>
+        <a href="@Url.Action("Index","Home")" target="_blank">
+            <img src=@Url.Content("~/images/GDNLIfeLogo.png") class="img-responsive" alt="" id="gdnLogo" style="margin:0 auto;width:160px;margin-bottom: 8px;">
+        </a>
+
+    </div>
+
+
+    <div class="wrapper">
+        @foreach (var item in Model)
+        {
+        <div class="container">
+            <img src="@Url.Content(item.CoverImage)" alt="Avatar" class="image">
+            <div style="position:absolute;top:10px;right:3px;">
+                
+                    @if (item.ProfileImage != null && item.ProfileImage != "")
+                    {
+                <div class="@item.Description" style="width:27px; height:28px; border-radius:50%;padding:2px;">
+                    <img src="@Url.Content(item.ProfileImage)" style="width:27px; height:27px; border-radius:50%;">
+                </div>
+                    }
+               
+            </div>
+            <div style="position:absolute;bottom:0px;left:0px;width:100%;padding:3px 2px;" class="@item.Description cat">
+                @item.CategoryName
+            </div>
+            <div class="overlay @item.Description">
+                <div class="text">
+                    <a href=@Url.Action("ArticleDetail","Home",new { ArticleId = item.ArticleId, category = item.CategoryId }) target="_blank">
+                        <h4 id="smalltitle-@item.ArticleId" class="title">
+                            @{
+                                string title = "";
+                                try
+                                {
+                                    title = @Convert.ToString(item.Title).Substring(0, 40) + "...";
+                                }
+                                catch (Exception ex)
+                                {
+                                    title = item.Title;
+                                }
+                            }
+
+                            @Html.Raw(title)
+                        </h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    <br style="clear:both;" />
+    <div style="padding-top:8px;">
+        <a href="@Url.Action("Index","Home")" target="_blank" style="text-decoration:none;font-family:Verdana; font-size:14px; color:#de1a22;font-weight:600;">
+            gdnlife.com
+        </a>
+    </div>
+    <br style="clear:both;" />
+    <hr />
+</div>
+
+    

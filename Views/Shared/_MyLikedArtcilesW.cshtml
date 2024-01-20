@@ -1,0 +1,144 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_SaveLikeArticle>
+
+<div class="panel panel-default" style="border-color:#913935;">
+    <div class="panel-heading" style="font-size:16px; font-weight:bold;background-color:#913935;color:#fff;">
+        Articles I’ve Liked
+    </div>
+    <div class="panel-body" style="padding:2px;">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12 col-xs-12" style="margin:0px 0px 5px 0px; padding:2px; border-bottom:1px solid #e0dede;" id="divMyLikedArticles">
+                <div class="col-md-3 col-xs-2" style="margin:0px; padding:0px; padding-right:5px;text-align:center">
+                    @if (item.CoverImage != null && item.CoverImage != "")
+                    {
+                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId })>
+                            <img class="img-responsive" style="width:60px; height:40px; margin-bottom:3px;" src="@Url.Content(item.CoverImage)?@DateTime.Now" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img class="img-responsive" style="width:60px; height:40px; margin-bottom:3px;" src="@Url.Content("~/images/ghostimg.png")?@DateTime.Now" />
+                    }
+
+                    @if (item.ProfileImage != null && item.ProfileImage != "")
+                    {
+                        <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                            <img style="width:30px;height:30px;" class="img-circle" src="@Url.Content(item.ProfileImage)" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                            <img style="width:30px;height:30px;" class="img-circle" src="@Url.Content("~/images/user.png")" />
+                        </a>
+                    }
+
+                </div>
+                <div class="col-md-9 col-xs-10" style="margin:0px; padding:0px;">
+                    <p style="font-size:12px; font-weight:600; line-height:15px;margin-bottom:3px;">
+                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId }) style="color:dodgerblue"> @item.Title</a>
+                        <span class="pull-right"> <i class="fa fa-times-circle" onclick="DeleteSavedArticle(@item.SaveLikeId,'Like')" style="cursor:pointer;font-size:16px;"></i></span>
+                    </p>
+                    <ul class="post-tags">
+                       
+                        <li><a href="@Url.Action("Author", "Home" , new { UserId=item.UserId })">@item.FullName</a><br style="clear:both;" /> </li>
+                        <li><sapn class="badge @item.Description" style="color:white;">@item.CategoryName</sapn></li>
+
+                        <li style="font-size:11px;">
+                            <i class="fa fa-eye"></i>
+                            @item.Views &nbsp;
+                            <i class="fa fa-heart"></i>
+                            @item.Likes &nbsp;&nbsp;
+                            <i class="fa fa-comments"></i>
+                            @item.Comments &nbsp;&nbsp;&nbsp;&nbsp;
+                           
+                        </li>
+
+
+                    </ul>
+
+                </div>
+
+            </div>
+        }
+
+        <div class="table-responsive" id="tblMyLikedArticles">
+            <table class="table table-condensed" style="font-family:Arial;font-size:12px;">
+                <tr>
+                    <th>
+                        Cover Image
+                    </th>
+
+                    <th>
+                        Article Info
+                    </th>
+                    <th>
+                        Author
+                    </th>
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.CoverImage != null && item.CoverImage != "")
+                            {
+                                <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId })>
+                                    <img style="width:90px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=item.UserId })">
+                                    <img style="width:90px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+                                </a>
+                            }
+                        </td>
+
+                        <td>
+                            <b>
+                                <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId }) style="color:dodgerblue">
+                                    @item.Title
+                                </a>
+                            </b>
+
+                            <ul class="post-tags">
+                                <li><sapn class="badge @item.Description" style="color:white;">@item.CategoryName</sapn></li>
+                                <li><i class="fa fa-user"></i>by <a href="#">@item.FullName</a></li>
+                                <li><i class="fa fa-clock-o"></i>@(item.Created != null ? String.Format("{0:MM/dd/yyyy}", item.Created) : " ") </li>
+                                <li><a href="#"><i class="fa fa-comments-o"></i><span>0</span></a></li>
+                                <li><i class="fa fa-eye"></i>@item.Views</li>
+                            </ul>
+                        </td>
+                        <td>
+                            @if (item.ProfileImage != null && item.ProfileImage != "")
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=item.UserId })">
+                                    <img style="width:60px;height:50px;border:1px solid #ececec" src="@Url.Content(item.ProfileImage)" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=item.UserId })">
+                                    <img style="width:60px;height:50px;border:1px solid #ececec" src="@Url.Content("~/images/user.png")" />
+                                </a>
+                            }
+                        </td>
+                        <td valign="middle" style="vertical-align:central;padding-top:25px;">
+                            <i class="fa fa-times-circle" onclick="DeleteSavedArticle(@item.SaveLikeId,'Like')" style="cursor:pointer;font-size:16px;"></i>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer" style="background-color:#913935;"></div>
+    </div>
+
+       
+

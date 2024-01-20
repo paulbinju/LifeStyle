@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "LogOut";
+}
+
+<h2>LogOut</h2>
+
+<p>Please wait ....</p>
+
+<script>
+    localStorage.removeItem("GDNLUserID");
+    localStorage.removeItem("GDNLFullName");
+    localStorage.removeItem("GDNLAdminUser");
+
+  //  window.location.href = "https://www.gdnlife.com/?2020";
+
+    window.location.href = '@Url.Content("~/")';
+</script>
+

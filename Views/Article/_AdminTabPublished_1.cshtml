@@ -1,0 +1,219 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+<br style="clear:both" />
+
+@*@Html.PagedListPager((IPagedList)ViewBag.onePageOfArticles, page => Url.Action("AdminArticlesWApproval", "Article", new { page }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })*@
+
+@Html.PagedListPager((IPagedList)ViewBag.onePageOfArticles,
+        page => Url.Action("AdminArticlesWApproval", "Article", new { page }),
+        //new PagedListRenderOptions () { Display = PagedListDisplayMode.IfNeeded }
+        new PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions(){  HttpMethod = "GET", UpdateTargetId = "movie_grid"})
+
+        )
+
+
+
+
+@*<div class="panel panel-default hidden-lg hidden-md hidden-sm" style="border-color:#439c43;" id="mbArticlePublished">
+        <div class="panel-heading" style="font-size:14px; font-weight:bold;background-color:#439c43;color:#fff;">
+            Published Articles
+        </div>
+        <div class="panel-body" style="padding:0px;">
+
+            @foreach (var item in ViewBag.PublishedArticles)
+            {
+                <div class="col-md-12 col-xs-12" style="margin:0px 0px 5px 0px; padding:2px; border-bottom:1px solid #439c43;">
+                    <div class="col-md-3 col-xs-2 text-center" style="margin:0px; padding:0px;">
+                        @if (item.CoverImage != null && item.CoverImage != "")
+                        {
+                            <a href="@Url.Content("~/Article/Edit/" + item.ArticleId)">
+                                <img class="img-responsive" style="width:50px; height:30px;" src="@Url.Content(item.CoverImage)?@DateTime.Now" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                            </a>
+                        }
+                        else
+                        {
+                            <img class="img-responsive" style="width:50px; height:30px;" src="@Url.Content("~/images/ghostimg.png")" />
+                        }
+
+                        @if (item.ProfileImage != null && item.ProfileImage != "")
+                        {
+                            <img style="width:30px;height:30px;margin-top:5px;" class="img-responsive img-circle" src="@Url.Content(item.ProfileImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        }
+                        else
+                        {
+                            <img style="width:30px;height:30px;margin-top:5px;" class="img-responsive img-circle" src="@Url.Content("~/images/ghostimg.png")" />
+                        }
+                    </div>
+                    <div class="col-md-9 col-xs-10" style="margin:0px; padding:0px;">
+                        <p style="font-size:13px; line-height:10px;margin-bottom:5px;">
+                            <a href="@Url.Content("~/Article/Edit/" + item.ArticleId)" style="color:dodgerblue"> @item.Title</a>
+                        </p>
+                        <ul class="post-tags">
+                            <li>
+                                <sapn class="badge @item.Description" style="color:white;font-size:10px; font-weight:600;">@item.CategoryName</sapn>
+                                @if (item.Status.Trim() == "C")
+                                {
+                                    <span class="badge badge-info" style="font-size:10px;">Draft</span>
+                                }
+                                else if (item.Status.Trim() == "D")
+                                {
+                                    <span class="badge badge-info" style="font-size:10px;">Draft</span>
+                                }
+                                else if (item.Status.Trim() == "A")
+                                {
+                                    <span class="badge" style="background-color:orange; font-size:10px;">Waiting for Approval</span>
+                                }
+                                else if (item.Status.Trim() == "P")
+                                {
+                                    <span class="badge" style="background-color:green; font-size:10px;">Published</span>
+                                }
+                                else if (item.Status.Trim() == "R")
+                                {
+                                    <span class="badge" style="background-color:red; font-size:10px;">Rejected</span>
+                                }
+
+                            </li>
+                            <li class="pull-right">
+                                <a href="@Url.Content("~/Article/Edit/" + item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:14px;"></i></a>
+                                <i class="fa fa-trash" style="color:red;font-size:14px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                            </li>
+                            <li style="font-size:11px;">
+                                <i class="fa fa-eye"></i>@item.Views &nbsp;&nbsp;
+                                <i class="fa fa-heart"></i>@item.Likes &nbsp;&nbsp;
+                                <i class="fa fa-comments"></i>@item.Comments &nbsp;&nbsp;
+                                <i class="fa fa-calendar"></i>@string.Format("{0:d MMM yyyy}", item.Created)
+                                <br style="clear:both;" />@item.UserName
+                            </li>
+
+                        </ul>
+                        @if (item.Status.Trim() == "R")
+                        {
+                            <div style="color:red;clear:both">
+                                <b>Rejection reason: </b>@item.Note
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            }
+        </div>
+        <div class="panel-footer" style="background-color:#439c43;"></div>
+    </div>*@
+
+
+<div class="table-responsive">
+    <table class="table table-striped" style="font-family:Arial;font-size:12px;" id="tblArticlePublished">
+        <tr>
+            <th>
+                Cover Image
+            </th>
+
+            <th>
+                Article
+            </th>
+
+            <th style="width:130px;">
+                User
+            </th>
+
+
+            <th style="width:200px;">
+                Dates
+            </th>
+
+            <th>Modify</th>
+        </tr>
+
+        @foreach (var item in ViewBag.onePageOfArticles)
+        {
+            <tr>
+                <td>
+                    @if (item.CoverImage != null && item.CoverImage != "")
+                    {
+                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)">
+                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                    }
+                </td>
+
+                <td style="width:630px;">
+                    <b>
+                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)" style="color:dodgerblue">
+                            @item.Title
+                        </a>
+                    </b>
+                    <br />
+                    <div style="color:white;padding:1px 2px;float:left;font-size:12px;padding:3px 5px;font-weight:normal" class="@item.Description.ToLower() label">@item.CategoryName</div>
+                    <div style="margin-left:30px;color:darkgrey">&nbsp;&nbsp;&nbsp;<i class="fa fa-comments"></i> @item.Comments &nbsp;&nbsp; <i class="fa fa-eye"></i> @item.Views &nbsp;&nbsp; <i class="fa fa-user"></i> @item.UserName</div>
+
+                    <br />
+                    @if (item.Status.Trim() == "R")
+                    {
+
+                        <div style="color:red;clear:both">
+                            <b>Rejection reason: </b>@item.Note
+                        </div>
+                    }
+                </td>
+
+                <td>
+                    @if (item.ProfileImage != null && item.ProfileImage != "")
+                    {
+
+                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.ProfileImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+
+                    }
+                    else
+                    {
+                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                    }
+
+                </td>
+
+
+                <td>
+                    <b>Created On:</b>   @Convert.ToDateTime(item.Created).ToString("dd-MMM-yyyy")<br />
+                    <b>Updated On:</b>  @(item.Updated == null ? "" : Convert.ToDateTime(item.Updated).ToString("dd-MMM-yyyy")) <br />
+                    <b>Status:</b>
+                    @if (item.Status.Trim() == "C")
+                    {
+                        <span class="badge badge-info">Draft</span>
+                    }
+                    else if (item.Status.Trim() == "D")
+                    {
+                        <span class="badge badge-info">Draft</span>
+                    }
+                    else if (item.Status.Trim() == "A")
+                    {
+                        <span class="badge" style="background-color:orange">Waiting for Approval</span>
+                    }
+                    else if (item.Status.Trim() == "P")
+                    {
+                        <span class="badge" style="background-color:green">Published</span>
+                    }
+                    else if (item.Status.Trim() == "R")
+                    {
+                        <span class="badge" style="background-color:red">Rejected</span>
+                    }
+                </td>
+
+                <td style="width:70px;">
+                    <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" style="color:red;font-size:20px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+@*@Html.PagedListPager(ViewBag.PublishedArticles,page => Url.Action("",new { page}))*@

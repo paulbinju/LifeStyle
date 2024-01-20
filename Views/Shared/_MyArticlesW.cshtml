@@ -1,0 +1,122 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_AllMyArticles>
+
+
+        <div class="table-responsive" id="tblMyArticle">
+            <table class="table table-striped" style="font-family:Arial;font-size:12px;">
+                <tr>
+                    <th>
+                        Cover Image
+                    </th>
+
+                    <th>
+                        Article
+                    </th>
+
+                    <th style="width:130px;">
+                        Info
+                    </th>
+
+
+                    <th style="width:200px;">
+                        Dates
+                    </th>
+
+                    <th>Modify</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.CoverImage != null && item.CoverImage != "")
+                            {
+                            <a href="@Url.Content("~/Home/ArticleDetail?ArticleId="+ item.ArticleId+"&category="+item.CategoryId+"&e=edit")">
+                                <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                            </a>
+                            }
+                            else
+                            {
+                        <a href="@Url.Content("~/Home/ArticleDetail?ArticleId="+ item.ArticleId+"&category="+item.CategoryId+"&e=edit")">
+                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+                            </a>
+
+                            }
+</td>
+
+                        <td>
+                            <b>
+                                <a href="@Url.Content("~/Home/ArticleDetail?ArticleId="+ item.ArticleId+"&category="+item.CategoryId+"&e=edit")">
+                                    @item.Title
+                                </a>
+                            </b>
+                            <br />
+                            @*<b>Category:</b>@item.CategoryName<br />*@
+                            <ul class="post-tags">
+                                <li><sapn class="badge @item.Description" style="color:white;">@item.CategoryName</sapn></li>
+                            </ul>
+
+
+
+
+                            @if (item.Status.Trim() == "R")
+                            {<span style="color:red">
+                                    <b>Rejection reason: </b>@item.Note
+                                </span>
+                            }
+
+
+
+                        </td>
+
+                        <td>
+                            <b>Likes :</b>  @(item.Likes)<br />
+                            <b>Views:</b>  @item.Views<br />
+                            <b>Comments:</b>  @item.Comments
+                        </td>
+
+
+                        <td>
+                            <b>Created On:</b>   @Convert.ToDateTime(item.Created).ToString("dd-MMM-yyyy")<br />
+                            <b>Updated On:</b>  @(item.Updated == null ? "" : Convert.ToDateTime(item.Updated).ToString("dd-MMM-yyyy")) <br />
+                            <b>Status:</b>
+                            @if (item.Status.Trim() == "C")
+                            {
+                                <span class="badge badge-info">Draft</span>
+                            }
+                            else if (item.Status.Trim() == "D")
+                            {
+                                <span class="badge badge-info">Draft</span>
+                            }
+                            else if (item.Status.Trim() == "A")
+                            {
+                                <span class="badge" style="background-color:orange">Waiting for Approval</span>
+                            }
+                            else if (item.Status.Trim() == "P")
+                            {
+                                <span class="badge" style="background-color:green">Published</span>
+                            }
+                            else if (item.Status.Trim() == "R")
+                            {
+                                <span class="badge" style="background-color:red">Rejected</span>
+                            }
+                        </td>
+
+                        <td style="width:70px;">
+                            <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" style="color:red;font-size:20px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer" style="background-color:#00b9cb;"></div>
+</div>
+
+
+
+
+
+
+

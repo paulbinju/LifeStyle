@@ -1,0 +1,111 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_AuthorArticleLikes>
+
+<div class="panel panel-default" style="border-color:#ef4130;margin-top:50px;border-radius:0px;">
+    <div class="panel-heading" style="font-size:16px; font-weight:bold; background-color:#ef4130;color:#fff;border-radius:0px;">
+        My Article Likes
+    </div>
+    <div class="panel-body" style="padding:2px;">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12 col-xs-12" style="margin:0px 0px 5px 0px; padding:2px; border-bottom:1px solid #e0dede;" id="divMyArticleLikes">
+                <div class="col-md-3 col-xs-3" style="margin:0px; padding:0px 5px 0px;">
+                    @if (item.CoverImage != null && item.CoverImage != "")
+                    {
+                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId })>
+                            <img class="img-responsive" style="width:80px; height:60px; border-radius:4px" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        </a>
+                    }
+                    else
+                    {
+                <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId })>
+                    <img class="img-responsive" style="width:80px; height:60px; border-radius:4px" src="@Url.Content("~/images/ghostimg.png")" />
+                    </a>
+                    }
+                </div>
+                <div class="col-md-9 col-xs-9">
+                    <p style="font-size:12px; font-weight:600; line-height:15px;margin-bottom:3px;">
+                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId }) style="color:#000000;"> @item.Title</a>
+                    </p>
+                    <ul class="post-tags">
+
+                        <li style="font-size:11px;">
+                            <i class="fa fa-eye"></i>@item.Views &nbsp;
+                            @*<i class="fa fa-heart"></i>@item.Likes &nbsp;&nbsp;*@
+                            <i class="fa fa-heart fa-lg"></i> @item.Likes &nbsp;&nbsp; <a href="#" onclick="showlikedusers(@item.ArticleId)">View Authors</a>
+
+                            @*<i class="fa fa-comments"></i>@item.Comments &nbsp;&nbsp;
+        <i class="fa fa-calendar"></i>@string.Format("{0:d MMM yyyy}", item.Created)<br />*@
+
+                            @*@if (item.ProfileImage != null && item.ProfileImage != "")
+        {
+            <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                <img style="width:40px;height:40px;border:1px solid #ececec" src="@Url.Content(item.ProfileImage)" class="img-circle" />
+            </a>
+        }
+        else
+        {
+            <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                <img style="width:40px;height:40px;border:1px solid #ececec" src="@Url.Content("~/images/user.png")" class="img-circle" />
+            </a>
+
+        }*@
+
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        }
+
+        
+    </div>
+    <div class="panel-footer" style="background-color:#ef4130;"></div>
+</div>
+
+
+<div class="modal fade" id="mdlArticleLikedUsers" role="dialog">
+    <div class="modal-dialog" id="mdlwth">
+
+        <div class="modal-content" style="height:250px;overflow-y:scroll;">
+
+            <div class="modal-body mdlbody">
+                <div id="LikedUsers">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    .mdlbody{
+
+    }
+    @@media (max-width:768) {
+        .mdlbody {
+            min-width: 80%;
+        }
+    }
+</style>
+<script>
+
+    function showlikedusers(ArticleId) {
+
+        $.ajax({
+            url: "@Url.Content("~/Article/ArticleLikedUsers")",
+            type: 'GET',
+            data: { ArticleId: ArticleId },
+            success: function (data) {
+                $("#LikedUsers").html(data);
+                $('#mdlArticleLikedUsers').modal('show');
+            },
+            error: function () {
+
+            }
+
+        });
+    }
+</script>

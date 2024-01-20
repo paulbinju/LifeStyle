@@ -1,0 +1,69 @@
+﻿@model IEnumerable<LifestyleBeta.Models.tblUser>
+
+    <div class="panel panel-default" style="border-color:#bd4b9b;">
+        <div class="panel-heading" style="font-size:16px; font-weight:bold;background-color:#bd4b9b;color:#fff;">
+            My Profile
+        </div>
+        <div class="col-xs-1 pull-right" style="padding:0px;margin:0px 0px 0px 10px;">
+            <a href="@Url.Action("LogOut", "Article")">
+                <i class="fa fa-power-off fa-lg" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="panel-body" style="padding:0px;">
+            @foreach (var item in Model)
+            {
+                <div class="col-xs-12 col-md-3" style="padding-top:20px; margin-top:0px;">
+
+                    @if (item.ProfileImage != null && item.ProfileImage != "")
+                    {
+                        @*<img style="width:220px;height:220px;" src="@Url.Content(item.ProfileImage+"?"+DateTime.Now)" class="avatar img-thumbnail img-responsive" alt="avatar">*@
+                        <img src="@Url.Content(item.ProfileImage+"?"+DateTime.Now)" class="avatar img-thumbnail img-responsive" alt="avatar">
+                    }
+                    else
+                    {
+                        <img style="width:220px;height:220px;" src="@Url.Content("~/images/user.png")" class="avatar img-thumbnail img-responsive" alt="avatar">
+                    }
+                    <a class="btn btn-link pull-left" data-toggle="modal" data-target="#picModal" style=""><i class="fas fa-image"></i> Change Picture</a>
+
+                </div>
+
+                <div class="col-xs-12 col-md-9" style="padding-top:0px; margin-top:0px;">
+                    <h2>@item.FullName</h2>
+                    <div class="list-group" style="font-size:14px;">
+                        <div class="list-group-item">
+                            <span>Gender : @item.Gender</span>
+                            <span class="btn btn-link pull-right" data-toggle="modal" data-target="#myModal" style="margin-bottom:20px;">Edit Profile</span>
+                        </div>
+                        <div class="list-group-item">User Name : @item.Email</div>
+                        <div class="list-group-item">
+                            <b>Country: </b>@item.tblCountry.Name &nbsp; - &nbsp;
+
+                            <b>Registered On: </b>@Convert.ToDateTime(item.Register).ToString("dd-MM-yyyy") -
+                            <b>Last Updated On: </b>@Convert.ToDateTime(item.Updated).ToString("dd-MM-yyyy")
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-xs-12 col-md-12 ">
+
+                        <div class="panel-group" style="margin-bottom:0px;">
+                            <div class="panel" style="border-color:#bd4b9b;">
+                                <div class="panel-heading" style="font-size:16px; font-weight:bold;background-color:#bd4b9b;color:#fff;">About Me</div>
+                                <div class="panel-body" style="padding:10px;">
+                                    @Html.Raw(item.MyProfile)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="panel-footer" style="background-color:#bd4b9b;">
+
+        </div>
+    </div>
+
+

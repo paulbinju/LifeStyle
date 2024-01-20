@@ -1,0 +1,802 @@
+﻿
+
+<!---Section --->
+<section class="main-section">
+    <div class="container sub-sections" id="option1">
+        @*<div class="grid">
+            <div class="grid-sizer"></div>
+            @{
+
+                foreach (var item in ViewBag.HomeArticles)
+                {
+                    <div class="box16 effect2">
+                        <div class="grid-item big">
+                            <img src=@Url.Content(item.CoverImage) />
+
+                            <div class="box-content @item.Description">
+                                <a href=@Url.Action("TravelDetail","Home")>
+                                    <span class="post @item.Description">@item.CategoryName</span>
+                                    <h3 class="title">@item.Title</h3>
+                                </a>
+                                <p class="txt">
+                                    Share Posts <i class="fa fa-share-alt"></i> :
+                                    <a href="#"> <i class="fa fa-facebook-square"></i> Facebook</a>
+                                    <a href="#"> <i class="fa fa-twitter-square"></i> Twitter</a>
+                                    <a href="#"><i class="fa fa-google-plus-square"></i> Google Plus</a>
+                                    <a href="#"> <i class="fa fa-linkedin-square"></i> Linkedin</a><br />
+                                    1 hour ago<i class="fa fa-clock-o"></i>
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>*@
+
+        <h1>@ViewBag.Activepage</h1>
+
+        <div class="grid">
+            <div class="grid-sizer"></div>
+
+            <div class="grid-item" style="background:none;">
+                <img src=@Url.Content("~/Theme/main/variety/images/home-page-img1.jpg") style="background:none;" />
+            </div>
+
+
+            <div class="box16 effect2">
+                <div class="grid-item big">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img2.jpg") />
+
+                    <div class="box-content travel">
+                        <a href=@Url.Action("TravelDetail","Home")>
+                            <span class="post travel">Travel & Tourism</span>
+                            <h3 class="title">Better than ‘The Beach’: Thailand’s best kept.</h3>
+                        </a>
+                        <p class="txt">
+                            Share Posts <i class="fa fa-share-alt"></i> :
+                            <a href="#"> <i class="fa fa-facebook-square"></i> Facebook</a>
+                            <a href="#"> <i class="fa fa-twitter-square"></i> Twitter</a>
+                            <a href="#"><i class="fa fa-google-plus-square"></i> Google Plus</a>
+                            <a href="#"> <i class="fa fa-linkedin-square"></i> Linkedin</a><br />
+                            1 hour ago<i class="fa fa-clock-o"></i>
+                            <i class="fa fa-user"></i> Jhon Smith
+                            <i class="fa fa-eye"></i> 65
+                            <i class="fa fa-thumbs-o-up"></i> 44
+                            <i class="fa fa-comments"></i> 23
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box16 effect2">
+                <div class="grid-item">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img3.jpg") />
+                    <div class="box-content entertainment">
+                        <a href=@Url.Action("EntertainmentDetail","Home")>
+                            <span class="post entertainment">ENTERTAINMENT</span>
+                            <h3 class="title">Emma Watson voted as...</h3>
+                        </a>
+                        <p class="txt">
+                            Share Posts <i class="fa fa-share-alt"></i> :
+                            <a href="#"> <i class="fa fa-facebook-square"></i> </a>
+                            <a href="#"> <i class="fa fa-twitter-square"></i> </a>
+                            <a href="#"><i class="fa fa-google-plus-square"></i> </a>
+                            <a href="#"> <i class="fa fa-linkedin-square"></i> </a><br />
+                            1 hour ago<i class="fa fa-clock-o"></i>
+                            <i class="fa fa-user"></i> Jhon Smith
+                            <i class="fa fa-eye"></i> 65
+                            <i class="fa fa-thumbs-o-up"></i> 44
+                            <i class="fa fa-comments"></i> 23
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="box16 effect2">
+                <div class="grid-item">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img4.jpg") />
+                    <div class="box-content fashion">
+                        <a href=@Url.Action("EntertainmentDetail","Home")>
+                            <span class="post fashion">Fashion & Beauty</span>
+                            <h3 class="title">Emma Watson voted as...</h3>
+                        </a>
+                        <p class="txt">
+                            Share Posts <i class="fa fa-share-alt"></i> :
+                            <a href="#"> <i class="fa fa-facebook-square"></i> </a>
+                            <a href="#"> <i class="fa fa-twitter-square"></i> </a>
+                            <a href="#"><i class="fa fa-google-plus-square"></i> </a>
+                            <a href="#"> <i class="fa fa-linkedin-square"></i> </a><br />
+                            1 hour ago<i class="fa fa-clock-o"></i>
+                            <i class="fa fa-user"></i> Jhon Smith
+                            <i class="fa fa-eye"></i> 65
+                            <i class="fa fa-thumbs-o-up"></i> 44
+                            <i class="fa fa-comments"></i> 23
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="box16">
+                <div class="grid-item">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img5.jpg") />
+
+                    <div class="box-content motoring">
+                        <a href=@Url.Action("TechnologyDetail","Home")>
+                            <span class="post motoring">Motoring</span>
+                            <h3 class="title">Mercedes-Benz GLC Coupé...</h3>
+                        </a>
+                        <p class="txt">
+                            Share Posts <i class="fa fa-share-alt"></i> :
+                            <a href="#"> <i class="fa fa-facebook-square"></i> </a>
+                            <a href="#"> <i class="fa fa-twitter-square"></i> </a>
+                            <a href="#"><i class="fa fa-google-plus-square"></i> </a>
+                            <a href="#"> <i class="fa fa-linkedin-square"></i> </a><br />
+                            1 hour ago<i class="fa fa-clock-o"></i>
+                            <i class="fa fa-user"></i> Jhon Smith
+                            <i class="fa fa-eye"></i> 65
+                            <i class="fa fa-thumbs-o-up"></i> 44
+                            <i class="fa fa-comments"></i> 23
+                        </p>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="box16 ">
+                <div class="grid-item big">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img6.jpg") />
+
+                    <div class="box-content motoring">
+                        <a href=@Url.Action("MotoringDetail","Home")>
+                            <span class="post motoring">MOTORING</span>
+                            <h3 class="title">Elon Musk announces new range of Tesla...</h3>
+                            <p class="txt">
+                                <i class="fa fa-clock-o"></i> 1 hour ago
+                                <i class="fa fa-user"></i> Jhon Smith
+                                <i class="fa fa-eye"></i> 65
+                                <i class="fa fa-thumbs-o-up"></i> 44
+                                <i class="fa fa-comments"></i> 23
+                            </p>
+
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img7.jpg") />
+            </div>
+
+            <div class="box16 ">
+                <div class="grid-item">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img8.jpg") />
+
+
+                    <div class="box-content sports">
+                        <a href=@Url.Action("SportsDetail","Home")>
+                            <span class="post sports">SPORTS</span>
+                            <h3 class="title">Rossi: Yamaha will make...</h3>
+                            <p class="txt">
+                                <i class="fa fa-clock-o"></i> 1 hour ago
+                                <i class="fa fa-user"></i> Jhon Smith
+                                <i class="fa fa-eye"></i> 65
+                                <i class="fa fa-thumbs-o-up"></i> 44
+                                <i class="fa fa-comments"></i> 23
+                            </p>
+
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="box16 ">
+                <div class="grid-item">
+
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img9.jpg") />
+
+
+
+                    <div class="box-content health">
+                        <a href=@Url.Action("HealthDetail","Home")>
+                            <span class="post health">HEALTH & LIFESTYLE</span>
+                            <h3 class="title">Yoga to fight diabetes...</h3>
+                            <p class="txt">
+                                <i class="fa fa-clock-o"></i> 1 hour ago
+                                <i class="fa fa-user"></i> Jhon Smith
+                                <i class="fa fa-eye"></i> 65
+                                <i class="fa fa-thumbs-o-up"></i> 44
+                                <i class="fa fa-comments"></i> 23
+                            </p>
+
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="box16 ">
+                <div class="grid-item">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img10.jpg") />
+
+
+
+                    <div class="box-content fashion">
+                        <a href=@Url.Action("FashionDetail","Home")>
+                            <span class="post fashion">FASHION & BEAUTY</span>
+                            <h3 class="title">Huda Kattan launches new...</h3>
+                            <p class="txt">
+                                <i class="fa fa-clock-o"></i> 1 hour ago
+                                <i class="fa fa-user"></i> Jhon Smith
+                                <i class="fa fa-eye"></i> 65
+                                <i class="fa fa-thumbs-o-up"></i> 44
+                                <i class="fa fa-comments"></i> 23
+                            </p>
+
+                        </a>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="box16 ">
+                <div class="grid-item">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img11.jpg") />
+
+
+                    <div class="box-content entertainment">
+                        <a href=@Url.Action("EntertainmentDetail","Home")>
+                            <span class="post entertainment">ENTERTAINMENT</span>
+                            <h3 class="title">‘Finding Dory’: record...</h3>
+                            <p class="txt">
+                                <i class="fa fa-clock-o"></i> 1 hour ago
+                                <i class="fa fa-user"></i> Jhon Smith
+                                <i class="fa fa-eye"></i> 65
+                                <i class="fa fa-thumbs-o-up"></i> 44
+                                <i class="fa fa-comments"></i> 23
+                            </p>
+
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <!----second layer-->
+
+            <div class="load-more-posts-con1" style="display: none;">
+
+
+                <div class="grid-item">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img1.jpg") />
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img2.jpg") />
+
+                        <div class="box-content">
+                            <a href=@Url.Action("TravelDetail","Home")>
+                                <span class="post travel">TRAVEL</span>
+                                <h3 class="title">Better than ‘The Beach’: Thailand’s best kept...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img3.jpg") />
+
+
+                        <div class="box-content">
+                            <a href=@Url.Action("EntertainmentDetail","Home")>
+                                <span class="post entertainment">ENTERTAINMENT</span>
+                                <h3 class="title">Emma Watson voted as...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img4.jpg") />
+
+                        <div class="box-content">
+                            <a href=@Url.Action("FashionDetail","Home")>
+                                <span class="post fashion">FASHION & BEAUTY</span>
+                                <h3 class="title">6 lazy-girl beauty hacks...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img5.jpg") />
+
+                        <div class="box-content">
+                            <a href=@Url.Action("MotoringDetail","Home")>
+                                <span class="post motoring">MOTORING</span>
+                                <h3 class="title">Mercedes-Benz GLC Coupé...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item big">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img6.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("TravelDetail","Home")>
+                                <span class="post travel">MOTORING</span>
+                                <h3 class="title">Elon Musk announces new range of Tesla...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img7.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("TravelDetail","Home")>
+                                <span class="post travel">MOTORING</span>
+                                <h3 class="title">Elon Musk announces new range of Tesla...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img8.jpg") />
+
+                        <div class="box-content">
+                            <a href=@Url.Action("SportsDetail","Home")>
+                                <span class="post sports">SPORTS</span>
+                                <h3 class="title">Rossi: Yamaha will make...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img9.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("HealthDetail","Home")>
+                                <span class="post health">HEALTH & LIFESTYLE</span>
+                                <h3 class="title">Yoga to fight diabetes...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img10.jpg") />
+
+                        <div class="box-content">
+                            <a href=@Url.Action("FashionDetail","Home")>
+                                <span class="post fashion">FASHION & BEAUTY</span>
+                                <h3 class="title">Huda Kattan launches new...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img11.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("EntertainmentDetail","Home")>
+                                <span class="post entertainment">ENTERTAINMENT</span>
+                                <h3 class="title">‘Finding Dory’: record...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/sample-img1.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("EntertainmentDetail","Home")>
+                                <span class="post entertainment">ENTERTAINMENT</span>
+                                <h3 class="title">‘Finding Dory’: record...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/sample-img2.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("MotoringDetail","Home")>
+                                <span class="post motoring">Food</span>
+                                <h3 class="title">Elon Musk announces new range of Tesla...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/home-page-img5.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("MotoringDetail","Home")>
+                                <span class="post motoring">MOTORING</span>
+                                <h3 class="title">Elon Musk announces new range of Tesla...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/sample-img4.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("TravelDetail","Home")>
+                                <span class="post travel">Travel & Tourism</span>
+                                <h3 class="title">Elon Musk announces new range of Tesla...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/sample-img5.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("TravelDetail","Home")>
+                                <span class="post travel">Travel & Tourism</span>
+                                <h3 class="title">Better than ‘The Beach’: Thailand’s best kept...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/sample-img6.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("FashionDetail","Home")>
+                                <span class="post fashion"> Health & Lifestyle</span>
+                                <h3 class="title">Better than ‘The Beach’: Thailand’s best kept...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="box16 ">
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/sample-img7.jpg") />
+                        <div class="box-content">
+                            <a href=@Url.Action("TravelDetail","Home")>
+                                <span class="post travel">TRAVEL</span>
+                                <h3 class="title">Better than ‘The Beach’: Thailand’s best kept...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="box16 ">
+
+                    <div class="grid-item ">
+                        <img src=@Url.Content("~/Theme/main/variety/images/sample-img8.jpg") />
+
+                        <div class="box-content">
+                            <a href=@Url.Action("TravelDetail","Home")>
+                                <span class="post travel">TRAVEL</span>
+                                <h3 class="title">Better than ‘The Beach’: Thailand’s best kept...</h3>
+                                <p class="txt">
+                                    <i class="fa fa-clock-o"></i> 1 hour ago
+                                    <i class="fa fa-user"></i> Jhon Smith
+                                    <i class="fa fa-eye"></i> 65
+                                    <i class="fa fa-thumbs-o-up"></i> 44
+                                    <i class="fa fa-comments"></i> 23
+                                </p>
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <!--<a href="javascript:void(0);" class="button load-more-1">تحميل مشاركات أخرى</a>-->
+        <a href="javascript:void(0);" class="button load-more-1" style="left:30%;">LOAD MORE POSTS</a>
+        <a href="javascript:void(0);" class="button load-more-2" style="left:30%;display:none;">LOAD MORE POSTS</a>
+    </div>
+
+
+    <div class="container sub-sections" style="display: none" id='option2'>
+        <div class="grid">
+            <div class="grid-sizer"></div>
+            <div class="grid-item">
+                <img src=@Url.Content("~/Theme/main/variety/images/home-page-img1.jpg") />
+            </div>
+
+
+
+
+
+            <div class="grid-item big">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img2.jpg") />
+                    <div class="grid-content skyblue">
+                        <!--<h3><span>أزياء</span>إليسا تخطف الأنفاس...</h3>
+                        <p>منذ عشر دقائق</p>-->
+                        <h2 class="travel">Travel & Tourism</h2>
+                        <h3>Better than ‘The Beach’: Thailand’s best kept...</h3>
+                        <p>1 hour ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img3.jpg") />
+                    <div class="grid-content brown">
+                        <!--<h3><span>أزياء</span>إليسا تخطف الأنفاس...</h3>
+                        <p>منذ عشر دقائق</p>-->
+                        <h2 class="entertainment">ENTERTAINMENT</h2>
+                        <h3>Emma Watson voted as...</h3>
+                        <p>1 hour ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img4.jpg") />
+                    <div class="grid-content pink">
+                        <h2 class="fashion">FASHION & BEAUTY</h2>
+                        <h3>6 lazy-girl beauty hacks...</h3>
+                        <p>7 hours ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img5.jpg") />
+                    <div class="grid-content darkblue">
+                        <h2 class="technology">Technology</h2>
+                        <h3>Mercedes-Benz GLC Coupé...</h3>
+                        <p>10 hours ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+            <div class="grid-item big">
+                <img src=@Url.Content("~/Theme/main/variety/images/home-page-img6.jpg") />
+                <div class="grid-content darkblue">
+                    <h2 class="motoring">MOTORING</h2>
+                    <h3>Elon Musk announces new range of Tesla...</h3>
+                    <p>10 hours ago  <i class="fa fa-clock-o"></i></p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img7.jpg") />
+            </div>
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img8.jpg") />
+                    <div class="grid-content blue">
+                        <h2 class="sports">SPORTS</h2>
+                        <h3>Rossi: Yamaha will make...</h3>
+                        <p>10 hours ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img9.jpg") />
+                    <div class="grid-content green">
+                        <h2 class="health">HEALTH & LIFESTYLE</h2>
+                        <h3>Yoga to fight diabetes...</h3>
+                        <p>10 hours ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img10.jpg") />
+                    <div class="grid-content">
+                        <h2 class="fashion">FASHION & BEAUTY</h2>
+                        <h3>Huda Kattan launches new...</h3>
+                        <p>10 hours ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+            <div class="grid-item">
+                <a href="page-three.html">
+                    <img src=@Url.Content("~/Theme/main/variety/images/home-page-img11.jpg") />
+                    <div class="grid-content brown">
+                        <h2 class="entertainment">ENTERTAINMENT</h2>
+                        <h3>‘Finding Dory’: record...</h3>
+                        <p>10 hours ago  <i class="fa fa-clock-o"></i></p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <a href="javascript:void(0);" class="button load-more-2">LOAD MORE POSTS</a>
+    </div>
+
+
+
+</section>
+<!-- End Section -->

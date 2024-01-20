@@ -1,0 +1,177 @@
+﻿
+@if (ViewBag.AComments.Count != 0)
+{
+    <br style="clear:both" />
+    <div class="panel panel-default" style="border-color:green;" id="mbCommentsApproved">
+        <div class="panel-heading" style="font-size:14px; font-weight:bold;background-color:green;color:#fff;">
+            Approved Comments
+        </div>
+        <div class="panel-body" style="padding:0px;">
+
+            @foreach (var item in ViewBag.AComments)
+            {
+                <div class="col-md-12 col-xs-12" style="margin:0px 0px 5px 0px; padding:2px; border-bottom:1px solid green;">
+                    <div class="col-md-3 col-xs-2 text-center" style="margin:0px; padding:0px;">
+                        @if (item.ImagePath != null && item.ImagePath != "")
+                        {
+                            <a href="@Url.Content("~/Home/ArticleDetail?ArticleId="+item.ArticleId+"&category="+item.CategoryId)">
+                                <img class="img-responsive" style="width:50px; height:30px;" src="@Url.Content(item.ImagePath)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                            </a>
+                        }
+                        else
+                        {
+                            <img class="img-responsive" style="width:50px; height:30px;" src="@Url.Content("~/images/ghostimg.png")" />
+                        }
+
+                        @if (item.ProfileImage != null && item.ProfileImage != "")
+                        {
+                            <img style="width:30px;height:30px;margin-top:5px;" class="img-responsive img-circle" src="@Url.Content(item.ProfileImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        }
+                        else
+                        {
+                            <img style="width:30px;height:30px;margin-top:5px;" class="img-responsive img-circle" src="@Url.Content("~/images/ghostimg.png")" />
+                        }
+                    </div>
+                    <div class="col-md-9 col-xs-10" style="margin:0px; padding:0px;">
+                        <p style="margin:0px; padding:0px;">
+                            <a style="font-size:13px; line-height:10px;margin-bottom:5px; color:dodgerblue" href="@Url.Content("~/Home/ArticleDetail?ArticleId="+item.ArticleId+"&category="+item.CategoryId)"> @item.Title</a>
+                        </p>
+                        <p style="margin:0px; padding:0px;">
+                            <span style="color:#000000; font-size:12px;">
+                                @item.FullName
+                            </span>
+                            <sapn class="badge @item.Description" style="color:white;font-size:10px; font-weight:600;">@item.CategoryName</sapn>
+                            <span class="pull-right">
+                                &nbsp;&nbsp;
+                                <i class="fa fa-times" style="color:red;font-size:20px;cursor:pointer" title="Reject Comment" onclick="RejectComment(@item.CommentId)"></i> &nbsp;&nbsp;
+                            </span>
+                        </p>
+                        <p style="margin:0px; padding:0px;color:#6c6969;font-size:11px;">
+                            <span style="color:#000000; font-size:13px;">@item.CommentText</span>
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="panel-footer" style="background-color:green;"></div>
+    </div>
+
+
+    <table class="table table-striped" style="font-family:Arial;font-size:12px;" id="tblCommentsApproved">
+        <tr>
+            <th>
+                Cover Image
+            </th>
+
+            <th>
+                Article
+            </th>
+
+            <th style="width:680px;">
+                Comments
+            </th>
+
+
+            <th style="width:120px;">
+                Commented by
+            </th>
+
+            <th style="width:70px;">Modify</th>
+        </tr>
+
+        @foreach (var item in ViewBag.AComments)
+        {
+            <tr>
+                <td>
+                    @if (item.ImagePath != null && item.ImagePath != "")
+                    {
+                        <a href="@Url.Content("~/Home/ArticleDetail?ArticleId="+item.ArticleId+"&category="+item.CategoryId)">
+                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.ImagePath)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                    }
+                </td>
+
+                <td>
+                    <b>
+                        <a href="@Url.Content("~/Home/ArticleDetail?ArticleId="+item.ArticleId+"&category="+item.CategoryId)">
+                            <span style="color:dodgerblue">
+                                @item.Title
+                            </span>
+                        </a>
+                    </b>
+                    <br />
+                    <div style="color:white;padding:1px 2px;float:left;font-size:12px;padding:3px 5px;font-weight:normal" class="@item.Description.ToLower() label">@item.CategoryName</div><br />
+
+                </td>
+                <td>
+                    <b>
+                        @item.CommentText
+                    </b>
+
+                </td>
+                <td>
+                    @if (item.ProfileImage != null && item.ProfileImage != "")
+                    {
+
+                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.ProfileImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+
+                    }
+                    else
+                    {
+                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                    }
+                    <div style="clear:both;font-weight:bold">@item.FullName</div>
+                </td>
+
+
+
+                <td style="width:70px;">
+                    @*<i class="fa fa-check" title="Approve Comment" style="color:lightseagreen;font-size:20px;cursor:pointer" onclick="ApproveComment(@item.CommentId)"></i>
+                        &nbsp;&nbsp;&nbsp;&nbsp;*@<i class="fa fa-times" style="color:red;font-size:20px;cursor:pointer" title="Reject Comment" onclick="RejectComment(@item.CommentId)"></i>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <br style="clear:both" />
+    <br style="clear:both" />
+    <h5>No new comments!</h5>
+}
+
+<script>
+        @*function ApproveComment(CommentId) {
+        if (confirm("Approval displays comment on the site, Are you sure to approve the comment?")) {
+            $.ajax({
+                url: "@Url.Content("~/ApproveComment/")" + CommentId,
+                success: function (data) {
+                    CommentsTab();
+                },
+                error: function () {
+                    alert("Unable to approve comment!");
+                }
+            });
+        }
+    }*@
+    function RejectComment(CommentId) {
+        if (confirm("Are you sure to delete the comment?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteComment/")" + CommentId,
+                success: function (data) {
+                   CommentsTab();
+                },
+                error: function () {
+                    alert("Some replies are there for this comment, first delete Replies for this comment and try again!");
+                }
+            });
+        }
+    }
+</script>

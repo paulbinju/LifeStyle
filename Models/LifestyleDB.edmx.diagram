@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fd912ab1f49743998538d7f4aced1a14" Name="Diagram1">
+        <EntityTypeShape EntityType="LifestyleModel.tblAdditionalArticle" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblArticle" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblArticleImage" Width="1.5" PointX="9.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblArticleSaveLike" Width="1.5" PointX="7.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblCategory" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblComment" Width="1.5" PointX="7.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblCountry" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblCoverType" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblStatu" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.tblUser" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.View_ArticleDetail" Width="1.5" PointX="9.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.View_HomeArticles" Width="1.5" PointX="11.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.View_HotCategories" Width="1.5" PointX="11.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LifestyleModel.View_MostReadArticle" Width="1.5" PointX="11.75" PointY="10.125" IsExpanded="true" />
+        <AssociationConnector Association="LifestyleModel.FK_tblArticle_tblCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="LifestyleModel.FK_tblArticle_tblCoverType" ManuallyRouted="false" />
+        <AssociationConnector Association="LifestyleModel.FK_tblArticle_tblUser" ManuallyRouted="false" />
+        <AssociationConnector Association="LifestyleModel.FK_tblArticleSaveLike_tblArticle" ManuallyRouted="false" />
+        <AssociationConnector Association="LifestyleModel.FK_tblComments_tblArticle" ManuallyRouted="false" />
+        <AssociationConnector Association="LifestyleModel.FK_tblArticleSaveLike_tblUser" ManuallyRouted="false" />
+        <AssociationConnector Association="LifestyleModel.FK_tblUser_tblUser" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LifestyleModel.tblFollower" Width="1.5" PointX="6.125" PointY="11.375" />
+        <AssociationConnector Association="LifestyleModel.FK_tblFollowers_tblUser_FollowerId" />
+        <AssociationConnector Association="LifestyleModel.FK_tblFollowers_tblUser_ProfileId" />
+        <EntityTypeShape EntityType="LifestyleModel.View_AllArticles" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_SaveLikeArticle" Width="1.5" PointX="3.375" PointY="14.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_ArticleComment" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_CommentReply" Width="2.625" PointX="14.375" PointY="4.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_ArticleLikes" Width="1.5" PointX="6" PointY="14.625" />
+        <EntityTypeShape EntityType="LifestyleModel.View_CommentUserArticle" Width="2.75" PointX="14.375" PointY="7.75" />
+        <EntityTypeShape EntityType="LifestyleModel.tblCommentReply" Width="1.5" PointX="9.75" PointY="18.625" />
+        <AssociationConnector Association="LifestyleModel.FK_tblCommentReply_tblComments" />
+        <EntityTypeShape EntityType="LifestyleModel.View_UserComments" Width="1.5" PointX="14.375" PointY="12.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_ReplyCommentArticleUser" Width="1.5" PointX="16.375" PointY="12.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_FollowersArticles" Width="1.5" PointX="12.375" PointY="17.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_FollowingArticles" Width="1.5" PointX="14.375" PointY="17.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_AllMyArticles" Width="1.5" PointX="16.375" PointY="17.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_Followers" Width="1.5" PointX="16.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_Following" Width="1.5" PointX="18.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_AllArticles2" Width="1.5" PointX="18.375" PointY="3.75" />
+        <EntityTypeShape EntityType="LifestyleModel.tblBlockedUser" Width="1.5" PointX="7.125" PointY="0.75" />
+        <AssociationConnector Association="LifestyleModel.FK_tblBlockedUsers_tblUser_BlockedUserId" />
+        <AssociationConnector Association="LifestyleModel.FK_tblBlockedUsers_tblUser_ProfileId" />
+        <EntityTypeShape EntityType="LifestyleModel.View_UserDetail" Width="1.5" PointX="18.375" PointY="10.75" />
+        <EntityTypeShape EntityType="LifestyleModel.View_AuthorArticleLikes" Width="1.5" PointX="18.375" PointY="17.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

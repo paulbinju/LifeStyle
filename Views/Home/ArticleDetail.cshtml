@@ -1,0 +1,1536 @@
+﻿
+<div id="fb-root"></div>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+<style>
+
+
+    /* Demo styles */
+
+    html, body {
+        /*background: #eee;
+        margin: 0;*/
+    }
+
+    .content {
+        /*color: #777;
+        font: 12px/1.4 "helvetica neue",arial,sans-serif;
+        max-width: 820px*/
+        margin: 20px auto;
+    }
+
+        .content h1 {
+            font-size: 12px;
+            font-weight: normal;
+            color: #222;
+            margin: 0;
+        }
+
+        .content p {
+            margin: 0 0 20px
+        }
+
+        .content a {
+            color: #22BCB9;
+            text-decoration: none;
+        }
+
+    .galleria-info-description a {
+        color: #bbb;
+    }
+
+    .cred {
+        margin-top: 20px;
+        font-size: 11px;
+    }
+
+    /* Gallery measures that will be applied */
+    .galleria {
+        height: 420px; /* defines a static gallery height */
+        max-width: 820px; /* defines a responsive width */
+    }
+</style>
+
+<!-- load jQuery -->
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js"></script>*@
+
+<!-- load Galleria -->
+<script src="@Url.Content("~/Content/slider/galleria.js")"></script>
+
+<!-- block-wrapper-section
+    ================================================== -->
+<section class="block-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+
+                <!-- block content -->
+                <div class="block-content">
+                    <!-- single-post box -->
+                    <div class="single-post-box" style="margin-top:40px;">
+                        @{
+                            if (ViewBag.Edit != null && ViewBag.Edit != "")
+                            {
+                                @*<div class="col-xs-12 pull-right hidden-lg hidden-md" style="padding:0px; margin:0px 5px 5px 0px;">
+                                        <span id="close" class="pull-right" style="background-color:#000000;color:white;border-radius:4px;padding:5px;">
+                                            <i class="fas fa-arrow-alt-circle-left"></i> Back
+                                        </span>
+                                        <script>
+                                            $("#close").click(function () {
+                                                window.history.back();
+                                            });
+                                        </script>
+                                    </div>*@
+                            }
+                        }
+
+
+                        @{
+                            foreach (var article in ViewBag.Article)
+                            {
+                                if (ViewBag.AdminUser == "YES")
+                                {
+
+                                    <a target="_blank" href="@Url.Content("~/Article/Edit/" + article.ArticleId)"><i class="fa fa-edit pull-right" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                                }
+
+
+                                <div class="title-post">
+                                    <h1 style="color:#000000; font-size:35px; line-height:40px;">@article.Title</h1>
+                                    <input type="hidden" id="txtTitle" value="@article.Title"/>
+                                    <div class="col-md-5 pull-right" style="padding:0px;">
+                                        <input type="hidden" id="ArticleId" value="@article.ArticleId" />
+                                        <input type="hidden" id="FollowId" value="@article.UserId" />
+                                        <input type="hidden" id="Followed" value="@ViewBag.Followed" />
+                                        <input type="hidden" id="Blocked" value="@ViewBag.Blocked" />
+                                        <input type="hidden" id="BlockedUserId" value="@article.UserId" />
+                                        <input type="hidden" id="Saved" value="@ViewBag.Saved" />
+                                        <input type="hidden" id="Liked" value="@ViewBag.Liked" />
+                                        <input type="hidden" id="UserId" value="@ViewBag.LoggedInUserId" />
+
+                                        <div style="float:right;margin-left:10px; "> <h1><i class="far fa-heart" id="btnLike" onclick="savelike('Like');"></i></h1></div>
+                                        <div style="float:right;"> <h1> <i class="far fa-bookmark" id="btnSave" onclick="savelike('Save');"></i></h1></div>
+
+                                    </div>
+                                    <ul class="post-tags">
+                                        <li>
+                                            <a href="@Url.Action("Index","Home",new { p = @article.CategoryClass })">
+                                                <sapn class="badge @article.CategoryClass" style="color:white; border-radius:4px;font-style:normal;">
+                                                    @article.CategoryName
+                                                </sapn>
+                                            </a>
+                                        </li>
+                                        <li><i class="fa fa-user"></i>by <a href="@Url.Action("Author","Home",new { UserId=ViewBag.UserId })">@article.UserName</a></li>
+                                        <li><i class="fa fa-clock-o"></i>@(article.Created != null ? String.Format("{0:d MMM yyyy}", article.Created) : " ") </li>
+                                        </ul>
+                                    <br />
+                                    <ul class="post-tags">
+                                        <li ><i class="fa fa-comments-o" style="font-size:20px;margin-right:3px;"></i><span style="font-size:20px;">@article.Comments</span></li>
+                                        <li ><a data-toggle="modal" data-target="#ArticleLikedUsers" style="font-size:20px; margin-left:10px;"><i class="fa fa-heart" style="margin-right:3px;"></i>@article.Likes</a></li>
+                                        <li ><i class="fa fa-eye" style="font-size:20px;margin-left:10px;margin-right:2px;"></i> <span style="font-size:20px;">@article.Views</span></li>
+                                    </ul>
+
+                                </div>
+
+
+
+                                <div class="post-content" style="border: none; margin-bottom: 0px; padding-bottom: 0px;">
+
+
+                                    @if (ViewBag.ArticleCovers == 0)
+                                    {
+                                        if (ViewBag.ArticleCoverImage != null && ViewBag.ArticleCoverImage != "")
+                                        {
+                                            <img style="width:100%" src="@Url.Content(ViewBag.ArticleCoverImage)?@DateTime.Now" />
+                                        }
+                                    }
+                                    @*<br style="clear:both" />
+                                        <br style="clear:both" />
+                                        @Html.Raw(article.ArticleText)
+                                        <br style="clear:both" />*@
+
+                                    @foreach (var addart in ViewBag.AdditionalArticles)
+                                    {
+
+                                        if (addart.Type == 1)
+                                        {
+                                            <h1>@addart.Title</h1>
+                                        }
+                                        else if (addart.Type == 2)
+                                        {
+
+                                            @Html.Raw(addart.ArticleText)
+                                        }
+                                        else if (addart.Type == 3)
+                                        {
+                                            <br style="clear:both" />
+                                            if (addart.ArticleImage != null && addart.ArticleImage != "")
+                                            {
+                                                <img style="width:100%" src="@Url.Content(addart.ArticleImage)?@DateTime.Now" />
+                                            }
+
+
+                                            if (addart.Caption != "")
+                                            {
+                                                <div style="background-color:black;color:white;text-align:center;padding:10px 25px;">@addart.Caption</div>
+                                            }
+                                            else
+                                            {
+                                                <br style="clear:both" />
+                                            }
+                                            <br style="clear:both" />
+                                        }
+                                        else if (addart.Type == 4)
+                                        {
+                                            <style>
+                                                .video-container {
+                                                    position: relative;
+                                                    padding-bottom: 56.25%;
+                                                    padding-top: 30px;
+                                                    height: 0;
+                                                    overflow: hidden;
+                                                }
+
+                                                    .video-container iframe,
+                                                    .video-container object,
+                                                    .video-container embed {
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                                        width: 100%;
+                                                        height: 100%;
+                                                    }
+                                            </style>
+                                            <br style="clear:both" />
+                                            <br style="clear:both" />
+                                            <div class="video-container">
+                                                <iframe width="760" height="460" src="https://www.youtube.com/embed/@addart.YoutubeVideoURL" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            </div>
+                                        }
+                                        else if (addart.Type == 5)
+                                        {
+                                            <br style="clear:both" />
+                                            if (addart.ArticleImage != null && addart.ArticleImage != "")
+                                            {
+                                                <video width="100%" controls>
+                                                    <source src="@Url.Content(addart.ArticleImage)" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            }
+
+                                            if (addart.Caption != "" && addart.Caption != null)
+                                            {
+                                                <div style="background-color:black;color:white;text-align:center;padding:10px 25px;">@addart.Caption</div>
+                                            }
+                                            else
+                                            {
+                                                <br style="clear:both" />
+                                            }
+                                            <br style="clear:both" />
+                                        }
+                                        else if (addart.Type == 6)
+                                        {
+                                            if (Enumerable.Count(ViewBag.SliderImages) > 1)
+                                            {
+                                                <div class="content">
+                                                    <div class="galleria">
+
+                                                        @{
+                                                            int z = 0;
+                                                            foreach (var artimages in ViewBag.SliderImages)
+                                                            {
+                                                                if (artimages.ImagePath != null && artimages.ImagePath != "")
+                                                                {
+                                                                    z++;
+                                                                    @*<li>
+                                                                            <img src=@Url.Content(artimages.ImagePath) style="max-height:400px;" onclick="openModal();currentSlide(@z)" class="hover-shadow cursor img-responsive" alt="">
+
+                                                                            <p id="caption">
+                                                                                <span class="image-caption" style="font-size:12px; color:#000;"> @artimages.Caption</span>
+                                                                            </p>
+
+                                                                        </li>*@
+                                                                    <a href="@Url.Content(artimages.ImagePath)">
+                                                                        <img src="@Url.Content(artimages.ImagePath)?@DateTime.Now"
+                                                                             data-big="@Url.Content(artimages.ImagePath)?@DateTime.Now"
+                                                                             @*data-description="by &lt;a href=&quot;https://unsplash.com/photos/zr8msYQhfRg&quot;&gt;Jeff Sheldon&lt;/a&gt; on &lt;a href=&quot;https://unsplash.com&quot;&gt;Unsplash&lt;/a&gt;"*@
+                                                                             data-title="@artimages.Caption">
+                                                                    </a>
+                                                                }
+                                                            }
+                                                        }
+
+                                                    </div>
+
+
+                                                </div>
+                                                <script>
+                                                $(function () {
+                                                    // Load the Twelve theme
+                                                   Galleria.loadTheme('@Url.Content("~/Content/slider/galleria.twelve.js")');
+                                                    // Initialize Galleria
+                                                    Galleria.run('.galleria');
+                                                });
+                                                </script>
+
+                                            }
+                                            else
+                                            {
+
+                                                foreach (var artimages in ViewBag.SliderImages)
+                                                {
+                                                    if (artimages.ImagePath != null && artimages.ImagePath != "")
+                                                    {
+                                                        <div class="text-center">
+                                                            <img src="@Url.Content(artimages.ImagePath)?@DateTime.Now" id="imgArticle" style="margin:0 auto;;max-height:400px;" onclick="openModal();currentSlide(1)"
+                                                                 class="hover-shadow cursor img-responsive" alt="">
+
+                                                            <p id="caption">
+                                                                <span class="image-caption" style="font-size:12px; color:#000;"> @artimages.Caption</span>
+                                                            </p>
+
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            <img style="max-height:400px;" src="@Url.Content("~/images/ghostimg.png")" class="avatar img-thumbnail img-responsive" alt="avatar" />
+                                                        </div>
+
+                                                    }
+
+                                                }
+
+                                            }
+
+
+
+
+
+
+                                            <div class="post-gallery">
+                                                @{
+
+                                                    <div id="myModal" class="modal">
+                                                        <span class="close cursor" onclick="closeModal()">&times;</span>
+                                                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                                                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                                                        <div class="modal-content">
+                                                            @{
+                                                                <div id="thumbnail" style="text-align:center;">
+                                                                    <div id="thumbnail-content">
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-xs-12 col-md-12">
+                                                                                @{
+
+                                                                                    int y = 0;
+                                                                                    foreach (var artimages in ViewBag.SliderImages)
+                                                                                    {
+                                                                                        if (artimages.ImagePath != null && artimages.ImagePath != "")
+                                                                                        {
+                                                                                            y++;
+                                                                                            <img src="@Url.Content(artimages.ImagePath)?@DateTime.Now" onclick="currentSlide(@y)" alt="@artimages.Caption" class="cursor img-thumbnail img-responsive">
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <img src="@Url.Content("~/images/ghostimg.png")" class="avatar img-thumbnail img-responsive" alt="avatar">
+                                                                                        }
+
+
+                                                                                    }
+
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            }
+
+
+
+                                                            @{
+
+                                                                foreach (var artimages in ViewBag.SliderImages)
+                                                                {
+                                                                    if (artimages.ImagePath != null && artimages.ImagePath != "")
+                                                                    {
+                                                                        <div class="mySlides">
+                                                                            <div class="col-md-12">
+                                                                                <img src="@Url.Content(artimages.ImagePath)?@DateTime.Now" class="img-responsive">
+                                                                            </div>
+
+                                                                        </div>
+                                                                    }
+
+                                                                }
+                                                            }
+
+
+                                                            <div class="caption-container">
+                                                                <p id="caption">
+
+                                                                </p>
+                                                            </div>jssocials-theme-flat
+
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+
+
+                                        }
+                                    }
+
+                                    <div class="col-md-12 text-center">
+                                        @*<div class="sharethis-inline-share-buttons"></div>*@
+
+                                        <div class="col-md-12 pull-left hidden-xs " id="share" style="margin-bottom:10px;">
+
+                                        </div>
+                                        <div class="col-md-12 pull-left hidden-lg hidden-md hidden-xs" id="mshare" style="margin-bottom:10px;">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        }
+
+                        @{
+                            if (ViewBag.LoggedInUserId != null || ViewBag.AdminUser == "YES")
+                            {
+                                <!-- Comment form box -->
+                                <div class="contact-form-box">
+                                    <div class="title-section">
+                                        <h1>
+                                            <span>Leave a Comment </span> (@ViewBag.TotalComment)
+                                            <span style="border:none;font-size:12px;font-weight:normal;text-transform:none;">Your email address will not be published</span>
+                                        </h1>
+                                    </div>
+                                    <form id="comment-form1">
+                                        @*<label for="comment">Comment*</label>*@
+                                        <textarea id="txtComment" name="comment" class="textareaComment" placeholder="Add a public comment"></textarea>
+
+                                        <button type="submit" id="btnComment" class="btn btn-danger btn-sm pull-right" style="background-color:#de1a22; color:#fff;">
+                                            <i class="fa fa-comment"></i> COMMENT
+                                        </button>
+                                        <button type="button" id="btnCancel" class="btn btn-default btn-sm pull-right" onclick="ClearComment()">
+                                            CANCEL
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- End Comment form box -->
+                            }
+                            else
+                            {
+                                <a class="log-in-popup btn btn-danger" href="#log-in-popup" id="btnPostCommnet" onclick="showForm(4)">Post Comment</a>
+                            }
+                        }
+
+
+                        @{
+
+                            <!-- comment area box -->
+                            if (ViewBag.TotalComment > 0)
+                            {
+                                <div class="comment-area-box" style="margin-top:10px;">
+                                    @*<div class="title-section">
+                                            <h1><span> Article Comments : </span></h1>
+                                        </div>*@
+                                    <ul class="comment-tree" style="margin-top:30px;">
+
+                                        @foreach (var comments in ViewBag.ArticleComments)
+                                        {
+                                            <li>
+                                                <div class="comment-box" style="border-bottom:1px dashed rgba(0, 0, 0, 0.2);">
+                                                    @if (comments.ProfileImage != null && comments.ProfileImage != "")
+                                                    {
+                                                        @*<img alt="" src=@Url.Content(comments.ProfileImage)  class="img-thumbnail img-responsive" style="height:80px;width:100px">*@
+                                                        <a href="@Url.Action("Author","Home",new { UserId=comments.UserId })">
+                                                            <img alt="" src="@Url.Content(comments.ProfileImage)?@DateTime.Now" class="img-rounded img-responsive"
+                                                                 style="height:35px; width:35px;border-radius:50%;">
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("Author","Home",new { UserId=comments.UserId })">
+                                                            <img alt="" src="@Url.Content("~/images/user.png")?@DateTime.Now" class="img-rounded img-responsive" style="height:35px; width:35px;border-radius:50%;">
+                                                        </a>
+                                                    }
+
+                                                    <div class="comment-content">
+                                                        <p style="color:#e82020;">
+                                                            <a href="@Url.Action("Author","Home",new { UserId=comments.UserId })">
+                                                                <strong> @*@comments.CommentId :*@ @comments.FullName</strong>&nbsp;&nbsp;
+                                                            </a>
+                                                            <span><i class="fa fa-clock-o"></i>@comments.Created</span>
+                                                        </p>
+                                                        <p style="color:#000000;">@comments.CommentText</p>
+                                                        <br />
+                                                        <ul>
+                                                            @{
+                                                                foreach (var commentsreply in ViewBag.CommentsReply)
+                                                                {
+                                                                    if (comments.CommentId == commentsreply.CommentId)
+                                                                    {
+                                                                        @*
+                                                                            <p style="color:#e82020;"> <b>@commentsreply.ReplyId: </b></p>*@
+
+                                                                        <li>
+                                                                            <div class="comment-box">
+                                                                                @if (commentsreply.ProfileImage != null && commentsreply.ProfileImage != "")
+                                                                                {
+                                                                                    <a href="@Url.Action("Author","Home",new { UserId=commentsreply.UserId })">
+                                                                                        <img alt="" src="@Url.Content(commentsreply.ProfileImage)?@DateTime.Now"
+                                                                                             class="img-rounded img-responsive" style="height:35px; width:35px;border-radius:50%;">
+                                                                                    </a>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <a href="@Url.Action("Author","Home",new { UserId=commentsreply.UserId })">
+                                                                                        <img alt="" src=@Url.Content("~/images/user.png") class="img-rounded img-responsive"
+                                                                                             style="height:35px; width:35px;border-radius:50%;">
+                                                                                    </a>
+                                                                                }
+                                                                                <div class="comment-content">
+                                                                                    <a href="@Url.Action("Author","Home",new { UserId=commentsreply.UserId })">
+                                                                                        <p style="color:#e82020;"><strong>@commentsreply.FullName</strong></p>
+                                                                                    </a>
+                                                                                    @*<span><i class="fa fa-clock-o"></i>27 may 2013 at 8:57 pm</span>*@
+
+                                                                                    <p style="color:#000000;">@commentsreply.Reply</p>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    }
+
+                                                                }
+
+                                                            }
+                                                        </ul>
+                                                        @{
+
+                                                            if (ViewBag.LoggedInUserId != null || ViewBag.AdminUser == "YES")
+                                                            {
+                                                                @*<div style="font-size:13px;color:cornflowerblue;cursor:pointer" onclick="showbox('Rplybox-@comments.CommentId')" class="pull-right"><i class="fa fa-reply"></i> Reply</div>*@
+                                                                <div style="font-weight:600; font-size:13px; color:#6d6a6a;" onclick="showbox(@comments.CommentId)" class=" btn btn-link pull-right">REPLY</div>
+                                                                <div id="Rplybox-@comments.CommentId" style="display:none">
+
+                                                                    <div class="form-group">
+                                                                        <textarea class="form-control textareaComment" rows="1" id="Rply-@comments.CommentId" placeholder="Add a public reply..." style="border:none;"></textarea>
+                                                                    </div>
+                                                                    @*<input type="button" class="btn-xs btn-danger pull-right" onclick="SaveReply(@comments.CommentId)" value="Reply" />*@
+
+
+                                                                    <button type="button" id="btnCancel" class="btn-sm btn-danger pull-right" onclick="SaveReply(@comments.CommentId)"
+                                                                            style="background-color:#de1a22; color:#fff; margin-top:5px; box-shadow:none; ">
+                                                                        REPLY
+                                                                    </button>
+
+                                                                    <button type="button" id="btnCancel" class="btn btn-default btn-sm pull-right" onclick="ClearCommentReply(@comments.CommentId)"
+                                                                            style="margin-top:5px; ">
+                                                                        CANCEL
+                                                                    </button>
+
+                                                                </div>
+                                                            }
+                                                        }
+
+
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            }
+                        }
+
+
+
+
+
+                        <div class="about-more-autor" style="border:none;margin-bottom:0px; margin-top:40px; padding-bottom:0px;">
+                            <div class="title-section">
+                                <h1><span>Author Details</span></h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="well profile" style="background-color:#fafafa;padding-top:0px;padding-bottom:0px;">
+
+                                        <div class="col-md-12">
+                                            <h2 id="AuthorName">
+                                                <a href="@Url.Action("Author", "Home" , new { UserId=ViewBag.UserId })">
+                                                    @ViewBag.Author
+
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <a href="@Url.Action("Author", "Home" , new { UserId=ViewBag.UserId })">
+                                            @if (ViewBag.AuthorImage != null && ViewBag.AuthorImage != "")
+                                            {
+                                                <div class="col-xs-12 col-md-4"
+                                                     style=" margin-top:0px;padding:0px;width: 220px; height: 220px;background-image: url('@Url.Content(ViewBag.AuthorImage)?@DateTime.Now');
+                                                    background-size: contain; background-repeat: no-repeat;background-position: 15px 50%;">
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xs-12 col-md-4"
+                                                     style=" margin-top:0px;padding:0px;width: 220px; height: 220px;background-image: url('@Url.Content("~/images/user.png")');
+                                                    background-size: contain; background-repeat: no-repeat;background-position: 15px 50%;">
+                                                </div>
+                                            }
+                                        </a>
+                                        
+
+                                        <div class="col-xs-12 col-md-8">
+
+                                            <div class="col-xs-4 col-md-4 ">
+                                                <h2 style="color:#00b9cb;"><strong><i class="fas fa-file-alt"></i> @ViewBag.PostCount</strong></h2>
+                                                <p style="color:#00b9cb;"><strong>Articles</strong></p>
+                                                <a class="btn btn-info btn-xs" href="@Url.Action("Author", "Home" , new { UserId=ViewBag.UserId })">
+                                                    <i class="fa fa-user"></i> View Profile
+                                                </a>
+                                            </div>
+
+                                            <div class=" col-xs-4 col-md-4">
+                                                <h2 style="color:#3453a4;" class="cursor" data-toggle="modal" data-target="#FollowersModal"><i class="fas fa-user-tag"></i><strong> @ViewBag.FollowerCount</strong></h2>
+                                                <p style="color:#3453a4;" class="cursor" data-toggle="modal" data-target="#FollowersModal"><strong>Followers</strong></p>
+                                                @{
+                                                    if (Convert.ToInt32(ViewBag.UserId) != Convert.ToInt32(ViewBag.LoggedInUserId))
+                                                    {
+                                                        <div class="btn btn-default btn-xs" id="btnUnFollow" onclick="follow();">UnFollow <i class="fas fa-user-times"></i></div>
+                                                        <div class="btn btn-xs" id="btnFollow" onclick="follow();" style="background-color:#3453a4; color:#fff;">
+                                                            Follow <i class="fas fa-user-tag"></i>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+
+
+
+                                            <div class="col-xs-4 col-md-4 ">
+                                                <h2 style="color:#0084cb;" class="cursor" data-toggle="modal" data-target="#FollowingModal"><i class="fas fa-user-check"></i><strong> @ViewBag.FollowingCount</strong></h2>
+                                                <p style="color:#0084cb;" class="cursor" data-toggle="modal" data-target="#FollowingModal"><strong>Following</strong></p>
+
+                                            </div>
+
+                                            <div class=" col-xs-4 col-md-4">
+                                                @*<h2 style="color:#3453a4;" class="cursor" data-toggle="modal" data-target="#FollowersModal"><i class="fas fa-user-tag"></i><strong> @ViewBag.FollowerCount</strong></h2>
+                <p style="color:#3453a4;" class="cursor" data-toggle="modal" data-target="#FollowersModal"><strong>Followers</strong></p>*@
+                                                @{
+                                                    if (Convert.ToInt32(ViewBag.UserId) != Convert.ToInt32(ViewBag.LoggedInUserId))
+                                                    {
+                                                        <div class="btn btn-default btn-xs" id="btnUnBlock" onclick="blockUser();">UnBlock <i class="fas fa-user-times"></i></div>
+                                                        <div class="btn btn-xs" id="btnBlock" onclick="blockUser();" style="background-color:#3453a4; color:#fff;">
+                                                            Block <i class="fas fa-user-tag"></i>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+
+
+
+
+                                            <div class="col-xs-12 ">
+                                                <br style="clear:both" />
+                                                <div style="float:left">
+                                                    @Html.Raw(ViewBag.AuthorProfile)
+                                                    <a class="btn btn-link" href="@Url.Action("Author", "Home" , new { UserId=ViewBag.UserId })">
+                                                        ....Read more
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--More from Author carousel box -->
+                        <div class="carousel-box owl-wrapper">
+                            <div class="title-section">
+                                <h1><span>More From Author</span></h1>
+                            </div>
+                            <div class="owl-carousel" data-num="3">
+
+                                @{
+                                    foreach (var article in ViewBag.AuthorArticles)
+                                    {
+
+                                        <div class="item news-post image-post3">
+
+                                            @if (article.CoverImage != null && article.CoverImage != "")
+                                            {
+                                                <a href=@Url.Action("ArticleDetail", "Home" , new { ArticleId=article.ArticleId, category=article.CategoryId })>
+                                                    <img src="@Url.Content(article.CoverImage)?@DateTime.Now" alt="">
+                                                </a>
+                                            }
+
+
+
+                                            <div class="hover-box-@(article.Description !=""?article.Description:"")">
+
+                                                <h2><a href=@Url.Action("ArticleDetail", "Home" , new { ArticleId=article.ArticleId, category=article.CategoryId })>@article.Title</a></h2>
+                                                <ul class="post-tags">
+                                                    <li>
+                                                        <span class="badge @article.Description" style="border-radius:4px;">@article.CategoryName</span>
+                                                        <span> <i class="fa fa-clock-o"></i>@string.Format("{0:d MMM yyyy}", article.Created)</span>&nbsp;
+                                                        <span><i class="fa fa-comments-o"></i>@article.Comments</span>&nbsp;
+                                                        <span><i class="fa fa-heart"></i>@article.Likes</span>&nbsp;
+                                                        <span><i class="fa fa-eye"></i>@article.Views</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <!-- End carousel box -->
+                        <!-- carousel box -->
+                        <div class="carousel-box owl-wrapper">
+                            <div class="title-section">
+
+
+                                <h1><span>You may also like</span></h1>
+                            </div>
+                            <div class="owl-carousel" data-num="3">
+
+                                @{
+                                    for (int i = 4; i <= 5; i++)
+                                    {
+
+
+                                        foreach (var article in ViewBag.LikeArticles)
+                                        {
+
+                                            <div class="item news-post image-post3">
+                                                @if (article.CoverImage != null && article.CoverImage != "")
+                                                {
+                                                    <a href=@Url.Action("ArticleDetail", "Home" , new { ArticleId=article.ArticleId, category=article.CategoryId })>
+                                                        <img src="@Url.Content(article.CoverImage)?@DateTime.Now" alt="">
+                                                    </a>
+                                                }
+
+                                                <div class="hover-box-@(article.Description !=""?article.Description:"")">
+
+                                                    <h2><a href=@Url.Action("ArticleDetail", "Home" , new { ArticleId=article.ArticleId, category=article.CategoryId })>@article.Title</a></h2>
+                                                    <ul class="post-tags">
+                                                        <li>
+                                                            <span class="badge @article.Description" style="border-radius:4px;">@article.CategoryName</span>
+                                                            <span style="margin-right:5px;">@article.UserName</span>
+                                                            <span><i class="fa fa-clock-o"></i>@string.Format("{0:d MMM yyyy}", article.Created)</span>&nbsp;
+                                                            <span><i class="fa fa-comments-o"></i>@article.Comments</span>&nbsp;
+                                                            <span><i class="fa fa-heart"></i>@article.Likes</span>&nbsp;
+                                                            <span><i class="fa fa-eye"></i>@article.Views</span>
+                                                            @*<i class="fa fa-clock-o"></i>@string.Format("{0:MMMM d, yyyy}", article.Created)*@
+
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <!-- End carousel box -->
+
+
+
+                    </div>
+                    <!-- End single-post box -->
+
+                </div>
+                <!-- End block content -->
+
+            </div>
+
+            @{
+                Html.RenderAction("Sidebar", "Common");
+            }
+
+
+
+        </div>
+
+    </div>
+
+    <!-- Modal Followers-->
+    <div class="modal fade" id="FollowersModal" role="dialog" style=" background-color: rgba(0, 0, 0, 0.1);z-index:999999;">
+        <div class="modal-dialog">
+            <div class="modal-dialog modal-sm">
+                <!-- Modal content-->
+                <div class="modal-content" style="background-color:white;">
+                    @*<div class="modal-header">
+                            <button type="button" style="color:black;" class="close " data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Followers</h4>
+                        </div>*@
+                    <div class="modal-body">
+                        @foreach (var item in ViewBag.AutohrFollowers)
+                        {
+                            <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                                @if (item.ProfileImage != "" && item.ProfileImage != null)
+                                {
+
+                                    <img src="@Url.Content(item.ProfileImage)" style="height:40px; width:40px; margin-bottom:5px;" class="img-circle">
+
+                                }
+                                else
+                                {
+                                    <img style="width:40px;height:40px;border:1px solid #ececec;margin-bottom:5px;" src="@Url.Content("~/images/user.png")" class="img-circle" />
+                                }
+                                <span style="color:#2f3640;font-weight:600;">@item.FullName</span><br />
+                            </a>
+                        }
+                    </div>
+                    @*<div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Followers-->
+    <!-- Modal Following-->
+    <div class="modal fade" id="FollowingModal" role="dialog" style=" background-color: rgba(0, 0, 0, 0.1);z-index:999999;">
+        <div class="modal-dialog">
+            <div class="modal-dialog modal-sm">
+                <!-- Modal content-->
+                <div class="modal-content" style="background-color:white;">
+                    @*<div class="modal-header">
+                            <button type="button" style="color:black;" class="close " data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Following</h4>
+                        </div>*@
+                    <div class="modal-body">
+                        @foreach (var item in ViewBag.AutohrFollowing)
+                        {
+                            <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                                @if (item.ProfileImage != "" && item.ProfileImage != null)
+                                {
+
+                                    <img src="@Url.Content(item.ProfileImage)?@DateTime.Now" style="height:40px; width:40px; margin-bottom:5px;" class="img-circle">
+
+                                }
+                                else
+                                {
+                                    <img style="width:40px;height:40px;border:1px solid #ececec;margin-bottom:5px;" src="@Url.Content("~/images/user.png")" class="img-circle" />
+                                }
+                                <span style="color:#2f3640;font-weight:600;">@item.FullName</span><br />
+                            </a>
+                        }
+                    </div>
+                    @*<div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Following-->
+
+    <div class="modal fade" id="ArticleLikedUsers" role="dialog">
+        <div class="modal-dialog" id="mdlwth">
+
+            <div class="modal-content" style="height:250px;overflow-y:scroll;">
+
+                <div class="modal-body">
+                    @foreach (var item in ViewBag.Likes)
+                    {
+                        if (item.ProfileImage != null && item.ProfileImage != "")
+                        {
+                            <a href="@Url.Action("Author", "Home", new { UserId = item.ProfileId })">
+                                <img style="width:45px;height:45px;border:1px solid #ececec" src="@Url.Content(item.ProfileImage)" class="img-circle" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Author", "Home", new { UserId = item.ProfileId })">
+                                <img style="width:45px;height:45px;border:1px solid #ececec" src="@Url.Content("~/images/user.png")" class="img-circle" />
+                            </a>
+
+                        }
+                        <a href="@Url.Action("Author", "Home", new { UserId = item.ProfileId })">
+                            <span style="color:#2f3640;font-weight:600;">@item.FullName</span><br />
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+</section>
+<!-- End block-wrapper-section -->
+
+
+<style>
+    .galleria-lightbox-box {
+        z-index: 9999999991;
+    }
+
+    h2 {
+        font-size: 16px;
+        padding: 0px !important;
+    }
+
+    h3 {
+        font-size: 28px !important;
+    }
+
+    h4 {
+        font-size: 22px !important;
+    }
+
+    h5 {
+        font-size: 18px !important;
+    }
+
+    h6 {
+        font-size: 15px !important;
+    }
+
+    li {
+        font-size: 20px !important;
+    }
+
+    ul.post-tags li {
+        font-size: 12px !important;
+    }
+
+    p {
+        padding: 0px !important;
+    }
+
+    #AuthorName {
+        text-align: left;
+        color: #2f3640;
+        font-size:16px;
+        font-weight:600;
+
+    }
+    #btnPostCommnet{
+        margin-top:15px;
+    }
+    /* #myModal {
+        display: none;
+        position: fixed;
+        z-index: 99999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: black;
+    }
+
+     Modal Content 
+        #myModal .modal-content {
+            position: relative;
+            background-color: #000000;
+            margin: 0 auto;
+            padding: 0;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        #myModal .close {
+            position: absolute;
+            top: 10px;
+            color: white;
+            right: 25px;
+            font-size: 35px;
+            background-color: rgba(255, 255, 255, 0.40);
+            border-radius: 50%;
+            padding: 0px 9px;
+            opacity: 1;
+            z-index: 9999999;
+        }
+
+    .close:hover,
+    .close:focus {
+        color: white;
+        text-decoration: none;
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .mySlides {
+        display: none;
+        height: 100%;
+    }
+
+        .mySlides img {
+            margin: 0px auto;
+        }
+
+    #thumbnail {
+        position: relative;
+        top: 0px;
+        z-index: 9999999;
+        height: 100px;
+        background-color: #000000;
+        margin: 10px 0px;
+    }
+
+    #thumbnail-content img {
+        width: 150px;
+        height: 100px;
+        background-color: #000000;
+        margin: 0 auto;
+        border: none;
+    }*/
+    @@media(max-width: 768px) {
+        /* #thumbnail-content img {
+            width: 70px;
+            height: 40px;
+            background-color: #000000;
+            margin: 0 auto;
+            border: none;
+        }
+
+        #thumbnail {
+            top: 40px;
+        }*/
+        #AuthorName {
+            text-align: center;
+        }
+        #mdlwth{
+            min-width:80%;
+        }
+       
+    }
+
+    .cursor {
+        cursor: pointer;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: absolute;
+        top: 300px;
+        padding: 20px;
+        width: 70px;
+        height: 70px;
+        color: black;
+        font-weight: bold;
+        font-size: 20px;
+        transition: 0.6s ease;
+        user-select: none;
+        -webkit-user-select: none;
+        background-color: rgba(255, 255, 255, 0.40);
+        border-radius: 50%;
+        z-index: 9999999;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+        right: 10%;
+    }
+
+    .prev {
+        left: 10%;
+    }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(5, 0, 0, 0.26);
+            color: white;
+        }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+
+    img {
+        margin-bottom: 0px;
+    }
+
+    .caption-container {
+        text-align: center;
+        background-color: black;
+        padding: 2px 16px;
+        color: white;
+        height: 25px;
+    }
+
+    .demo {
+        opacity: 0.6;
+    }
+
+        .active,
+        .demo:hover {
+            opacity: 1;
+        }
+
+    img.hover-shadow {
+        transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #btnLike:hover, #btnSave:hover {
+        cursor: pointer;
+    }
+
+    .textareaComment {
+        margin-top: 10px;
+        line-height: 1.4;
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #808080;
+    }
+
+    #btnCancel, #btnComment {
+        font-weight: 800;
+    }
+
+    #btnCancel {
+        margin-right: 5px;
+    }
+</style>
+
+
+<script>
+
+    $(document).ready(function () {
+        var followed = $("#Followed").val();
+        var saved = $("#Saved").val();
+        var liked = $("#Liked").val();
+        var blocked = $("#Blocked").val();
+
+        if (followed == 1) {
+            $("#btnUnFollow").show();
+            $("#btnFollow").hide();
+        }
+        else {
+            $("#btnUnFollow").hide();
+            $("#btnFollow").show();
+        }
+
+        if (blocked == 1) {
+            $("#btnUnBlock").show();
+            $("#btnBlock").hide();
+        }
+        else {
+            $("#btnUnBlock").hide();
+            $("#btnBlock").show();
+        }
+
+        if (saved == 1) {
+
+            $("#btnSave").removeClass("far fa-bookmark");
+            $("#btnSave").addClass("fas fa-bookmark");
+            $("#btnSave").css("color", "#f37021");
+        }
+
+        if (liked == 1) {
+            $("#btnLike").removeClass("far fa-thumbs-up");
+            $("#btnLike").addClass("fas fa-heart");
+            $("#btnLike").css("color", "#ef4130");
+        }
+
+
+        $("#btnComment").click(function (e) {
+            e.preventDefault();
+
+            var aId = $("#ArticleId").val();
+            var pId = $("#UserId").val();
+            var cmnt = $("#txtComment").val();
+
+            if (cmnt != null && cmnt != "") {
+                $.ajax({
+                    /**/
+                    url: '@Url.Content("~/Home/ArticleComment")',
+    /**/
+    method: "POST",
+    data: { articleId: aId, profileId: pId, comment: cmnt },
+    success: function (data) {
+        if (data.RecordState == 1) {
+            //alert(data.RecordState);
+            window.location.hash = '#tab2';
+            window.location.reload(true);
+            //window.location.reload();
+        }
+    },
+    error: function () {
+        alert("Ajax call failed");
+    }
+})
+}
+else {
+alert("Commnet should not be empty");
+$("#txtComment").focus();
+}
+
+})
+
+});
+
+
+    function showbox(boxid) {
+        $("#Rplybox-" + boxid).fadeIn(200);
+        $("#Rply-" + boxid).focus();
+}
+
+
+
+function SaveReply(commentid) {
+
+if ($("#Rply-" + commentid).val() == "") {
+
+alert('Enter reply!');
+}
+else {
+$.ajax({
+method: "POST",
+/**/
+url: "@Url.Content("~/Home/CommentReply")",
+    /**/
+    data: {
+        CommentId: commentid, Reply: $("#Rply-" + commentid).val()
+    },
+    success: function (data) {
+        window.location.reload();
+    },
+    error: function () {
+    }
+});
+
+}
+    }
+
+  $("#btnCancel").hide();
+  $("#btnComment").hide();
+
+  $("#txtComment").on("focus", function (e) {
+        //alert();
+        $("#btnCancel").show();
+        $("#btnComment").show();
+    });
+
+  function ClearComment() {
+                $("#txtComment").val('');// = '';
+                $("#txtComment").focus();
+            }
+  function ClearCommentReply(commentid) {
+
+                if (commentid > 0) {
+                    $("#Rply-" + commentid).val('');
+                    $("#Rplybox-" + commentid).fadeOut(200);
+                }
+
+                @*if ($("#Rply-" + commentid).val('')) {
+
+                    alert('Enter reply!');
+                    Rplybox-@comments.CommentId
+                }*@
+            }
+
+
+var url = 'http://www.google.com';
+$("#share").jsSocials({
+    link: url,
+    text: $("#txtTitle").val(),
+        //'GDNLife Article',
+shareIn: "popup",
+showCount: true,
+showLabel: true,
+shares: [
+"email",
+"twitter",
+    {
+        share: "facebook",
+        label: "Share"
+    },
+"linkedin",
+    {
+        share: "whatsapp",
+        label: "WhatsApp",
+        logo: "@Url.Content("~/images/whatsapp.png")"
+
+    }
+]
+});
+    //whatsapp: { label: "WhatsApp", logo: "fa fa-whatsapp", shareUrl: isMobile ? "whatsapp://send?text={url} {text}" : "https://web.whatsapp.com/send?text={url} {text}", countUrl: "", shareIn: "self" }
+
+    var url2 = 'http://www.google.com';
+    $("#mshare").jsSocials({
+        link: url2,
+        text: 'GDNLife Article',
+        shareIn: "popup",
+        showLabel: false,
+        showCount: false,
+        shares: ["email", "twitter", "facebook", "linkedin",
+            {   share: "whatsapp",
+                label: "WhatsApp",
+                logo: "@Url.Content("~/images/whatsapp.png")"
+            }
+        ]
+    });
+
+
+
+function follow() {
+
+var fId = $("#FollowId").val();
+var pId = $("#UserId").val();
+
+if (pId > 0) {
+
+$.ajax({
+    /**/
+    /**/
+    url: '@Url.Content("~/Home/Followers")',
+    /**/
+    /**/
+    type: 'POST',
+    data: { followId: fId, profileId: pId },
+    success: function (data) {
+
+        if (data.RecordState == 1 && data.RecordType == "Follow") {
+            $("#btnUnFollow").hide();
+            $("#btnFollow").show();
+            window.location.reload(true);
+            //alert("Follow" + data.RecordState);
+        }
+        else if (data.RecordState == 2 && data.RecordType == "UnFollow") {
+            $("#btnUnFollow").show();
+            $("#btnFollow").hide();
+            window.location.reload(true);
+            //alert("UnFollow" + data.RecordState);
+        }
+    },
+    error: function () {
+        alert(data.error + "error");
+    }
+});
+}
+else {
+$(".log-in-popup").click();
+}
+}
+
+function blockUser() {
+
+var bUId = $("#BlockedUserId").val();
+var pId = $("#UserId").val();
+
+if (pId > 0) {
+
+$.ajax({
+    /**/
+    /**/
+    url: '@Url.Content("~/Home/BlockedUsers")',
+    /**/
+    /**/
+    type: 'POST',
+    data: { profileId: pId, blockedUserId: bUId },
+    success: function (data) {
+
+        if (data.RecordState == 1 && data.RecordType == "Block") {
+            $("#btnUnBlock").hide();
+            $("#btnBlock").show();
+            window.location.reload(true);
+            //alert("Block" + data.RecordState);
+        }
+        else if (data.RecordState == 2 && data.RecordType == "UnBlock") {
+            $("#btnUnBlock").show();
+            $("#btnBlock").hide();
+            window.location.reload(true);
+            //alert("UnBlock" + data.RecordState);
+        }
+    },
+    error: function () {
+        alert(data.error + "error");
+    }
+});
+}
+else {
+$(".log-in-popup").click();
+}
+}
+
+
+function savelike(type) {
+
+var atype = type;
+var aId = $("#ArticleId").val();
+var pId = $("#UserId").val();
+
+if (pId > 0) {
+// alert(atype + "--" + aId + "--" + pId);
+$.ajax({
+    /**/
+    url: '@Url.Content("~/Home/SaveLikeArticle")',
+    /**/
+    type: 'POST',
+    data: { type: atype, articleId: aId, profileId: pId },
+    success: function (data) {
+        if (data.RecordState == 1) {
+            if (data.RecordType == "Like") {
+
+                $("#btnLike").removeClass("fas fa-heart");
+                $("#btnLike").addClass("far fa-heart");
+                $("#btnLike").css("color", "#1c1b1b");
+            }
+            else {
+                $("#btnSave").removeClass("fas fa-bookmark");
+                $("#btnSave").addClass("far fa-bookmark");
+                $("#btnSave").css("color", "#1c1b1b");
+            }
+        }
+        else if (data.RecordState == 2) {
+            if (data.RecordType == "Like") {
+                $("#btnLike").removeClass("far fa-heart");
+                $("#btnLike").addClass("fas fa-heart");
+                $("#btnLike").css("color", "#ef4130");
+            }
+            else {
+
+
+                // $("#btnSave").css("color", "#f37021");
+                $("#btnSave").addClass("fas fa-bookmark");
+                $("#btnSave").css("color", "#f37021");
+            }
+
+        }
+    },
+    error: function () {
+        alert(data.error + "error");
+    }
+});
+}
+else {
+$(".log-in-popup").click();
+}
+
+
+
+}
+
+function openModal() {
+document.getElementById("myModal").style.display = "block";
+}
+
+function closeModal() {
+document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+var i;
+var slides = document.getElementsByClassName("mySlides");
+var dots = document.getElementsByClassName("demo");
+var captionText = document.getElementById("caption");
+if (n > slides.length) { slideIndex = 1 }
+if (n < 1) { slideIndex = slides.length }
+for (i = 0; i < slides.length; i++) {
+slides[i].style.display = "none";
+}
+for (i = 0; i < dots.length; i++) {
+dots[i].className = dots[i].className.replace("active", "");
+}
+slides[slideIndex - 1].style.display = "block";
+dots[slideIndex - 1].className += " active";
+captionText.innerHTML = dots[slideIndex - 1].alt;
+}
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        (function ($) {
+            $.fn.autogrow = function () {
+                return this.each(function () {
+                    var textarea = this;
+                    $.fn.autogrow.resize(textarea);
+                    $(textarea).focus(function () {
+                        textarea.interval = setInterval(function () {
+                            $.fn.autogrow.resize(textarea);
+                        }, 300);
+                    }).blur(function () {
+                        clearInterval(textarea.interval);
+                    });
+                });
+            };
+            $.fn.autogrow.resize = function (textarea) {
+                var lineHeight = parseInt($(textarea).css('line-height'), 10);
+                var lines = textarea.value.split('\n');
+                var columns = textarea.cols + 50;
+
+                var lineCount = 0;
+                $.each(lines, function () {
+                    lineCount += Math.ceil(this.length / columns) || 1;
+                });
+                var height = lineHeight * (lineCount + 1);
+                $(textarea).css('height', height);
+            };
+        })(jQuery);
+
+        $('.textareaComment').autogrow();
+
+
+    });
+
+
+</script>
+
+
+ 

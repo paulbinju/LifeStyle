@@ -1,0 +1,846 @@
+﻿@model LifestyleBeta.Models.tblUser
+@{
+    ViewBag.Title = "My Account";
+}
+<style>
+    .white-popup {
+        position: relative;
+        padding: 30px;
+        width: auto;
+        max-width: 700px;
+        margin: 20px auto;
+        background: #FFF;
+    }
+
+    input[type="text"], input[type="email"], input[type="number"], select {
+        display: block;
+        margin: 0 0 17px;
+        color: #666666;
+        font-size: 13px;
+        font-family: 'Lato', sans-serif;
+        width: 100%;
+        border: 1px solid #e1e1e1;
+        background: #fafafa;
+        outline: none;
+        padding: 10px 20px;
+    }
+
+    .panel-body p {
+        color: #000000 !important;
+    }
+
+    #acDashboard h3:hover {
+        background-color: #bd4b9b;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .box-part {
+        color: #FFF;
+        border-radius: 0;
+        padding: 25px 2px;
+        /*margin: 7px 0px;*/
+        border: 2px solid #FFF;
+    }
+
+    .mpbg {
+        background-color: #bd4b9b;
+    }
+
+    .mabg {
+        background-color: #00b9cb;
+    }
+
+    .albg {
+        background-color: #ef4130;
+    }
+
+    .acbg {
+        background-color: #593c97;
+    }
+
+    .mfbg {
+        background-color: #3453a4;
+    }
+
+    .mflbg {
+        background-color: #0084cb;
+    }
+
+    .asbg {
+        background-color: #f37021;
+    }
+
+    .malbg {
+        background-color: #913935;
+    }
+
+    .tutmainbg {
+        background-color: #f5f6fa;
+        color: #2f3640;
+    }
+
+    .tutbg {
+        background-color: #f39c12;
+    }
+
+    .helpbg {
+        background-color: #ee5253;
+    }
+
+    /*span {
+        color: red;
+    }*/
+</style>
+<script src="~/Scripts/tinymce/tinymce.js"></script>
+<script>
+
+
+
+    tinymce.init({
+        selector: '.addtextarea',
+        height: 200,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tiny.cloud/css/codepen.min.css'
+        ]
+    });
+</script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<section class="main-section" style="font-size:12px;">
+    <input type="hidden" id="UserId" value="@ViewBag.LoggedInUserId" />
+
+
+    @*Mobile User Dashboard*@
+    <div class="container hidden-lg" style="display:table;">
+        <div class="row" style="padding:0px;margin:5px 0px 0px 0px;">
+
+            <a href="@Url.Action("MyProfile", "Article")">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part mpbg text-center">
+                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                        <div class="title">
+                            <h4>My Profile</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="@Url.Action("MyArticles","Article")">
+                <div class="col-xs-6 " style="padding:0px;">
+                    <div class="box-part mabg text-center">
+                        <i class="fa fa-book fa-2x" aria-hidden="true"> @ViewBag.MyArticlesCount</i>
+                        <div class="title">
+                            <h4>My Articles</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="@Url.Action("MyArticleLikes","Article")">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part albg text-center">
+                        <i class="fa fa-heart fa-2x" aria-hidden="true"> @ViewBag.Likes</i>
+                        <div class="title">
+                            <h4>Likes</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("MyComments","Article")">
+                <div class="col-xs-6 " style="padding:0px;">
+                    <div class="box-part acbg text-center">
+                        <i class="fa fa-comment fa-2x" aria-hidden="true"> @ViewBag.CommentCount</i>
+                        <div class="title">
+                            <h4>Comments</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("MyFollowers","Article")">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part mfbg text-center">
+                        <i class="fas fa-user-tag fa-2x" aria-hidden="true"> @ViewBag.FollowerCount</i>
+                        <div class="title">
+                            <h4>Followers</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("MyFollowing","Article")">
+                <div class="col-xs-6 " style="padding:0px;">
+                    <div class="box-part mflbg text-center">
+                        <i class="fas fa-user-check fa-2x" aria-hidden="true"> @ViewBag.FollowingCount</i>
+                        <div class="title">
+                            <h4>Following</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("MySavedArticles","Article")">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part asbg text-center">
+                        <i class="fa fa-bookmark fa-2x" aria-hidden="true"> @ViewBag.SavedArticlesCount</i>
+                        <div class="title">
+                            <h4> Articles I’ve Saved</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("MyLikedArtciles","Article")">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part malbg text-center">
+                        <i class="fa fa-heart fa-2x" aria-hidden="true"> @ViewBag.LikedArticlesCount</i>
+                        <div class="title">
+                            <h4>Articles I’ve Liked</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <div class="col-xs-12 tutmainbg" >
+                <div class="title" style="margin:0px;padding-top:7px;margin-bottom:0px;">
+                    <h4 style="font-weight:600;">Tutorials / Help</h4>
+                </div>
+            </div>
+            <a data-toggle="modal" data-target="#CreateArticle">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part tutbg text-center">
+                        <i class="fas fa-chalkboard-teacher fa-2x" aria-hidden="true"></i>
+                        <div class="title">
+                            <h4>Create an article</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a data-toggle="modal" data-target="#TypeStyle">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part tutbg text-center">
+                        <i class="fas fa-align-left fa-2x" aria-hidden="true"></i>
+                        <div class="title">
+                            <h4>Type Styles</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a data-toggle="modal" data-target="#ImageSlider">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part tutbg text-center">
+                        <i class="fas fa-photo-video fa-2x" aria-hidden="true"></i>
+                        <div class="title">
+                            <h4>Images & Slider</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("Contact","Home")">
+                <div class="col-xs-6" style="padding:0px;">
+                    <div class="box-part helpbg text-center">
+                        <i class="fas fa-exclamation-circle fa-2x" aria-hidden="true"></i>
+                        <div class="title">
+                            <h4>Report Problem</h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+
+    </div>
+
+    @*Desktop User Dashboard*@
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="col-md-12" style="border-right:1px solid #f1efef; padding-top:0px; margin-top:0px;">
+                <!-- single-post box -->
+
+
+                <div class="col-md-12" style="margin:0px;padding:0px;">
+                   
+
+                    <ul class="nav nav-tabs" id="tbDashboard">
+                        <li>
+                            <a class="active" data-toggle="tab" onclick="ShowPartial('MyProfileW')">
+                                <h3 style="color:#bd4b9b; padding:0px; margin:0px;">
+                                    <i class="fas fa-user"></i><strong></strong><br />
+                                    <span style="font-size:13px"><strong>My Profile</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" onclick="ShowPartial('MyArticlesW')">
+                                <h3 style="color:#00b9cb; padding:0px; margin:0px;">
+                                    <i class="fas fa-file-alt"></i><strong> @ViewBag.MyArticlesCount</strong><br />
+                                    <span style="font-size:13px"><strong>My Articles</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" onclick="ShowPartial('MyArticleLikesW')">
+                                <h3 style="color:#ef4130; padding:0px; margin:0px;">
+
+                                    <i class="fas fa-heart"></i> <strong> &nbsp;@ViewBag.Likes</strong><br />
+                                    <span style="font-size:13px"><strong>Likes</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" onclick="ShowPartial('MyCommentsW')">
+                                <h3 style="color:#593c97; padding:0px; margin:0px;">
+                                    <i class="fas fa-comment"></i><strong> @ViewBag.CommentCount</strong><br />
+                                    <span style="font-size:13px"><strong>Comments</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" onclick="ShowPartial('MyFollowersW')">
+                                <h3 style="color:#3453a4; padding:0px; margin:0px;">
+                                    <i class="fas fa-user-tag"></i><strong> @ViewBag.FollowerCount</strong><br />
+                                    <span style="font-size:13px"><strong>Followers</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" onclick="ShowPartial('MyFollowingW')">
+                                <h3 style="color:#0084cb; padding:0px; margin:0px;">
+                                    <i class="fas fa-user-check"></i><strong> @ViewBag.FollowingCount</strong><br />
+                                    <span style="font-size:13px"><strong>Following</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" onclick="ShowPartial('MySavedArticlesW')">
+                                <h3 style="color:#f37021; padding:0px; margin:0px;">
+                                    <i class="fas fa-bookmark"></i><strong> @ViewBag.SavedArticlesCount</strong><br />
+                                    <span style="font-size:13px"><strong>Articles I’ve Saved</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" onclick="ShowPartial('MyLikedArtcilesW')">
+                                <h3 style="color:#913935; padding:0px; margin:0px;">
+                                    <i class="fas fa-heart"></i><strong> @ViewBag.LikedArticlesCount</strong><br />
+                                    <span style="font-size:13px"><strong>Articles I’ve Liked</strong></span>
+                                </h3>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content" style="padding:10px 0px;">
+                        <div id="divPartial" class="col-md-12 tab-pane fade in active" style="margin:0px;padding:1px;">
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="divResult" class="col-md-12">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<div class="modal fade" id="myModal" role="dialog" style="margin-top:100px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content(" ../Article/MyAccountUpdate")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">My Account</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-md-4">
+                        <label for="username">Name<span>*</span></label>
+                        <input type="text" name="FullName" required value="@Model.FullName" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="username">Gender<span>*</span></label>
+                        <select name="gender">
+                            <option @(Model.Gender == "Male" ? "selected" : "") value="Male">Male</option>
+                            <option @(Model.Gender == "Female" ? "selected" : "") value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="username">Country<span>*</span></label>
+                        <select name="CountryId" id="CountryId">
+                            @foreach (var con in ViewBag.Countries)
+                            {
+                                <option @(Model.CountryId == con.CountryId ? "selected" : "") value="@con.CountryId">@con.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="username">Mobile<span>*</span></label>
+                        <input type="number" name="Mobile" id="Mobile" value="@Model.Mobile" />
+                    </div>
+                    <div class="col-md-8">
+                        <label for="email-address">Email Address<span>*</span></label>
+                        <input type="email" name="Email" required value="@Model.Email" />
+                    </div>
+                    @*<div class="col-md-4">
+                            <label for="email-address">Password<span>*</span></label>
+                            <input type="text" name="Password" required value="@Model.Password" />
+                        </div>*@
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="col-md-12">
+                        <label for="email-address">Profile<span>*</span></label>
+                        <textarea name="MyProfile" class="addtextarea">@Model.MyProfile</textarea>
+                    </div>
+
+
+                    <br style="clear:both" />
+
+                    <input type="hidden" name="Follows" value="@Model.Follows" />
+                    <input type="hidden" name="Register" value="@Model.Register" />
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalChangePassword" role="dialog" style="margin-top:100px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-sm">
+        <form method="post" id="frmChangePassword">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Password </h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <label for="currentPassword">Current Password<span>*</span></label>
+                        <input type="password" class="form-control" name="currentPassword" id="currentPassword" required value="" />
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="password ">Password<span>*</span></label>
+                        <input type="password" class="form-control" name="password" id="password" pattern=".{5,10}" required title="5 to 10 characters" />
+                    </div>
+                    <div class="col-md-12">
+                        <label for="password-con">Confirm Password<span>*</span></label>
+                        <input type="password" class="form-control" name="confirm_password" id="confirm_password" required />
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <input type="hidden" name="cHPassword" id="cHPassword" required value="@Model.Password" />
+                        <input type="hidden" id="userId" name="userId" value="@Model.UserId" />
+                    </div>
+
+                    <br style="clear:both" />
+
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btnChangePassword" type="submit" class="btn btn-danger">SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="picModal" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content(" ../Article/UpdateProfilePicture")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Profile Picture</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-md-6">
+                        <label for="email-address">Profile Pic<span>*</span></label>
+                        <input type="file" name="file" class="form-control" placeholder="choose profile picture" @(Model.ProfileImage == null || Model.ProfileImage == "" ? "required" : "")
+                               onchange="showimgpreview();document.getElementById('previewimg').src = window.URL.createObjectURL(this.files[0]);" /><br />
+                        <p style="color:#666666; font-size:12px;">Image size should be less than 2MB</p>
+                    </div>
+                    <div class="col-md-6">
+                        @*@if (Model.ProfileImage != null && Model.ProfileImage != "")
+                            {
+                                <img width="100" src="@Url.Content(Model.ProfileImage)" />
+                            }*@
+                        <input type="hidden" name="filewithpath" value="@Model.ProfileImage" />
+                        <img id="previewimg" height="60" />
+
+                        <script>
+                            $("#previewimg").hide();
+                            function showimgpreview() {
+                                $("#previewimg").show();
+                            }
+                        </script>
+                    </div>
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="CreateArticle" role="dialog" style="z-index: 109999;font-family: Arial">
+    <div class="modal-dialog modal-lg" id="mdlCreateArticle">
+       
+        <div class="modal-content">
+           
+            <div class="modal-body" >
+                <style>
+                    .video-container {
+                        position: relative;
+                        padding-bottom: 56.25%;
+                        padding-top: 30px;
+                        height: 0;
+                        overflow: hidden;
+                    }
+
+                        .video-container iframe,
+                        .video-container object,
+                        .video-container embed {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                        }
+                </style>
+                <div class="video-container">
+                    <iframe width="760" height="460" src="https://www.youtube.com/embed/t82St_iIwlo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+            </div>
+
+
+
+        </div>
+        
+    </div>
+</div>
+
+<div class="modal fade" id="TypeStyle" role="dialog" style="z-index: 109999;font-family: Arial">
+    <div class="modal-dialog modal-lg" id="mdlTypeStyle">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <style>
+                    .video-container {
+                        position: relative;
+                        padding-bottom: 56.25%;
+                        padding-top: 30px;
+                        height: 0;
+                        overflow: hidden;
+                    }
+
+                        .video-container iframe,
+                        .video-container object,
+                        .video-container embed {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                        }
+                </style>
+                <div class="video-container">
+                    <iframe width="760" height="460" src="https://www.youtube.com/embed/tuMT1pPMW8E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="ImageSlider" role="dialog" style="z-index: 109999;font-family: Arial">
+    <div class="modal-dialog modal-lg" id="mdlImageSlider">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <style>
+                    .video-container {
+                        position: relative;
+                        padding-bottom: 56.25%;
+                        padding-top: 30px;
+                        height: 0;
+                        overflow: hidden;
+                    }
+
+                        .video-container iframe,
+                        .video-container object,
+                        .video-container embed {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                        }
+                </style>
+                <div class="video-container">
+                    <iframe width="760" height="460" src="https://www.youtube.com/embed/X3xOKonK6es" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<style>
+
+    h3:hover {
+        background-color: #f2f2f2;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
+
+        .card .title {
+            color: grey;
+            font-size: 18px;
+        }
+
+        .card button {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            padding: 8px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .card a {
+            text-decoration: none;
+            font-size: 22px;
+            color: black;
+        }
+
+        .card button:hover, a:hover {
+            opacity: 0.7;
+        }
+
+    @@media(max-width: 768px) {
+        #mdlCreateArticle, #mdlTypeStyle, #mdlImageSlider {
+            min-width: 80%;
+        }
+       
+</style>
+
+
+<script>
+
+    $(document).ready(function () {
+        var url = "@Url.Content("~/Article/MyProfileW/")";
+
+        $("#divPartial").load(url);
+
+
+    });
+
+
+
+            $("#frmChangePassword").submit(function (e) {
+            e.preventDefault();
+
+            var formdata = new FormData(this);
+
+
+            if ($("#password").val() != $("#confirm_password").val()) {
+                alert('Password Mismatch');
+
+                return false;
+            }
+
+            //var c =$("#currentPassword").val();
+            //var old= $("#cHPassword").val()
+            if ($("#currentPassword").val() != $("#cHPassword").val()) {
+                alert('Incorrect old password');
+
+                return false;
+            }
+
+            $.ajax({
+                            method: "POST",
+                            url: "@Url.Content("~/Article/ChangePassword")",
+                            data: formdata,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function (data) {
+                            if(data.success == true){
+                                alert("You have successfully change your password...");
+                                window.location.reload();
+                            }
+                            else
+                            {
+                                alert("500 (Internal Server Error)");
+                            }
+                        }
+                        });
+
+        });
+
+
+
+
+
+    var ShowPartial = function (partialview) {
+
+
+        var url = "@Url.Content("~/Article/")" + partialview + "/";
+
+            $("#divPartial").load(url);
+
+
+        @*$.ajax({
+            url: "@Url.Content("~/Article/ShowPartial/")",
+            success: function (response) {
+
+                $("#divPartial").html(response);
+            },
+            error: function () {
+                alert("Unable to show article!");
+            }
+        });*@
+    }
+
+    function DeleteArticle(ArticleId) {
+        var url = "@Url.Content("~/Article/MyArticlesW/")";
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                 url: "@Url.Content("~/DeleteArticle/")",
+                type: 'POST',
+                data: { ArticleId: ArticleId },
+                success: function (data) {
+                    $("#divPartial").load(url);
+                },
+                error: function () {
+                    alert("Unable to delete article!");
+                }
+            });
+        }
+    }
+
+    function DeleteSavedArticle(savelikeId, type) {
+
+        var url = '';
+        if (type == 'Save') {
+            url = "@Url.Content("~/Article/MySavedArticlesW/")";
+        }
+        else
+        {
+            url = "@Url.Content("~/Article/MyLikedArtcilesW/")";
+        }
+
+
+        if (confirm("Are you sure to delete?")) {
+                $.ajax({
+                    url: "@Url.Content("~/DeleteSavedArticle/")" + savelikeId,
+                    success: function (data) {
+                        $("#divPartial").load(url);
+                    },
+                    error: function () {
+                        alert("Unable to delete article!");
+                    }
+                });
+        }
+    }
+
+    function follow(fId, btnId) {
+        //alert(fId,btnId);
+        var pId = $("#UserId").val();
+         var url = "@Url.Content("~/Article/MyFollowingW/")";
+        $.ajax({
+            /**/
+            url: '@Url.Content("~/Home/Followers")',
+            /**/
+            type: 'POST',
+            data: { followId: fId, profileId: pId },
+            success: function (data) {
+
+                if (data.RecordState == 1) {
+                    $("#btnUnFollow_" + btnId).hide();
+                    $("#divPartial").load(url);
+                }
+                else if (data.RecordState == 2) {
+                    $("#btnFollow_" + btnId).hide();
+                }
+
+            },
+            error: function () {
+                alert(data.error + "error");
+            }
+        });
+    }
+
+    function DeleteUserComment(commentId) {
+        url = "@Url.Content("~/Article/MyCommentsW/")";
+        if (confirm("Are you sure to delete the comment?")) {
+            $.ajax({
+                url: "@Url.Content("~/Article/DeleteUserComment/")",
+                type: 'POST',
+                data: { CommentId: commentId},
+                success: function (data) {
+                    $("#divPartial").load(url);
+                },
+                error: function () {
+                    alert("Some replies are there for this comment, first delete Replies for this comment and try again!");
+                }
+            });
+        }
+}
+
+
+
+</script>

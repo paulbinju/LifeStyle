@@ -1,0 +1,58 @@
+﻿@model IEnumerable<LifestyleBeta.Models.tblUser>
+
+<div class="jumbotron col-md-12">
+    <h1>hello</h1>
+</div>
+
+
+@foreach (var item in Model)
+{
+    <div class="well profile" style="background-color:#fafafa;padding-top:0px; margin-top:0px;">
+        <div class="col-md-12">
+            <div class="col-xs-12 col-sm-8" style="padding-top:0px; margin-top:0px;">
+                <h2>@item.FullName</h2>
+                <div class="list-group" style="font-size:14px;">
+                    <div class="list-group-item">
+                        Gender : @item.Gender
+                        <span class="btn btn-link pull-right" data-toggle="modal" data-target="#myModal">Edit Profile</span>
+                    </div>
+                    <div class="list-group-item">User Name : @item.Email</div>
+                    <div class="list-group-item"><b>Country: </b>@item.tblCountry.Name</div>
+                    <div class="list-group-item">
+                        <b>Registered On: </b>@Convert.ToDateTime(item.Register).ToString("dd-MM-yyyy") -
+                        <b>Last Updated On: </b>@Convert.ToDateTime(item.Updated).ToString("dd-MM-yyyy")
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 text-center" style="padding-top:20px; margin-top:0px;">
+                <figure>
+
+                    @if (item.ProfileImage != null && item.ProfileImage != "")
+                    {
+                        <img style="width:220px;height:220px;" src="@Url.Content(item.ProfileImage)" class="avatar img-thumbnail img-responsive" alt="avatar">
+                    }
+                    else
+                    {
+                        <img style="width:220px;height:220px;" src="@Url.Content("~/images/user.png")" class="avatar img-thumbnail img-responsive" alt="avatar">
+                    }
+
+                </figure>
+            </div>
+        </div>
+
+        <div class="col-md-12 ">
+            <div class="panel panel-primary">
+                <div class="panel-heading "><h3> About Me</h3></div>
+                <div class="panel-body">
+                    <p style="display:none;"> @Html.Raw(item.MyProfile)  </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+

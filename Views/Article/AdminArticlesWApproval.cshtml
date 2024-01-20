@@ -1,0 +1,400 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_AllArticles>
+
+@{
+
+    ViewBag.Title = "Admin - Articles";
+}
+
+<style>
+    .tab-content {
+        min-height: 300px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var hash = location.hash.substr(1);
+        if (hash == 'comments') {
+            $('.nav-tabs a[href="comments"]').tab('show');
+        }
+
+        if (hash == 'replys') {
+            $('.nav-tabs a[href="replys"]').tab('show');
+        }
+    });
+</script>
+
+
+<section class="main-section" style="font-family:Arial;font-size:12px;">
+    <div class="container sub-sections" id="option1">
+
+        <div class="col-md-12" id="mbAdminDashboard" style="margin-bottom:5px; padding:5px 10px;">
+            <div class="col-md-12 pull-right" style="margin-top:10px;">
+                <a href="@Url.Action("LogOut", "Article")">Logout <i class="fa fa-power-off"></i></a>
+            </div>
+            <br style="clear:both" />
+            <br style="clear:both" />
+            <div class="btn-group">
+                <a data-toggle="tab" class="btn btn-warning" href="#pending" onclick="PendingTab()" style="background-color:orange;margin-bottom:5px;">
+                    <h5 style="color:white; padding:0px; margin:0px;text-align:center;font-weight:600;">
+                        <i class="fa fa-file-text-o"></i><span style="font-size:13px"> Pending Articles</span>
+                    </h5>
+                </a>
+            </div>
+            <div class="btn-group">
+                <a data-toggle="tab" class="btn btn-success" href="#published" onclick="PublishedTab()" style="background-color:#439c43;margin-bottom:5px;margin-right:3px;">
+                    <h5 style="color:white; padding:0px; margin:0px;text-align:center; font-weight:600;">
+                        <i class="fa fa-file-text"></i><span style="font-size:13px"> Published Articles</span>
+                    </h5>
+                </a>
+            </div>
+            <div class="btn-group">
+                <a data-toggle="tab" class="btn btn-default" href="#rejected" onclick="RejectedTab()" style="background-color:red;margin-bottom:5px;">
+                    <h5 style="color:white; padding:0px; margin:0px;text-align:center;font-weight:600;">
+                        <i class="fa fa-file-text"></i><span style="font-size:13px"> Rejected Articles</span>
+                    </h5>
+                </a>
+            </div>
+            <div class="btn-group">
+                <a data-toggle="tab" class="btn btn-default" href="#comments" onclick="CommentsTab()" style="background-color:mediumpurple;margin-bottom:5px;">
+                    <h5 style="color:white; padding:0px; margin:0px;text-align:center;font-weight:600;">
+                        <i class="fa fa-comment"></i><span style="font-size:13px"> New Comments</span>
+                    </h5>
+                </a>
+            </div>
+            <div class="btn-group">
+                <a data-toggle="tab" class="btn btn-default" href="#Acomments" onclick="ACommentsTab()" style="background-color:green;margin-bottom:5px;">
+                    <h5 style="color:white; padding:0px; margin:0px;text-align:center;font-weight:600;">
+                        <i class="fa fa-comments-o"></i><span style="font-size:13px"> Approved Comments</span>
+                    </h5>
+                </a>
+            </div>
+            <div class="btn-group">
+                <a data-toggle="tab" class="btn btn-default" href="#replys" onclick="ReplysTab()" style="background-color:palevioletred;margin-bottom:5px;">
+                    <h5 style="color:white; padding:0px; margin:0px;text-align:center;;font-weight:600;">
+                        <i class="fa fa-comments-o"></i><span style="font-size:13px"> New Replies</span>
+                    </h5>
+                </a>
+            </div>
+            <div class="btn-group">
+                <a data-toggle="tab" class="btn btn-default" href="#allusers" onclick="AllUsersTab()" style="background-color:navy;margin-bottom:5px;">
+                    <h5 style="color:white; padding:0px; margin:0px;text-align:center;font-weight:600;">
+                        <i class="fa fa-users"></i><span style="font-size:13px"> All Users</span>
+                    </h5>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="col-md-12" style="padding:0px;">
+            <ul class="nav nav-tabs" id="mytabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#pending" onclick="PendingTab()">
+                        <h3 style="color:orange; padding:0px; margin:0px;text-align:center">
+                            <i class="fa fa-file-text-o"></i><strong></strong><br />
+                            <span style="font-size:13px"><strong>Pending Articles</strong></span>
+                        </h3>
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#published" onclick="PublishedTab()">
+                        <h3 style="color:green; padding:0px; margin:0px;text-align:center">
+                            <i class="fa fa-file-text"></i><strong></strong><br />
+                            <span style="font-size:13px"><strong>Published Articles</strong></span>
+                        </h3>
+                    </a>
+                </li>
+
+                <li>
+                    <a data-toggle="tab" href="#rejected" onclick="RejectedTab()">
+                        <h3 style="color:red; padding:0px; margin:0px;text-align:center">
+                            <i class="fa fa-file-text-o"></i><strong></strong><br />
+                            <span style="font-size:13px"><strong>Rejected Articles</strong></span>
+                        </h3>
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#comments" onclick="CommentsTab()">
+                        <h3 style="color:mediumpurple; padding:0px; margin:0px;text-align:center">
+                            <i class="fa fa-comment"></i><strong></strong><br />
+                            <span style="font-size:13px"><strong>New Comments</strong></span>
+                        </h3>
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#Acomments" onclick="ACommentsTab()">
+                        <h3 style="color:green; padding:0px; margin:0px;text-align:center">
+                            <i class="fa fa-comments-o"></i><strong></strong><br />
+                            <span style="font-size:13px"><strong>Approved Comments</strong></span>
+                        </h3>
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#replys" onclick="ReplysTab()">
+                        <h3 style="color:palevioletred; padding:0px; margin:0px;text-align:center">
+                            <i class="fa fa-comments-o"></i><strong></strong><br />
+                            <span style="font-size:13px"><strong>New Replies</strong></span>
+                        </h3>
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#allusers" onclick="AllUsersTab()">
+                        <h3 style="color:navy; padding:0px; margin:0px;text-align:center">
+                            <i class="fa fa-users"></i><strong></strong><br />
+                            <span style="font-size:13px"><strong>All Users</strong></span>
+                        </h3>
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="pending">
+
+
+
+                </div>
+
+                <div class="tab-pane " id="published">
+
+
+                </div>
+
+
+                <div class="tab-pane" id="rejected">
+
+
+
+
+                </div>
+                <div class="tab-pane" id="comments">
+
+
+
+                </div>
+                <div class="tab-pane" id="Acomments">
+
+
+
+                </div>
+
+
+
+
+                <div class="tab-pane" id="replys">
+
+
+                </div>
+                <div class="tab-pane" id="allusers">
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</section>
+
+
+
+<div class="modal fade" id="myModal" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("Article/Create")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Article</h4>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Category</b></div>
+                            <div class="col-md-6">
+                                <select class="form-control" name="CategoryId" required>
+                                    <option value="">Select</option>
+                                    @foreach (var cat in ViewBag.Category)
+                                    {
+                                        <option value="@cat.CategoryId">@cat.CategoryName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-2"><b>Title</b></div>
+                            <div class="col-md-12">
+                                <input type="text" name="Title" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">NEXT</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+
+
+    PendingTab();
+
+
+    function DeleteArticle(ArticleId) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteArticle/")" + ArticleId,
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("Unable to delete article!");
+                }
+            });
+        }
+    }
+    //PublishedTab();
+
+    function PublishedTabSearch() {
+       
+        $('#published').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+            $.ajax({
+                url: "@Url.Content("~/Article/_AdminTabPublished")",
+                type: 'GET',
+                data: { ArticleId: $('#txtSearch').val() },
+                success: function (data) {
+                    $('#published').html(data);
+                },
+                error: function () {
+                    alert(error);
+                }
+            });
+    }
+
+
+    function PublishedTab() {
+        $('#published').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+            $.ajax({
+                url: "@Url.Content("~/Article/_AdminTabPublished")",
+                success: function (data) {
+                    $('#published').html(data);
+                },
+                error: function () {
+                    alert(error);
+                }
+            });
+    }
+
+    function PendingTab() {
+        $('#pending').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+        $.ajax({
+            url: "@Url.Content("~/Article/_AdminTabPending")",
+            success: function (data) {
+                $('#pending').html(data);
+            },
+            error: function () {
+               alert(error);
+            }
+        });
+    }
+
+    function RejectedTab() {
+        $('#rejected').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+        $.ajax({
+            url: "@Url.Content("~/Article/_AdminTabRejected")",
+            success: function (data) {
+                $('#rejected').html(data);
+            },
+            error: function () {
+               alert(error);
+            }
+        });
+    }
+
+    function CommentsTab() {
+        $('#comments').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+        $.ajax({
+            url: "@Url.Content("~/Article/_AdminTabComments")",
+            success: function (data) {
+                $('#comments').html(data);
+            },
+            error: function () {
+               alert(error);
+            }
+        });
+    }
+
+
+        function ACommentsTab() {
+        $('#Acomments').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+        $.ajax({
+            url: "@Url.Content("~/Article/_AdminTabAComments")",
+            success: function (data) {
+                $('#Acomments').html(data);
+            },
+            error: function () {
+                alert(error);
+            }
+        });
+    }
+
+
+
+
+
+
+    function ReplysTab() {
+        $('#replys').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+        $.ajax({
+            url: "@Url.Content("~/Article/_AdminTabReply")",
+            success: function (data) {
+                $('#replys').html(data);
+            },
+            error: function () {
+               // alert("");
+            }
+        });
+    }
+
+
+    function AllUsersTab() {
+        $('#allusers').html("<img src='@Url.Content("~/images/loader.gif")' style='width:100px;margin:100px;'>");
+        $.ajax({
+            url: "@Url.Content("~/Article/_AdminTabAllUsers")",
+            success: function (data) {
+                $('#allusers').html(data);
+            },
+            error: function () {
+               // alert("");
+            }
+        });
+    }
+
+
+
+</script>
+
+
+

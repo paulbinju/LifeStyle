@@ -1,0 +1,47 @@
+﻿    <div class="panel panel-default" style="border-color:#0084cb;">
+        <div class="panel-heading" style="font-size:16px; font-weight:bold;background-color:#0084cb;color:#fff;">
+            My Following
+        </div>
+        <div class="panel-body" style="padding:3px; margin:0px;">
+            @{
+        foreach (var flws in ViewBag.Following)
+        {
+                        <div class="col-md-1 col-xs-3 text-center" background-color:#fafafa;" style="margin:0px;" >
+
+                            @if (flws.ProfileImage != null && flws.ProfileImage != "")
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=flws.UserId })">
+                                    <img src="@Url.Content(flws.ProfileImage)" class="img-circle img-responsive" id="imgFollowing" />
+                                </a>
+
+
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=flws.UserId })">
+                                    <img src="@Url.Content("~/images/user.png")" class="img-thumbnail img-responsive"  id="avtFollowing"/>
+                                </a>
+                            }
+                            @*<p><button>@flws.FullName</button></p>*@
+                            <span class="">@flws.FullName</span>
+                            <br />
+                            <div class="btn btn-primary btn-xs" id="btnUnFollow_@flws.Id" onclick="follow(@flws.UserId,@flws.Id);">
+                                UnFollow@*<i class="fas fa-user-times"></i>*@
+                            </div>
+
+                            @*<div class="btn" style="color:#fff; background-color:#0084cb;" id="btnUnFollow_@flws.Id" onclick="follow(@flws.UserId,@flws.Id,'_MyFollowing');">
+            UnFollow
+            <i class="fas fa-user-times"></i>
+        </div>*@
+                        </div>
+                       
+}
+            }
+        </div>
+        <div class="panel-footer" style="background-color:#0084cb;"></div>
+    </div>
+
+    
+
+
+

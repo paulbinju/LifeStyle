@@ -1,0 +1,402 @@
+﻿@{
+    ViewBag.Title = "Author Detail";
+}
+@using System.Text.RegularExpressions;
+<section class="block-wrapper" id="block-wrapper-Author">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+
+                <!-- block content -->
+                <div class="block-content">
+                    <input type="hidden" id="Followed" value="@ViewBag.Followed" />
+                    <input type="hidden" id="UserId" value="@ViewBag.LoggedInUserId" />
+
+
+                    <!-- grid box -->
+                    <div class="grid-box">
+                        <div class="title-section" style="border-top:none;margin-top:0px; padding-top:0px;">
+                            <h1><span>Author Details </span></h1>
+                        </div>
+                        <div class="col-md-12" style="padding:5px;">
+                            <div class="well profile" style="background-color:#fafafa;padding:5px;">
+                                @{
+                                    foreach (var author in ViewBag.AuthorDetails)
+                                    {
+
+                                        <input type="hidden" id="FollowId" value="@author.UserId" />
+                                        <div class="col-md-12">
+                                            <h2>@author.FullName</h2>
+                                        </div>
+
+                                        @*<div class="col-xs-12 col-sm-4 text-center" style="margin-top:0px;">
+                                                @if (author.ProfileImage != null && author.ProfileImage != "")
+                                                {
+                                                    <img style="width:220px;height:220px;" src="@Url.Content(author.ProfileImage)?t=@DateTime.Now" class="avatar img-thumbnail img-responsive" alt="avatar">
+                                                }
+                                                else
+                                                {
+                                                    <img style="width:220px;height:220px;" src="@Url.Content("~/images/user.png")" class="avatar img-thumbnail img-responsive" alt="avatar">
+                                                }
+                                            </div>*@
+                                        if (author.ProfileImage != null && author.ProfileImage != "")
+                                        {
+                                            <div class="col-xs-12 col-md-4 "
+                                                 style=" margin-top:0px;padding:0px;width: 220px; height: 220px;background-image: url('@Url.Content(author.ProfileImage)?@DateTime.Now');
+                                                    background-size: contain; background-repeat: no-repeat;background-position: 15px 50%;">
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-xs-12 col-md-4 "
+                                                 style=" margin-top:0px;padding:0px;width: 220px; height: 220px;background-image: url('@Url.Content("~/images/user.png")');
+                                                    background-size: contain; background-repeat: no-repeat;background-position: 15px 50%;">
+                                            </div>
+                                        }
+
+                                        <div class="col-xs-12 col-sm-8" style="padding-top:0px; margin-top:0px;">
+                                            <div class="list-group" style="font-size:14px;">
+                                                @*<div class="list-group-item">
+                                                        Gender : @author.Gender
+                                                    </div>*@
+                                                <div class="list-group-item">
+                                                    <b>Registered On: </b>@Convert.ToDateTime(author.Register).ToString("dd-MM-yyyy") -
+                                                    <b>Last Updated On: </b>@Convert.ToDateTime(author.Updated).ToString("dd-MM-yyyy")
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 text-center col-md-offset-4">
+                                                @if (Convert.ToInt32(ViewBag.UserId) != Convert.ToInt32(ViewBag.LoggedInUserId))
+                                                {
+                                                    <div class="btn btn-default btn-block" id="btnUnFollow" onclick="follow();">UnFollow <i class="fas fa-user-times"></i></div>
+                                                    <div class="btn" id="btnFollow" onclick="follow();" style="background-color:#3453a4; color:#fff;">Follow <i class="fas fa-user-tag"></i></div>
+                                                }
+                                            </div>
+
+                                            <br style="clear:both" />
+                                            <div class="col-md-12 text-center">
+                                                <div class="col-xs-4 col-sm-4 ">
+                                                    <h2 style="color:#3453a4;cursor:pointer;" data-toggle="modal" data-target="#FollowersModal"><i class="fas fa-user-tag"></i><strong> @ViewBag.FollowerCount </strong></h2>
+                                                    <p style="color:#3453a4;cursor:pointer;" data-toggle="modal" data-target="#FollowersModal"><strong>Followers</strong></p>
+                                                </div>
+                                                <div class="col-xs-4 col-sm-4 ">
+                                                    <h2 style="color:#0084cb;cursor:pointer;" data-toggle="modal" data-target="#FollowingModal"><i class="fas fa-user-check"></i><strong> @ViewBag.FollowingCount</strong></h2>
+                                                    <p style="color:#0084cb;cursor:pointer;" data-toggle="modal" data-target="#FollowingModal"><strong>Following</strong></p>
+                                                </div>
+
+                                                <div class="col-xs-4 col-sm-4 ">
+                                                    <h2 style="color:#ef4130;"><i class="fas fa-heart"></i><strong> @ViewBag.FollowingCount</strong></h2>
+                                                    <p style="color:#ef4130;"><strong>Likes</strong></p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <br style="clear:both" />
+                                            @Html.Raw(ViewBag.Profile)
+                                        </div>
+                                    }
+
+                                }
+
+
+
+                            </div>
+                        </div>
+
+                        <br /><br />
+
+                        <!-- article box -->
+                        <div class="article-box">
+                            <div class="title-section" style="border-top:none;">
+                                <h1><span>Author's Latest Articles</span></h1>
+                            </div>
+                            @{
+                                foreach (var Articles in ViewBag.AtuhorArticles)
+                                {
+                                    <div class="news-post article-post">
+
+                                        <div class="row">
+
+                                            <div class="col-sm-5">
+                                                <div class="post-gallery">
+                                                    @*<a href=@Url.Action("ArticleDetail","Home",new { ArticleId = Articles.ArticleId, category = Articles.CategoryId })>
+
+                                                            @if (Articles.CoverImage != null && Articles.CoverImage != "")
+                                                            {
+                                                                <img alt="" src="@Url.Content(Articles.CoverImage)?@DateTime.Now" style="height:200px">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img alt="" src=@Url.Content("~/images/imgLifestyle.png") style="height:200px">
+                                                            }
+                                                        </a>*@
+
+                                                    <a href=@Url.Action("ArticleDetail","Home",new { ArticleId = Articles.ArticleId, category = Articles.CategoryId })>
+
+                                                        @if (Articles.CoverImage != null && Articles.CoverImage != "")
+                                                        {
+                                                            <div style=" margin-top:0px;padding:0px;height: 220px;background-image: url('@Url.Content(Articles.CoverImage)?@DateTime.Now');
+                                                                background-size: cover; background-repeat: no-repeat;background-position: 50% 50%;">
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div style=" margin-top:0px;padding:0px;height: 220px;background-image: url('@Url.Content("~/images/imgLifestyle.png")?@DateTime.Now');
+                                                                background-size: cover; background-repeat: no-repeat;background-position: 50% 50%;">
+                                                            </div>
+                                                        }
+                                                    </a>
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <div class="author-post-content">
+                                                    <h4><strong> <a href=@Url.Action("ArticleDetail","Home",new { ArticleId = Articles.ArticleId, category =Articles.CategoryId })>@Articles.Title</a></strong></h4>
+                                                    <ul class="post-tags">
+                                                        <li class="badge @Articles.Description" style="color:#ffffff;">@Articles.CategoryName</li>
+                                                        <li><i class="fa fa-clock-o"></i>@string.Format("{0:d MMM yyyy}", Articles.Created)</li>
+                                                        <li><i class="fa fa-user"></i>by @Articles.UserName</li>
+                                                        <li><i class="fa fa-comments-o"></i><span>@Articles.Comments</span></li>
+                                                        <li><i class="fa fa-eye"></i>@Articles.Views</li>
+                                                        <li><i class="fa fa-thumbs-up"></i>@Articles.Likes</li>
+                                                        <li><i class="fa fa-comments"></i>@Articles.Comments</li>
+                                                    </ul>
+                                                    @{
+                                                        if (Articles.ArticleText != "" && Articles.ArticleText != null)
+                                                        {
+                                                            string aText = Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty));
+                                                            int aTextCount = aText.Count();
+
+
+
+                                                            if (aTextCount > 0 && aText != null && aText != "")
+                                                            {
+                                                                if (aTextCount >= 200)
+                                                                {
+                                                                    <p> @aText.Substring(0, 150);</p>
+                                                                }
+                                                                else if (aTextCount >= 100)
+                                                                {
+                                                                    <p>@aText.Substring(0, 100);</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p>@aText;</p>
+                                                                }
+                                                            }
+                                                        }
+
+
+                                                        @*if (Articles.ArticleText != null && Articles.ArticleText != "")
+                                                            {
+                                                                if (Convert.ToString(Articles.ArticleText).Length >= 200)
+                                                                {
+
+                                                                    @Html.Raw(Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty)).Substring(0, 150));
+                                                                }
+                                                                else if (Convert.ToString(Articles.ArticleText).Length >= 100)
+                                                                {
+                                                                    @Html.Raw(Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty)).Substring(0, 100));
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.Raw(Convert.ToString(Regex.Replace(Articles.ArticleText, "<.*?>", string.Empty)));
+                                                                }
+
+                                                            }*@
+                                                    }
+                                                    @*<br style="clear:both;" />
+                                                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId = Articles.ArticleId, category = Articles.CategoryId }) class="read-more-button">
+                                                            <i class="fa fa-arrow-circle-right"></i>Read More
+                                                        </a>*@
+                                                    <br /><br />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+
+
+
+
+                        </div>
+                        <!-- End article box -->
+                        <!-- pagination box -->
+                        @*<div class="pagination-box">
+                                <ul class="pagination-list">
+                                    <li><a class="active" href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><span>...</span></li>
+                                    <li><a href="#">9</a></li>
+                                    <li><a href="#">Next</a></li>
+                                </ul>
+                                <p>Page 1 of 9</p>
+                            </div>*@
+                        <!-- End Pagination box -->
+                        @*<div class="center-button">
+                                <a href="#"><i class="fa fa-refresh"></i> Show me more</a>
+                            </div>*@
+
+                    </div>
+                    <!-- End grid box -->
+
+                </div>
+                <!-- End block content -->
+
+            </div>
+
+
+            @{
+                Html.RenderAction("Sidebar", "Common");
+            }
+
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- Modal Followers-->
+<div class="modal fade" id="FollowersModal" role="dialog" style=" background-color: rgba(0, 0, 0, 0.1);z-index:999999;">
+    <div class="modal-dialog">
+        <div class="modal-dialog modal-sm">
+            <!-- Modal content-->
+            <div class="modal-content" style="background-color:white;">
+                @*<div class="modal-header">
+                        <button type="button" style="color:black;" class="close " data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Followers</h4>
+                    </div>*@
+                <div class="modal-body">
+                    @foreach (var item in ViewBag.AutohrFollowers)
+                    {
+                        <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                            @if (item.ProfileImage != "" && item.ProfileImage != null)
+                            {
+
+                                <img src="@Url.Content(item.ProfileImage)" style="height:40px; width:40px; margin-bottom:5px;" class="img-circle">
+
+                            }
+                            else
+                            {
+                                <img style="width:40px;height:40px;border:1px solid #ececec;margin-bottom:5px;" src="@Url.Content("~/images/user.png")" class="img-circle" />
+                            }
+                            <span style="color:#2f3640;font-weight:600;">@item.FullName</span><br />
+                        </a>
+                    }
+                </div>
+                @*<div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Followers-->
+<!-- Modal Following-->
+<div class="modal fade" id="FollowingModal" role="dialog" style=" background-color: rgba(0, 0, 0, 0.1);z-index:999999;">
+    <div class="modal-dialog">
+        <div class="modal-dialog modal-sm">
+            <!-- Modal content-->
+            <div class="modal-content" style="background-color:white;">
+                @*<div class="modal-header">
+                        <button type="button" style="color:black;" class="close " data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Following</h4>
+                    </div>*@
+                <div class="modal-body">
+                    @foreach (var item in ViewBag.AutohrFollowing)
+                    {
+                        <a href="@Url.Action("Author", "Home" , new { UserId=item.ProfileId })">
+                            @if (item.ProfileImage != "" && item.ProfileImage != null)
+                            {
+
+                                <img src="@Url.Content(item.ProfileImage)?@DateTime.Now" style="height:40px; width:40px; margin-bottom:5px;" class="img-circle">
+
+                            }
+                            else
+                            {
+                                <img style="width:40px;height:40px;border:1px solid #ececec;margin-bottom:5px;" src="@Url.Content("~/images/user.png")" class="img-circle" />
+                            }
+                            <span style="color:#2f3640;font-weight:600;">@item.FullName</span><br />
+                        </a>
+                    }
+                </div>
+                @*<div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Following-->
+
+
+
+<script>
+
+        $(document).ready(function () {
+            var followed = $("#Followed").val();
+
+            if (followed == 1) {
+                $("#btnUnFollow").show();
+                $("#btnFollow").hide();
+            }
+            else {
+                $("#btnUnFollow").hide();
+                $("#btnFollow").show();
+            }
+
+        });
+
+
+function follow() {
+
+
+var fId = $("#FollowId").val();
+var pId = $("#UserId").val();
+
+if (pId > 0) {
+
+$.ajax({
+    /**/
+    url: '@Url.Content("~/Home/Followers")',
+    /**/
+    type: 'POST',
+    data: { followId: fId, profileId: pId },
+    success: function (data) {
+
+        if (data.RecordState == 1 && data.RecordType == "Follow") {
+            $("#btnUnFollow").hide();
+            $("#btnFollow").show();
+            //alert("Follow" + data.RecordState);
+        }
+        else if (data.RecordState == 2 && data.RecordType == "UnFollow") {
+            $("#btnUnFollow").show();
+            $("#btnFollow").hide();
+            //alert("UnFollow" + data.RecordState);
+        }
+    },
+    error: function () {
+        alert(data.error + "error");
+    }
+});
+}
+else {
+$(".log-in-popup").click();
+}
+}
+
+
+
+</script>

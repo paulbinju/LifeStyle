@@ -1,0 +1,467 @@
+﻿@model IEnumerable<LifestyleBeta.Models.tblUser>
+
+@{
+    ViewBag.Title = "MyProfile";
+}
+
+
+<style>
+    .mptext p {
+        color: #111111;
+        font-size: 16px;
+    }
+
+    .white-popup {
+        position: relative;
+        padding: 30px;
+        width: auto;
+        max-width: 700px;
+        margin: 20px auto;
+        background: #FFF;
+    }
+
+    input[type="text"], input[type="email"], input[type="number"], select {
+        display: block;
+        margin: 0 0 17px;
+        color: #666666;
+        font-size: 13px;
+        font-family: 'Lato', sans-serif;
+        width: 100%;
+        border: 1px solid #e1e1e1;
+        background: #fafafa;
+        outline: none;
+        padding: 10px 20px;
+    }
+
+    .panel-body p {
+        color: #000000 !important;
+    }
+
+    #acDashboard h3:hover {
+        background-color: #bd4b9b;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .box-part {
+        color: #FFF;
+        border-radius: 0;
+        padding: 25px 2px;
+        /*margin: 7px 0px;*/
+        border: 2px solid #FFF;
+    }
+
+    .mpbg {
+        background-color: #bd4b9b;
+    }
+
+    .mabg {
+        background-color: #00b9cb;
+    }
+
+    .albg {
+        background-color: #ef4130;
+    }
+
+    .acbg {
+        background-color: #593c97;
+    }
+
+    .mfbg {
+        background-color: #3453a4;
+    }
+
+    .mflbg {
+        background-color: #0084cb;
+    }
+
+    .asbg {
+        background-color: #f37021;
+    }
+
+    .malbg {
+        background-color: #913935;
+    }
+
+
+    .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask .tinymce-mobile-content-container .tinymce-mobile-content-tap-section .tinymce-mobile-mask-tap-icon::before {
+        content: "Edit Text";
+        font-family: 'tinymce-mobile', sans-serif;
+    }
+
+    .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask {
+        background: rgba(130, 126, 126, 0.07);
+        border: 1px solid #ece9e98c;
+    }
+
+        .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask .tinymce-mobile-content-container .tinymce-mobile-content-tap-section {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px;
+        }
+
+            .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask .tinymce-mobile-content-container .tinymce-mobile-content-tap-section .tinymce-mobile-mask-tap-icon {
+                border-radius: 2%;
+                height: 40px;
+                width: 130px;
+                background-color: #de1a22;
+                color: #ffffff;
+                -webkit-box-shadow: 0px 0px 13px 4px rgba(0,0,0,0.41);
+                box-shadow: 9px 8px 21px -1px rgba(0,0,0,0.39);
+            }
+
+    .tinymce-mobile-icon-back::before {
+        content: "Done";
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .tinymce-mobile-toolstrip .tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) .tinymce-mobile-toolbar-group:first-of-type,
+    .tinymce-mobile-toolstrip .tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) .tinymce-mobile-toolbar-group:last-of-type {
+        background: #de1a22;
+        color: #ffffff;
+    }
+
+    /*span {
+        color: red;
+    }*/
+</style>
+<script src="~/Scripts/tinymce/tinymce.js"></script>
+<script>
+
+    tinymce.init({
+        selector: '.addtextarea',
+        height: 200,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tiny.cloud/css/codepen.min.css'
+        ]
+    });
+</script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div class="panel panel-default" style="border-color: #bd4b9b; margin-top: 50px; border-radius: 0px;">
+    <div class="panel-heading" style="font-size: 16px;font-weight: bold;background-color: #bd4b9b;color: #fff;border-radius:0px;">
+        My Profile
+
+        <div class="col-xs-4 pull-right" style="padding:0px;margin:0px 0px 0px 10px;">
+            <a href="@Url.Action("LogOut", "Article")">
+                Logout &nbsp;&nbsp;<i class="fa fa-power-off fa-lg" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="panel-body" style="padding:0px;">
+        @foreach (var item in Model)
+        {
+            <div id="profileView">
+                <div class="col-xs-12 col-md-3" style="padding-top:20px; margin-top:0px;">
+
+                    @if (item.ProfileImage != null && item.ProfileImage != "")
+                    {
+                        @*<img style="width:220px;height:220px;" src="@Url.Content(item.ProfileImage+"?"+DateTime.Now)" class="avatar img-thumbnail img-responsive" alt="avatar">*@
+                        <img src="@Url.Content(item.ProfileImage+"?"+DateTime.Now)" class="avatar img-thumbnail img-responsive" alt="avatar">
+                    }
+                    else
+                    {
+                        <img style="width:220px;height:220px;" src="@Url.Content("~/images/user.png")" class="avatar img-thumbnail img-responsive" alt="avatar">
+                    }
+                    <a class="btn btn-link pull-left" data-toggle="modal" data-target="#picModal" style=""><i class="fas fa-image"></i> Change Picture</a>
+                    <a class="btn btn-link pull-right" data-toggle="modal" data-target="#modalChangePassword" style=""><i class="fas fa-key"></i> Change Password</a>
+                    
+                </div>
+
+                <div class="col-xs-12 col-md-9" style="padding-top:0px; margin-top:0px;">
+                    <h2>@item.FullName</h2>
+                    <div class="list-group" style="font-size:14px;">
+                        <div class="list-group-item">
+                            <span>Gender : @item.Gender</span>
+                            <span id="editProfile" onclick="ShowEdit()" class="btn btn-link pull-right" @*data-toggle="modal" data-target="#myModal"*@ style="margin-bottom:20px;">Edit Profile</span>
+                        </div>
+                        <div class="list-group-item">User Name : @item.Email</div>
+                        <div class="list-group-item">
+                            <b>Country: </b>@item.tblCountry.Name &nbsp; - &nbsp;
+
+                            <b>Registered On: </b>@Convert.ToDateTime(item.Register).ToString("dd-MM-yyyy") -
+                            <b>Last Updated On: </b>@Convert.ToDateTime(item.Updated).ToString("dd-MM-yyyy")
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-xs-12 col-md-12 ">
+
+                        <div class="panel-group" style="margin-bottom:0px;">
+                            <div class="panel" style="border-color:#bd4b9b;">
+                                <div class="panel-heading" style="font-size:16px; font-weight:bold;background-color:#bd4b9b;color:#fff;">About Me</div>
+                                <div class="panel-body" style="padding:10px;">
+                                    <span class="mptext">@Html.Raw(item.MyProfile)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modals fade1" id="myModal" @*role="dialog"*@ style="font-family:Arial">
+                <div class="modal-dialog modal-lg">
+                    <form method="post" action="@Url.Content("../Article/MyAccountUpdate")" enctype="multipart/form-data">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button id="btnClose" onclick="ShowPreview()" type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">My Account</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="col-md-4">
+                                    <label for="username">Name<span>*</span></label>
+                                    <input type="text" name="FullName" required value="@item.FullName" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="username">Gender<span>*</span></label>
+                                    <select name="gender">
+                                        <option @(item.Gender == "Male" ? "selected" : "") value="Male">Male</option>
+                                        <option @(item.Gender == "Female" ? "selected" : "") value="Female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="username">Country<span>*</span></label>
+                                    <select name="CountryId" id="CountryId">
+                                        @foreach (var con in ViewBag.Countries)
+                                        {
+                                            <option @(item.CountryId == con.CountryId ? "selected" : "") value="@con.CountryId">@con.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="username">Mobile<span>*</span></label>
+                                    <input type="number" name="Mobile" id="Mobile" value="@item.Mobile" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="email-address">Email Address<span>*</span></label>
+                                    <input type="email" name="Email" required value="@item.Email" />
+                                </div>
+                                @*<div class="col-md-4">
+                                    <label for="email-address">Password<span>*</span></label>
+                                    <input type="text" name="Password" required value="@item.Password" />
+                                </div>*@
+
+                                <br style="clear:both" />
+                                <br style="clear:both" />
+                                <div class="col-md-12">
+                                    <label for="email-address">Profile<span>*</span></label>
+                                    <textarea name="MyProfile" class="addtextarea">@item.MyProfile</textarea>
+                                </div>
+
+
+                                <br style="clear:both" />
+
+                                <input type="hidden" name="Follows" value="@item.Follows" />
+                                <input type="hidden" name="Register" value="@item.Register" />
+
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">SAVE</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal fade" id="picModal" role="dialog" style="font-family:Arial">
+                <div class="modal-dialog modal-lg">
+                    <form method="post" action="@Url.Content(" ../Article/UpdateProfilePicture")" enctype="multipart/form-data">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Profile Picture</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="col-md-6">
+                                    <label for="email-address">Profile Pic<span>*</span></label>
+                                    <input type="file" name="file" id="file" class="form-control hidden-xs" placeholder="choose profile picture" @(item.ProfileImage == null || item.ProfileImage == "" ? "required" : "")
+                                           onchange="showimgpreview();document.getElementById('previewimg').src = window.URL.createObjectURL(this.files[0]);" /><br />
+
+                                    <label for="file" class="hidden-lg" style="background-color:#de1a22;color:white;padding:10px 20px"><i class="fa fa-upload"></i> Choose profile picture</label>
+
+                                    <p style="color:#666666; font-size:12px;">Image size should be less than 2MB</p>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <input type="hidden" name="filewithpath" value="@item.ProfileImage" />
+                                    <img id="previewimg" height="60" />
+
+                                    <script>
+                                        $('#file').bind('change', function () {
+
+                                            var extension = $('#file').val().split('.').pop().toLowerCase();
+                                            if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                                                alert('Only .jpg, .jpeg, .png, .gif are allowed');
+                                                $('#file').val("");
+                                                return false;
+                                            }
+
+                                        });
+
+                                    </script>
+
+                                    <script>
+                                        $("#previewimg").hide();
+                                        function showimgpreview() {
+                                            $("#previewimg").show();
+                                        }
+                                    </script>
+                                </div>
+                                <br style="clear:both" />
+                                <br style="clear:both" />
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">SAVE</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+            <div class="modal fade" id="modalChangePassword" role="dialog" style="font-family:Arial">
+                <div class="modal-dialog">
+                    <form method="post" id="frmChangePassword">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Change Password </h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="col-xs-12" style="padding:0px;">
+                                    <label for="currentPassword">Current Password<span>*</span></label>
+                                    <input type="password" class="form-control" name="currentPassword" id="currentPassword" required value="" />
+                                </div>
+                                <br style="clear:both" />
+                                <br style="clear:both" />
+                                <div class="col-xs-12" style="padding:0px;">
+                                    <label for="password ">Password<span>*</span></label>
+                                    <input type="password" class="form-control" name="password" id="password" pattern=".{5,10}" required title="5 to 10 characters" />
+                                </div>
+                                <br style="clear:both" />
+                                <br style="clear:both" />
+                                <div class="col-xs-12" style="padding:0px;">
+                                    <label for="password-con">Confirm Password<span>*</span></label>
+                                    <input type="password" class="form-control" name="confirm_password" id="confirm_password" required />
+                                </div>
+
+
+                                <div class="col-xs-12">
+                                    <input type="hidden" name="cHPassword" id="cHPassword" required value="@item.Password" />
+                                    <input type="hidden" id="userId" name="userId" value="@item.UserId" />
+                                </div>
+
+                                <br style="clear:both" />
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button id="btnChangePassword" type="submit" class="btn btn-danger">SAVE</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+        }
+
+    </div>
+    <div class="panel-footer" style="background-color:#bd4b9b;">
+
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#myModal").hide();
+
+
+    });
+
+
+                $("#frmChangePassword").submit(function (e) {
+            e.preventDefault();
+
+            var formdata = new FormData(this);
+
+
+            if ($("#password").val() != $("#confirm_password").val()) {
+                alert('Password Mismatch');
+
+                return false;
+            }
+
+            //var c =$("#currentPassword").val();
+            //var old= $("#cHPassword").val()
+            if ($("#currentPassword").val() != $("#cHPassword").val()) {
+                alert('Incorrect old password');
+
+                return false;
+            }
+
+            $.ajax({
+                            method: "POST",
+                            url: "@Url.Content("~/Article/ChangePassword")",
+                            data: formdata,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function (data) {
+                            if(data.success == true){
+                                alert("You have successfully change your password...");
+                                window.location.reload();
+                            }
+                            else
+                            {
+                                alert("500 (Internal Server Error)");
+                            }
+                        }
+                        });
+
+        });
+
+
+
+    function ShowEdit() {
+        $("#myModal").show();
+        $("#profileView").hide();
+    }
+    function ShowPreview() {
+        $("#myModal").hide();
+        $("#profileView").show();
+    }
+
+</script>
+
+

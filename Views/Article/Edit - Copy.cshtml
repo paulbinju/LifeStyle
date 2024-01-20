@@ -1,0 +1,1050 @@
+﻿@model LifestyleBeta.Models.tblArticle
+
+@{
+    ViewBag.Title = "Edit";
+    
+}
+
+<style>
+    /*.blockquotex {background: #f9f9f9; border-left: 10px solid #ccc; margin: 1.5em 10px; padding: 0.5em 10px;  quotes: "\201C""\201D""\2018""\2019";  }
+
+        .blockquotex:before {
+            color: #ccc;
+            content: open-quote;
+            font-size: 4em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            vertical-align: -0.4em;
+        }
+
+        .blockquotex p {
+            display: inline;
+        }*/
+
+    .blockquotex {
+    
+    color:red;
+    }
+
+</style>
+
+
+
+<script src="~/Scripts/tinymce/tinymce.js"></script>
+<script>
+    tinymce.init({
+        selector: '.maintextarea',
+        height: 500,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount',
+            'code'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor forecolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link | blockquote | code',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Hind Siliguri:300,300i,400,400i',
+            '//www.tiny.cloud/css/codepen.min.css'
+        ]
+    });
+
+
+    tinymce.init({
+        selector: '.addtextarea',
+        height: 300,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor forecolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link | blockquote',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tiny.cloud/css/codepen.min.css'
+        ]
+    });
+</script>
+
+<br style="clear:both" />
+<br style="clear:both" />
+<section class="main-section" style="font-family:Arial;margin-top:280px;">
+    <div class="container sub-sections" id="option1">
+        @if (ViewBag.UserId != 0)
+        {
+            <table cellpadding="10" cellspacing="10" class="pull-right" style="margin-right:15px;">
+                <tr>
+                    <td><input type="submit" value="SAVE AS DRAFT" class="btn btn-primary" formmethod="post" formaction="@Url.Content("~/Article/EditD")" /></td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><input type="submit" value="SAVE & SUBMIT FOR APPROVAL" class="btn btn-warning" formmethod="post" formaction="@Url.Content("~/Article/EditA")" /></td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><a type="button" class="btn btn-info" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"")" target="_blank">PREVIEW</a></td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <table cellpadding="10" cellspacing="10" class="pull-right" style="margin-right:15px;">
+                <tr>
+                    <td><input type="submit" value="UPDATE" class="btn btn-warning" formmethod="post" formaction="@Url.Content("~/Article/EditA")" /></td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><input type="submit" value="PUBLISH" class="btn btn-success" formmethod="post" formaction="@Url.Content("~/Article/Publish")" /></td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><input type="submit" value="REJECT" class="btn btn-danger" data-toggle="modal" data-target="#ModalAddNote" /></td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><a type="button" class="btn btn-info" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"")" target="_blank">PREVIEW</a></td>
+                </tr>
+            </table>
+        }
+
+        
+        <br />
+        <br />
+
+        <form>
+
+
+            <div class="col-md-12">
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ArticleId)
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <b>Category</b><br style="clear:both" />
+                            <select class="form-control" name="CategoryId" required>
+                                <option value="">Select</option>
+                                @foreach (var cat in ViewBag.Category)
+                                {
+                                    <option @(cat.CategoryId == Model.CategoryId ? "selected" : "") value="@cat.CategoryId">@cat.CategoryName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <br style="clear:both;" />
+                            <b>Created On:</b>@Model.Created<br />
+                            <b>Updated On:</b>@Model.Updated<br />
+                        </div>
+                        <div class="pull-right" style="margin-right:15px;">
+                            <br style="clear:both;" />
+                            @if (Model.Status.Trim() == "C")
+                            {
+                                <span class="badge badge-info">Draft</span>
+                            }
+                            else if (Model.Status.Trim() == "D")
+                            {
+                                <span class="badge badge-info">Draft</span>
+                            }
+                            else if (Model.Status.Trim() == "A")
+                            {
+                                <span class="badge" style="background-color:orange">Waiting for Approval</span>
+                            }
+                            else if (Model.Status.Trim() == "P")
+                            {
+                                <span class="badge" style="background-color:green">Published</span>
+                            }
+                            else if (Model.Status.Trim() == "R")
+                            {
+                                <span class="badge" style="background-color:red">Rejected</span>
+                            }
+                        </div>
+
+
+                    </div>
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Title</b><br style="clear:both;" />
+                            <input type="text" name="Title" class="form-control" value="@Model.Title" />
+                        </div>
+                    </div>
+
+          
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <b>Cover Pic</b><br style="clear:both" />
+                    <div class="col-md-3">
+                        @if (Model.CoverImage != null && Model.CoverImage != "")
+                        {
+
+                            <div class="pull-right" style="width:15px;margin:10px 10px 0 0"><i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalCoverPic"></i></div>
+
+                            <div class="row" style="height:200px;overflow:hidden;clear:both;padding:0 10px;">
+                                <img style="" class="img-responsive" src="@Url.Content(Model.CoverImage)" />
+
+                            </div>
+                            <p>
+                                @Model.Caption
+                            </p>
+                            <br style="clear:both" />
+                        }
+                        else
+                        {
+                            <table class="col-md-12 text-center" style="height:225px;background-color:#f0f0f0">
+                                <tr>
+                                    <td style="vertical-align:middle;text-align:center">
+                                        <i style="font-size:25px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalCoverPic" class="fa fa-photo"></i>
+                                        <br />
+                                        <br />
+                                        Click here to<br /><a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalCoverPic">upload Cover Image from computer</a>
+                                        <br />
+
+
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        }
+                         
+                    </div>
+                     <br style="clear:both" />
+                    <b>Slider Pics</b><br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="col-md-3">
+                        @if (Model.ArticleImage1 != null && Model.ArticleImage1 != "")
+                        {
+
+                            <div class="pull-right" style="width:15px;margin:10px 10px 0 0"><i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalArticle1Pic"></i></div>
+                            <div class="row" style="height:200px;overflow:hidden;clear:both;padding:0 10px;">
+                                <img style="" class="img-responsive" src="@Url.Content(Model.ArticleImage1)" />
+
+                            </div><p>
+                                @Model.Caption1
+                            </p>
+                            <br style="clear:both" />
+                        }
+                        else
+                        {
+                            <table class="col-md-12 text-center" style="height:225px;background-color:#f0f0f0">
+                                <tr>
+                                    <td style="vertical-align:middle;text-align:center">
+                                        <i style="font-size:25px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalArticle1Pic" class="fa fa-photo"></i>
+                                        <br />
+                                        <br />
+                                        Click here to<br /><a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalArticle1Pic">upload Slider pic from computer</a>
+                                        <br />
+
+
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+                        }
+                        <br style="clear:both" />
+                        <br style="clear:both" />
+                    </div>
+
+                    <div class="col-md-3">
+                        @if (Model.ArticleImage2 != null && Model.ArticleImage2 != "")
+                        {
+
+                            <div class="pull-right" style="width:15px;margin:10px 10px 0 0"><i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalArticle2Pic"></i></div>
+                            <div style="height:200px;overflow:hidden;clear:both;padding:0 10px;">
+                                <img style="" class="img-responsive" src="@Url.Content(Model.ArticleImage2)" />
+
+                            </div><p>
+                                @Model.Caption2
+                            </p>
+                            <br style="clear:both" />
+                        }
+                        else
+                        {
+                            <table class="col-md-12 text-center" style="height:225px;background-color:#f0f0f0">
+                                <tr>
+                                    <td style="vertical-align:middle;text-align:center">
+                                        <i style="font-size:25px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalArticle2Pic" class="fa fa-photo"></i>
+                                        <br />
+                                        <br />
+                                        Click here to<br /><a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalArticle2Pic">upload Slider pic from computer</a>
+                                        <br />
+
+
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+                        }
+                        <br style="clear:both" />
+                        <br style="clear:both" />
+                    </div>
+
+
+                    <div class="col-md-3">
+                        @if (Model.ArticleImage3 != null && Model.ArticleImage3 != "")
+                        {
+
+                            <div class="pull-right" style="width:15px;margin:10px 10px 0 0"><i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalArticle3Pic"></i></div>
+                            <div class="row" style="height:200px;overflow:hidden;clear:both;padding:0 10px;">
+                                <img style="" class="img-responsive" src="@Url.Content(Model.ArticleImage3)" />
+
+                            </div> <p>
+                                @Model.Caption3
+                            </p>
+                            <br style="clear:both" />
+                        }
+                        else
+                        {
+                            <table class="col-md-12 text-center" style="height:225px;background-color:#f0f0f0">
+                                <tr>
+                                    <td style="vertical-align:middle;text-align:center">
+                                        <i style="font-size:25px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalArticle3Pic" class="fa fa-photo"></i>
+                                        <br />
+                                        <br />
+                                        Click here to<br /><a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalArticle3Pic">upload Slider pic from computer</a>
+                                        <br />
+
+
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+                        }
+
+                    </div>
+
+
+
+
+
+
+                    @if (Model.YoutubeVideoURL != null && Model.YoutubeVideoURL != "")
+                    {
+                        <hr />
+                        <br style="clear:both" />
+
+                        <div class="pull-right" style="width:15px;margin:10px 10px 0 0"><i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalYoutubeVideo"></i></div>
+                        <iframe width="1140" height="640" src="https://www.youtube.com/embed/@Model.YoutubeVideoURL" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <br style="clear:both" />
+
+                    }
+                    else
+                    {
+                        <table class="text-center" style="height:200px;background-color:#f0f0f0;width:100%">
+                            <tr>
+                                <td style="vertical-align:middle;text-align:center">
+                                    <i style="font-size:50px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalYoutubeVideo" class="fa fa-youtube"></i>
+                                    <br />
+                                    <br />
+                                    Click here to<br /><a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalYoutubeVideo">Upload Youtube Video</a>
+                                    <br />
+
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+
+                    }
+
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12"><b>Quote</b></div>
+                        <div class="col-md-12">
+                            <textarea name="Quote" rows="3" class="form-control">@Model.Quote</textarea>
+                        </div>
+                    </div>
+
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12"><b>Article</b></div>
+                        <div class="col-md-12">
+                            <textarea name="ArticleText" rows="20" class="form-control maintextarea">@Model.ArticleText</textarea>
+                        </div>
+                    </div>
+                    <br style="clear:both" /> <br style="clear:both" />
+                    <hr />
+
+
+                    @foreach (var subart in ViewBag.SubArticles)
+                    {
+
+
+                        <div class="col-md-4">
+                            <div class="pull-right" style="width:15px;margin:10px 10px 0 0"><i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalEditAddArticle-@subart.AdditionalArticleId"></i></div>
+
+                            @if (subart.Title != null && subart.Title != "")
+                            {
+                                <h1>@subart.Title</h1>
+                            }
+                            @if (subart.ArticleImage != null && subart.ArticleImage != "")
+                            {
+                                <br style="clear:both" />
+                                <div style="height:197px;overflow:hidden"><img style="width:100%" src="@Url.Content(subart.ArticleImage)" /></div>
+                                <div style="background-color:black;color:white;text-align:center;padding:10px 25px;">@subart.Caption</div>
+                                <br style="clear:both" /><br style="clear:both" />
+                            }
+                            @if (subart.Quote != null && subart.Quote != "")
+                            {
+                                <div class="col-md-12" style="background-color:#f0f0f0;padding:10px 20px;">
+                                    <i class="fa fa-quote-left"></i> <b>@subart.Quote</b> <i class="fa fa-quote-right"></i>
+                                </div>
+                            }
+                            @if (subart.YoutubeVideoURL != null && subart.YoutubeVideoURL != "")
+                            {
+                                <br style="clear:both" />
+                                <br style="clear:both" />
+                                <iframe width="730" height="450" src="https://www.youtube.com/embed/@subart.YoutubeVideoURL" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            }
+                            @if (subart.ArticleText != null && subart.ArticleText != "")
+                            {
+                                <br style="clear:both" />
+                                <p>
+                                    @Html.Raw(subart.ArticleText)
+                                </p>
+
+
+                            }
+                        </div>
+
+
+
+                        <div class="modal fade" id="ModalEditAddArticle-@subart.AdditionalArticleId" role="dialog" style="z-index:109999;font-family:Arial">
+                            <div class="modal-dialog modal-lg">
+                                <form method="post" action="@Url.Content("../../Article/EditAdditionalArticle")" enctype="multipart/form-data">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Edit Article Template</h4>
+                                        </div>
+
+                                        <div class="modal-body">
+
+                                            <input type="hidden" value="@Model.ArticleId" name="addArticleId" />
+                                            <input type="hidden" value="@subart.AdditionalArticleId" name="AdditionalArticleId" />
+
+
+                                            @*<div class="form-group">
+                                    <div class="col-md-12">
+                                        <b>Title</b><br style="clear:both;" />
+                                        <input type="text" name="addTitle" class="form-control" required value="@subart.Title" />
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <b>Youtube Video URL</b>  <span style="color:gray">Eg:  https://www.youtube.com/watch?v=qTy320CMO74</span>
+                                        @if (subart.YoutubeVideoURL != "" && subart.YoutubeVideoURL != null)
+                                        {
+                                            <input type="text" name="addYoutubeVideoURL" class="form-control" value="https://www.youtube.com/watch?v=@subart.YoutubeVideoURL" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" name="addYoutubeVideoURL" class="form-control" />
+
+                                        }
+                                    </div>
+                                </div>*@
+
+
+                                            <div class="form-group">
+                                                <div class="col-md-6">
+                                                    <b>Article Image</b><br style="clear:both;" />
+                                                    <input type="file" name="addfile" class="form-control" />
+                                                    <input type="hidden" name="addArticleImage" value="@subart.ArticleImage" />
+                                                </div>
+
+                                                <br style="clear:both" />
+                                                <br style="clear:both" />
+
+                                                <div class="col-md-12">
+                                                    <b>Caption</b> <br style="clear:both;" />
+
+                                                    <input type="text" name="addcaption" class="form-control" value="@subart.Caption" />
+                                                </div>
+
+                                            </div>
+
+                                            @*<div class="form-group">
+                                    <div class="col-md-12">
+                                        <b>Quote</b><br style="clear:both;" />
+                                        <textarea name="addQuote" class="form-control" rows="2">@subart.Quote</textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12"><b>Article</b></div>
+                                    <div class="col-md-12">
+                                        <textarea name="addArticleText" class="form-control addtextarea">@subart.ArticleText</textarea>
+                                    </div>
+                                </div>*@
+                                        </div>
+
+
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-info">SAVE</button>
+                                            <button type="button" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)" class="btn btn-danger pull-left">DELETE</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                    }
+
+
+                    <div class="col-md-4 ">
+
+                        <table class="text-center" style="background-color: #f0f0f0;height: 238px;width: 100%;margin-top: 33px;">
+                            <tr>
+                                <td style="vertical-align:middle;text-align:center">
+                                    <i style="font-size:25px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalAddArticle" class="fa fa-photo"></i>
+                                    <br />
+                                    <br />
+                                    Click here to<br /><a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalAddArticle">add More Images with Caption</a>
+                                    <br />
+
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        @if (ViewBag.UserId != 0)
+                        {
+                            <table cellpadding="10" cellspacing="10" class="pull-right" style="margin-right:15px;">
+                                <tr>
+                                    <td><input type="submit" value="SAVE AS DRAFT" class="btn btn-primary" formmethod="post" formaction="@Url.Content("~/Article/EditD")" /></td>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                    <td><input type="submit" value="SAVE & SUBMIT FOR APPROVAL" class="btn btn-warning" formmethod="post" formaction="@Url.Content("~/Article/EditA")" /></td>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                    <td><a type="button" class="btn btn-info" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"")" target="_blank">PREVIEW</a></td>
+                                </tr>
+                            </table>
+                        }
+                        else
+                        {
+                            <table cellpadding="10" cellspacing="10" class="pull-right" style="margin-right:15px;">
+                                <tr>
+                                    <td><input type="submit" value="UPDATE" class="btn btn-warning" formmethod="post" formaction="@Url.Content("~/Article/EditA")" /></td>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                    <td><input type="submit" value="PUBLISH" class="btn btn-success" formmethod="post" formaction="@Url.Content("~/Article/Publish")" /></td>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                    <td><input type="submit" value="REJECT" class="btn btn-danger" data-toggle="modal" data-target="#ModalAddNote" /></td>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                    <td><a type="button" class="btn btn-info" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"")" target="_blank">PREVIEW</a></td>
+                                </tr>
+                            </table>
+                        }
+                    </div>
+                    <br style="clear:both" />
+
+
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</section>
+ 
+
+<div class="modal fade" id="ModalAddNote" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/Reject")" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Reject Article</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Rejection Reason</b><br style="clear:both;" />
+                            <textarea rows="3" type="text" name="Note" class="form-control" required></textarea>
+                        </div>
+                    </div>
+
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">SAVE</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalAddArticle" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/AdditionalArticle")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add More Images with Caption</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+                    @*<br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Title</b><br style="clear:both;" />
+                            <input type="text" name="Title" class="form-control" required />
+                        </div>
+                    </div>*@
+
+                    @*<br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Youtube Video URL</b>  <span style="color:gray">Eg:  https://www.youtube.com/watch?v=qTy320CMO74</span>
+                            <input type="text" name="YoutubeVideoURL" class="form-control" required />
+                        </div>
+                    </div>*@
+                    
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <b>Article Image</b><br style="clear:both;" />
+                            <input type="file" name="file" class="form-control" />
+                        </div>
+
+                        <br style="clear:both" />
+                        <br style="clear:both" />
+
+
+                        <div class="col-md-12">
+                            <b>Caption</b> <br style="clear:both;" />
+
+                            <input type="text" name="caption" class="form-control" />
+                        </div>
+
+                    </div>
+                    @*<br style="clear:both" /><br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Quote</b><br style="clear:both;" />
+                            <textarea name="Quote" class="form-control" rows="2"></textarea>
+                        </div>
+                    </div>*@
+                     
+
+                    @*<div class="form-group">
+                        <div class="col-md-12"><b>Article</b></div>
+                        <div class="col-md-12">
+                            <textarea name="ArticleText" class="form-control addtextarea"></textarea>
+                        </div>
+                    </div>*@
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalCoverPic" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/CreateArticlePic")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Cover Image</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+                    <input type="hidden" value="0" name="pictypeid" />
+
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Select Cover Image</b></div>
+                            <div class="col-md-12">
+                                <input type="file" id="coverpic" name="file" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Caption</b></div>
+                            <div class="col-md-12">
+                                <input type="text" name="caption" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">SAVE</button>
+                    <button type="button" onclick="DeletePic(0,@Model.ArticleId)" class="btn btn-danger pull-left">DELETE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalArticle1Pic" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/CreateArticlePic")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Article Image</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+                    <input type="hidden" value="1" name="pictypeid" />
+
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Select Article Image</b></div>
+                            <div class="col-md-12">
+                                <input type="file" name="file" id="artpic1" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Caption</b></div>
+                            <div class="col-md-12">
+                                <input type="text" name="caption" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">SAVE</button>
+                    <button type="button" onclick="DeletePic(1,@Model.ArticleId)" class="btn btn-danger pull-left">DELETE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalArticle2Pic" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/CreateArticlePic")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Article Image</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+                    <input type="hidden" value="2" name="pictypeid" />
+
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Select Article Image</b></div>
+                            <div class="col-md-12">
+                                <input type="file" name="file" id="artpic2" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Caption</b></div>
+                            <div class="col-md-12">
+                                <input type="text" name="caption" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">SAVE</button>
+                    <button type="button" onclick="DeletePic(2,@Model.ArticleId)" class="btn btn-danger pull-left">DELETE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalArticle3Pic" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/CreateArticlePic")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Article Image</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+                    <input type="hidden" value="3" name="pictypeid" />
+
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Select Article Image</b></div>
+                            <div class="col-md-12">
+                                <input type="file" name="file" id="artpic3" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Caption</b></div>
+                            <div class="col-md-12">
+                                <input type="text" name="caption" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">SAVE</button>
+                    <button type="button" onclick="DeletePic(3,@Model.ArticleId)" class="btn btn-danger pull-left">DELETE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalYoutubeVideo" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/CreateArticleVideo")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Youtube Video URL</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12">
+                                <b>Youtube Video URL</b>
+                                <br /><span style="color:gray">Eg:  https://www.youtube.com/watch?v=qTy320CMO74</span>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" name="YoutubeVideoURL" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">SAVE</button>
+                    <button type="button" onclick="DeleteVideo(@Model.ArticleId)" class="btn btn-danger pull-left">DELETE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#frmcompanycontactedit").submit(function (e) {
+            e.preventDefault();
+            var formdata = new FormData(this);
+            $.ajax({
+                method: "POST",
+                url: "@Url.Content("~/CompanyContactEdit")",
+                data: formdata,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    window.location.href = "@Url.Content("~/Recruiter")";
+                },
+                error: function () {
+
+                }
+            });
+        });
+    });
+
+
+
+
+    function DeleteSubArt(AdditionalArticleId,ArticleId) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteSubArt/")" + AdditionalArticleId,
+                success: function (data) {
+
+                    window.location.href = "@Url.Content("~/Article/Edit/")" + ArticleId;
+                },
+                error: function () {
+
+                }
+            });
+        }
+    }
+
+    function DeletePic(pictypeid, ArticleId) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeletePic/")" + pictypeid + "/" + ArticleId,
+                success: function (data) {
+
+                    window.location.href = "@Url.Content("~/Article/Edit/")" + ArticleId;
+                },
+                error: function () {
+
+                }
+            });
+        }
+    }
+
+    function DeleteVideo(ArticleId) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteVideo/")" + ArticleId,
+                success: function (data) {
+
+                    window.location.href = "@Url.Content("~/Article/Edit/")" + ArticleId;
+                },
+                error: function () {
+
+                }
+            });
+        }
+    }
+
+
+
+    $('#coverpic').bind('change', function () {
+
+        var extension = $('#coverpic').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#coverpic').val("");
+            return false;
+        }
+
+        if (this.files[0].size > 1500000) {
+            alert('File size is too big, attach a smaller file (less than 2mb) !');
+            $('#coverpic').val("");
+        }
+    });
+
+
+    $('#artpic1').bind('change', function () {
+
+        var extension = $('#artpic1').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#artpic1').val("");
+            return false;
+        }
+
+        if (this.files[0].size > 1500000) {
+            alert('File size is too big, attach a smaller file (less than 2mb) !');
+            $('#artpic1').val("");
+        }
+    });
+
+    $('#artpic2').bind('change', function () {
+
+        var extension = $('#artpic2').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#artpic2').val("");
+            return false;
+        }
+
+        if (this.files[0].size > 1500000) {
+            alert('File size is too big, attach a smaller file (less than 2mb) !');
+            $('#artpic2').val("");
+        }
+    });
+
+    $('#artpic3').bind('change', function () {
+
+        var extension = $('#artpic3').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#artpic3').val("");
+            return false;
+        }
+
+        if (this.files[0].size > 1500000) {
+            alert('File size is too big, attach a smaller file (less than 2mb) !');
+            $('#artpic3').val("");
+        }
+    });
+</script>

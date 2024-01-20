@@ -1,0 +1,448 @@
+﻿<style>
+    .white-popup {
+        position: relative;
+        padding: 30px;
+        width: auto;
+        max-width: 700px;
+        margin: 20px auto;
+        background: #FFF;
+    }
+
+    /*input[type="text"], input[type="email"], input[type="number"], select {
+        display: block;
+        margin: 0 0 17px;
+        color: #666666;
+        font-size: 13px;
+        font-family: 'Lato', sans-serif;
+        width: 100%;
+        border: 1px solid #e1e1e1;
+        background: #fafafa;
+        outline: none;
+        padding: 10px 6px !important;
+        border-radius: 0px;
+    }*/
+    .form-control {
+         
+        background: #fff;
+        outline: none;
+        padding: 5px 6px !important;
+        border-radius: 3px;
+        height:34px;
+    }
+
+</style>
+
+<form id="loginform" class="login-form" method="post">
+
+
+    <div class="title-section">
+        <h1><span>Login</span></h1>
+    </div>
+    <h6>Welcome! Login to your account</h6>
+
+
+
+    <div class="form-group row">
+        <div class="col">
+            <label for="email">Email</label>
+            <input class="form-control" name="email" id="email" type="text">
+        </div>
+
+        <div class="col">
+            <label for="password">Password</label>
+            <input class="form-control" name="password" id="password" type="password">
+        </div>
+
+        <div class="col pull-left">
+            <label><input type="checkbox" name="remember" checked class="pull-left"> Remember me</label>
+        </div>
+
+        <div class="col pull-right">
+            <button type="submit" id="submit-login">
+                <i class="fa fa-arrow-circle-right"></i>Login
+            </button>
+        </div>
+
+    </div>
+    <br style="clear:both" />
+    <br style="clear:both" />
+
+    @*<div class="row">
+            <div class="col-md-6 col-xs-6">
+                <div class="pull-right">
+                    <button type="button" id="googlelogin" class="btn btn-danger">
+                        <i class="fa fa-google-plus"></i>&nbsp;&nbsp;&nbsp;Login with Google
+                    </button>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <div class="pull-left">
+                    <button type="button" id="fblogin" class="btn btn-info">
+                        <i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;Login with Facebook
+                    </button>
+                </div>
+
+            </div>
+        </div>*@
+
+    @*old Loginform*@
+
+    @*@Html.Label("Email address")
+        <input type="text" name="email" id="emailx" />
+        @Html.Label("Password")
+        <input type="password" name="password" id="password" />
+        <table>
+            <tr><td><input type="checkbox" name="remember" checked /></td><td style="padding-top:8px">  Remember me</td></tr>
+        </table>
+        <br style="clear:both" />
+        <button type="submit" id="submit-login">
+            <i class="fa fa-arrow-circle-right"></i>Login
+        </button>*@
+
+
+    @*<div style="float:right;margin-left:20px;">
+            <button type="button" id="googlelogin" class="btn btn-danger">
+                <i class="fa fa-google-plus"></i>&nbsp;&nbsp;&nbsp;Login with Google
+            </button>
+        </div>
+        <div style="float:right;margin-left:20px;">
+            <button type="button" id="fblogin" class="btn btn-info">
+                <i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;Login with Facebook
+            </button>
+        </div>*@
+    <span style="color:red" id="response"></span><br style="clear:both" /><br style="clear:both" />
+    <div class="row">
+        <div class="col-md-5 col-xs-5">
+            <p class="pull-left">Lost your <a class="lost-password" href="#" style="color:#ff0000;">password?</a></p>
+        </div>
+        <div class="col-md-7 col-xs-7 text-right">
+            <p class="pull-right"><div class="register-line">Don't have an account? <a href="#" style="color:#ff0000;">Register</a></div></p>
+        </div>
+    </div>
+    @*<div class="text-left" style="float:left">Lost your <a class="lost-password" href="#" style="color:#ff0000;">password?</a></div>
+        <div class="text-right" style="float:right"><div class="register-line">Don't have an account? <a href="#" style="color:#ff0000;">Register</a></div></div>*@
+</form>
+
+<form class="lost-password-form" id="pwreset">
+    <div class="title-section">
+        <h1><span>Lost Password</span></h1>
+    </div>
+    <div class="col-md-6">
+        <label for="username">Type your email address<span>*</span></label>
+        <input type="email" name="emailost" id="emailost" required class="form-control" />
+    </div>
+    <div class="col-md-6" style="padding-top:30px">
+        
+        <button type="submit" id="submit-login2">
+            <i class="fa fa-arrow-circle-right"></i>Submit
+        </button>
+    </div>
+    
+    <br style="clear:both" /><br style="clear:both" />
+<div class="col-md-12 text-right"> <div class="login-line">Back to <a href="#" style="color:#ff0000;">Login</a></div></div>
+</form>
+
+
+<form id="regform" class="register-form" method="post">
+    <div class="title-section">
+        <h1><span>Register</span></h1>
+    </div>
+    <div class="col-md-6">
+        <label for="username">First name<span>*</span></label>
+        <input class="form-control" type="text" name="name" required />
+    </div>
+    <div class="col-md-6">
+        <label for="username">Last name<span>*</span></label>
+        <input class="form-control" type="text" name="name2" required />
+    </div>
+
+    @*<div class="col-sm-4">
+
+            <label class="pull-left">Gender <span class="mandatory">*</span></label>
+            <select class="form-control searchableselect col-md-12" id="gender" name="gender" placeholder="Select" required oninvalid="this.setCustomValidity('Country is mandatory')" onchange="setCustomValidity('')">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+
+        </div>
+        <br style="clear:both" />*@
+
+    <div class="col-md-6">
+
+        <label class="pull-left">Country <span class="mandatory">*</span></label>
+        <select class="form-control col-md-12" id="CountryID" name="CountryID" placeholder="Select" onchange="updatecountrycode()" required>
+            <option value="">Select</option>
+            @foreach (var con in ViewBag.Countries)
+            {
+                <option value="@con.CountryId">@con.Name</option>
+            }
+        </select>
+
+
+    </div>
+    <div class="col-md-2">
+        <label for="username">Code<span>*</span></label>
+        <input type="text" class="form-control" name="isd" id="isd" value="00973" required />
+    </div>
+    <div class="col-md-4">
+        <label for="username">Mobile<span>*</span></label>
+        <input type="text" class="form-control" name="mobile" id="mobile" maxlength="15" pattern="\d*" title="Only digits" required />
+    </div>
+    <div class="col-md-12">
+        <label for="email-address">Email Address<span>*</span></label>
+
+        <input type="email" class="form-control" name="EmailID" id="EmailID" required />
+    </div>
+    <div class="col-md-6">
+        <label for="password">Password<span>*</span></label>
+        <input type="password" class="form-control" name="password" id="password2" pattern=".{5,10}" required title="5 to 10 characters" />
+    </div>
+    <div class="col-md-6">
+        <label for="password-con">Confirm Password<span>*</span></label>
+        <input type="password" class="form-control" name="confirm_password" id="confirm_password" />
+    </div>
+
+    <div class="col-md-6">
+        <input type="checkbox" required /> I agree to <a style="color:red" href="@Url.Content("~/EULATerms")">EULA</a> terms and conditions.
+    </div>
+    <br />
+    <div class="col-md-6">
+        <button type="submit" id="submit-register">
+            <i class="fa fa-arrow-circle-right"></i>Register
+        </button>
+    </div>
+
+    <div class="col-md-12 text-right">
+        <div class="login-line">Back to <a href="#" style="color:#ff0000;">Login</a></div>
+    </div>
+
+
+</form>
+
+
+<input type="hidden" value="@ViewBag.CountryISD" id="CountryISD" />
+
+
+
+<script>
+
+    function showForm(val) {
+        if (val == 1) {
+            $('form.lost-password-form').slideUp(400);
+            $('form.register-form').slideUp(400);
+            $('form.login-form').slideDown(400);
+        }
+        else if (val == 2) {
+            $('form.login-form').slideUp(400);
+            $('form.lost-password-form').slideUp(400);
+            $('form.register-form').slideDown(400);
+        }
+        else if (val == 3) {
+            $('form.login-form').slideUp(400);
+            $('form.register-form').slideUp(400);
+            $('form.lost-password-form').slideDown(400);
+        }
+        else if (val == 4) {
+            $('form.lost-password-form').slideUp(400);
+            $('form.register-form').slideUp(400);
+            $('form.login-form').slideDown(400);
+        }
+
+
+        }
+
+
+
+    function updatecountrycode() {
+
+        var jsnval = jQuery.parseJSON($("#CountryISD").val());
+
+        $.each(jsnval, function (bb) {
+            if ($("#CountryID").val() == jsnval[bb].CountryId) {
+                $("#isd").val('' + jsnval[bb].ISD + '');
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+
+
+        $("#googlelogin").click(function () {
+            window.location.href = '/api/Account/ExternalLogin?provider=Google&response_type=token&client_id=self&redirect_uri=http%3A%2F%2Flocalhost%3A49990%2Fsignin-google%2F&state=3lKTlEYjhXslapCNanEp7tk9UxAZYOARCYOzTyBX1V81';
+        });
+
+
+
+        $("#pwreset").submit(function (e) {
+            e.preventDefault();
+            var formdata = new FormData(this);
+            $.ajax({
+                method: "POST",
+                url: "@Url.Content("~/Article/LostPassword")",
+                data: formdata,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    alert('Please check your email!');
+                    window.location.href = '@Url.Content("~/")';
+                },
+                error: function () {
+                    alert("Couldn't find your email in the system, try register!");
+                }
+
+            });
+        });
+
+
+
+
+
+        $("#regform").submit(function (e) {
+            e.preventDefault();
+
+            var formdata = new FormData(this);
+
+
+            if ($("#password2").val() != $("#confirm_password").val()) {
+                alert('Password Mismatch');
+
+                return false;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "@Url.Content("~/Article/EmailCheckerUser")",
+                data: { EmailID: $('#EmailID').val() },
+                success: function (data) {
+                    if (data == "YES") {
+                        alert("Email ID already exists! Try lost password");
+                        window.location.href = '@Url.Content("~/Article/Login")';
+                        return false;
+                    }
+                    else {
+                        $.ajax({
+                            method: "POST",
+                            url: "@Url.Content("~/Article/Register")",
+                            data: formdata,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function (data) {
+
+                                window.location.href = '@Url.Content("~/Article/RegSuccess")';
+                            }
+                        });
+
+                    }
+                }
+            });
+
+        });
+
+
+
+
+        if ($("#emailx").val() == "admin") {
+
+            $.ajax({
+                method: "POST",
+                url: "@Url.Content("~/Article/AdminLogin")",
+                data: formdata,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    window.location.href = "@Url.Content("~/Article/AdminArticlesWApproval")";
+                },
+                error: function () {
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+        $('#emailloader').hide();
+
+        $("#loginform").submit(function (e) {
+            alert
+            e.preventDefault();
+            var formdata = new FormData(this);
+
+            @*if ($("#email").val() == "admin") {
+
+                $.ajax({
+                    method: "POST",
+                    url: "@Url.Content("~/Article/AdminLogin")",
+                    data: formdata,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                       // window.location.reload();
+                        window.location.href = "@Url.Content("~/Article/AdminArticlesWApproval")";
+                    },
+                    error: function () {
+                    }
+                });
+            }*@
+            if ($("#email").val() != "") {
+                $.ajax({
+                    method: "POST",
+                    url: "@Url.Content("~/Article/Login")",
+                    data: formdata,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        if ($.isEmptyObject(data)) {
+                            $("#response").text('Invalid Email / Password! or User needs activation, check your email inbox!');
+                        }
+                        else {
+                            //    window.location.reload();
+                           // alert(data[0].UserId + data[0].FullName + data[0].Status);
+
+
+                            localStorage.setItem("GDNLUserID", data[0].UserLocalId);
+                            localStorage.setItem("GDNLFullName", data[0].FullName);
+                           
+
+                            if (data[0].Status == 1) {
+                                 localStorage.setItem("GDNLAdminUser", "NO");
+                                window.location.href = "@Url.Content("~/")";
+                            }
+                            else {
+                                //alert(data[0].Status);
+                                localStorage.setItem("GDNLAdminUser", "YES");
+                                window.location.href = "@Url.Content("~/Article/AdminArticlesWApproval")";
+                                
+                            }
+                            window.location.href = "@Url.Content("~/")";
+
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+
+
+            }
+
+
+        });
+    });
+
+
+
+
+</script>

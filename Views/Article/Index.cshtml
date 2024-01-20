@@ -1,0 +1,527 @@
+﻿@{
+    //  Layout = "~/Views/Shared/_LayoutCMS.cshtml";
+    ViewBag.Title = "Index";
+}
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<section class="main-section" style="font-family:Arial;font-size:12px;margin-top:280px;min-height:1000px;">
+    <div class="container sub-sections" id="option1">
+
+        <button style="font-family:Arial;font-size:13px;" type="button" class="btn btn-danger pull-right btn-lg" data-toggle="modal" data-target="#myModal">CREATE ARTICLE</button>
+
+        <br style="clear:both" />
+        <br style="clear:both" />
+
+
+
+        <div class="col-md-12">
+
+            <div class="col-xs-12 col-sm-2 emphasis text-center">
+                <h2><i class="fa fa-book"></i><strong> @ViewBag.MyArticlesCount</strong></h2>
+
+                @Ajax.ActionLink("My Articles", "MyArticles", new AjaxOptions()
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "divResult",
+                    InsertionMode = InsertionMode.Replace
+                })
+
+                <div id="divResult">
+
+                </div>
+            </div>
+
+
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#published"><h5><strong>Published</strong></h5></a></li>
+                <li><a data-toggle="tab" href="#pending"><h5><strong>Pending Approval</strong></h5></a></li>
+                <li><a data-toggle="tab" href="#draft"><h5><strong>Draft</strong></h5></a></li>
+                <li><a data-toggle="tab" href="#rejected"><h5><strong>Rejected</strong></h5></a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="published" style="padding-top:20px;">
+                    <br style="clear:both" />
+
+                    <table class="table table-striped" style="font-family:Arial;font-size:12px;">
+                        <tr>
+                            <th>
+                                Cover Image
+                            </th>
+
+                            <th>
+                                Article
+                            </th>
+
+                            <th style="width:130px;">
+                                Info
+                            </th>
+
+
+                            <th style="width:200px;">
+                                Dates
+                            </th>
+
+                            <th>Modify</th>
+                        </tr>
+
+                        @foreach (var item in ViewBag.PublishedArticles)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.CoverImage != null && item.CoverImage != "")
+                                    {
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)">
+                                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)" style="color:dodgerblue">
+                                            @item.Title
+                                        </a>
+                                    </b>
+                                    <br />
+                                    <div style="color:white;padding:1px 2px;float:left" class="@item.CategoryName.ToLower()">@item.CategoryName</div><br />
+                                    @if (item.Status.Trim() == "R")
+                                    {<span style="color:red">
+                                            <b>Rejection reason: </b>@item.Note
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>Lead Article:</b>  @(item.LeadArticle == null ? "No" : "Yes")<br />
+                                    <b>Views:</b>  @item.Views<br />
+                                    <b>Comments:</b>  @item.Comments
+                                </td>
+
+
+                                <td>
+                                    <b>Created On:</b>   @Convert.ToDateTime(item.Created).ToString("dd-MMM-yyyy")<br />
+                                    <b>Updated On:</b>  @(item.Updated == null ? "" : Convert.ToDateTime(item.Updated).ToString("dd-MMM-yyyy")) <br />
+                                    <b>Status:</b>
+                                    @if (item.Status.Trim() == "C")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "D")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "A")
+                                    {
+                                        <span>Waiting for approval</span>
+                                    }
+                                    else if (item.Status.Trim() == "P")
+                                    {
+                                        <span>Published</span>
+                                    }
+                                    else if (item.Status.Trim() == "R")
+                                    {
+                                        <span>Reject</span>
+                                    }
+                                </td>
+
+                                <td style="width:70px;">
+                                    <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" style="color:red;font-size:20px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+
+                </div>
+                <div class="tab-pane" id="pending">
+                    <br style="clear:both" />
+                    <table class="table table-striped" style="font-family:Arial;font-size:12px;">
+                        <tr>
+                            <th>
+                                Cover Image
+                            </th>
+
+                            <th>
+                                Article
+                            </th>
+
+                            <th style="width:130px;">
+                                Info
+                            </th>
+
+
+                            <th style="width:200px;">
+                                Dates
+                            </th>
+
+                            <th>Modify</th>
+                        </tr>
+
+                        @foreach (var item in ViewBag.PendingApproval)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.CoverImage != null && item.CoverImage != "")
+                                    {
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)">
+                                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)" style="color:dodgerblue">
+                                            @item.Title
+                                        </a>
+                                    </b>
+                                    <br />
+                                    <div style="color:white;padding:1px 2px;float:left" class="@item.CategoryName.ToLower()">@item.CategoryName</div><br />
+                                    @if (item.Status.Trim() == "R")
+                                    {<span style="color:red">
+                                            <b>Rejection reason: </b>@item.Note
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>Lead Article:</b>  @(item.LeadArticle == null ? "No" : "Yes")<br />
+                                    <b>Views:</b>  @item.Views<br />
+                                    <b>Comments:</b>  @item.Comments
+                                </td>
+
+
+                                <td>
+                                    <b>Created On:</b>   @Convert.ToDateTime(item.Created).ToString("dd-MMM-yyyy")<br />
+                                    <b>Updated On:</b>  @(item.Updated == null ? "" : Convert.ToDateTime(item.Updated).ToString("dd-MMM-yyyy")) <br />
+                                    <b>Status:</b>
+                                    @if (item.Status.Trim() == "C")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "D")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "A")
+                                    {
+                                        <span>Waiting for approval</span>
+                                    }
+                                    else if (item.Status.Trim() == "P")
+                                    {
+                                        <span>Published</span>
+                                    }
+                                    else if (item.Status.Trim() == "R")
+                                    {
+                                        <span>Reject</span>
+                                    }
+                                </td>
+
+                                <td style="width:70px;">
+                                    <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" style="color:red;font-size:20px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+                <div class="tab-pane" id="draft">
+                    <br style="clear:both" />
+                    <table class="table table-striped" style="font-family:Arial;font-size:12px;">
+                        <tr>
+                            <th>
+                                Cover Image
+                            </th>
+
+                            <th>
+                                Article
+                            </th>
+
+                            <th style="width:130px;">
+                                Info
+                            </th>
+
+
+                            <th style="width:200px;">
+                                Dates
+                            </th>
+
+                            <th>Modify</th>
+                        </tr>
+
+                        @foreach (var item in ViewBag.Draft)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.CoverImage != null && item.CoverImage != "")
+                                    {
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)">
+                                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)" style="color:dodgerblue">
+                                            @item.Title
+                                        </a>
+                                    </b>
+                                    <br />
+                                    <div style="color:white;padding:1px 2px;float:left" class="@item.CategoryName.ToLower()">@item.CategoryName</div><br />
+                                    @if (item.Status.Trim() == "R")
+                                    {<span style="color:red">
+                                            <b>Rejection reason: </b>@item.Note
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>Lead Article:</b>  @(item.LeadArticle == null ? "No" : "Yes")<br />
+                                    <b>Views:</b>  @item.Views<br />
+                                    <b>Comments:</b>  @item.Comments
+                                </td>
+
+
+                                <td>
+                                    <b>Created On:</b>   @Convert.ToDateTime(item.Created).ToString("dd-MMM-yyyy")<br />
+                                    <b>Updated On:</b>  @(item.Updated == null ? "" : Convert.ToDateTime(item.Updated).ToString("dd-MMM-yyyy")) <br />
+                                    <b>Status:</b>
+                                    @if (item.Status.Trim() == "C")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "D")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "A")
+                                    {
+                                        <span>Waiting for approval</span>
+                                    }
+                                    else if (item.Status.Trim() == "P")
+                                    {
+                                        <span>Published</span>
+                                    }
+                                    else if (item.Status.Trim() == "R")
+                                    {
+                                        <span>Reject</span>
+                                    }
+                                </td>
+
+                                <td style="width:70px;">
+                                    <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" style="color:red;font-size:20px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+
+                </div>
+                <div class="tab-pane" id="rejected">
+                    <br style="clear:both" />
+                    <table class="table table-striped" style="font-family:Arial;font-size:12px;">
+                        <tr>
+                            <th>
+                                Cover Image
+                            </th>
+
+                            <th>
+                                Article
+                            </th>
+
+                            <th style="width:130px;">
+                                Info
+                            </th>
+
+
+                            <th style="width:200px;">
+                                Dates
+                            </th>
+
+                            <th>Modify</th>
+                        </tr>
+
+                        @foreach (var item in ViewBag.Rejected)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.CoverImage != null && item.CoverImage != "")
+                                    {
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)">
+                                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>
+                                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)" style="color:dodgerblue">
+                                            @item.Title
+                                        </a>
+                                    </b>
+                                    <br />
+                                    <div style="color:white;padding:1px 2px;float:left" class="@item.CategoryName.ToLower()">@item.CategoryName</div><br />
+                                    @if (item.Status.Trim() == "R")
+                                    {<span style="color:red">
+                                            <b>Rejection reason: </b>@item.Note
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <b>Lead Article:</b>  @(item.LeadArticle == null ? "No" : "Yes")<br />
+                                    <b>Views:</b>  @item.Views<br />
+                                    <b>Comments:</b>  @item.Comments
+                                </td>
+
+
+                                <td>
+                                    <b>Created On:</b>   @Convert.ToDateTime(item.Created).ToString("dd-MMM-yyyy")<br />
+                                    <b>Updated On:</b>  @(item.Updated == null ? "" : Convert.ToDateTime(item.Updated).ToString("dd-MMM-yyyy")) <br />
+                                    <b>Status:</b>
+                                    @if (item.Status.Trim() == "C")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "D")
+                                    {
+                                        <span>Draft</span>
+                                    }
+                                    else if (item.Status.Trim() == "A")
+                                    {
+                                        <span>Waiting for approval</span>
+                                    }
+                                    else if (item.Status.Trim() == "P")
+                                    {
+                                        <span>Published</span>
+                                    }
+                                    else if (item.Status.Trim() == "R")
+                                    {
+                                        <span>Reject</span>
+                                    }
+                                </td>
+
+                                <td style="width:70px;">
+                                    <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" style="color:red;font-size:20px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</section>
+
+
+
+<div class="modal fade" id="myModal" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("Article/Create")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Article</h4>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Category</b></div>
+                            <div class="col-md-6">
+                                <select class="form-control" name="CategoryId" required>
+                                    <option value="">Select</option>
+                                    @foreach (var cat in ViewBag.Category)
+                                    {
+                                        <option value="@cat.CategoryId">@cat.CategoryName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-2"><b>Title</b></div>
+                            <div class="col-md-12">
+                                <input type="text" name="Title" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">NEXT</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    function DeleteArticle(ArticleId) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteArticle/")" + ArticleId,
+                success: function (data) {
+                    window.location.href = "@Url.Content("~/Article")";
+                },
+                error: function () {
+                    alert("Unable to delete article!");
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Tuorial";
+}
+
+<h2>Tuorial</h2>
+
+
+<!-- block-wrapper-section
+        ================================================== -->
+<section class="block-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+
+                <!-- block content -->
+                <div class="block-content">
+
+                    <div col-md-12 col-xs-12>
+                        <style>
+                            .video-container {
+                                position: relative;
+                                padding-bottom: 56.25%;
+                                padding-top: 30px;
+                                height: 0;
+                                overflow: hidden;
+                            }
+
+                                .video-container iframe,
+                                .video-container object,
+                                .video-container embed {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                        </style>
+                        <div class="video-container">
+                            <iframe width="760" height="460" src="https://www.youtube.com/embed/t82St_iIwlo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- End block content -->
+
+            </div>
+
+            <div class="col-sm-4">
+
+                <!-- sidebar -->
+                <div class="sidebar">
+                    <div class="widget features-slide-widget">
+
+                        <img src=@Url.Content("~/images/upload/news-posts/gdn.jpg") alt="">
+                    </div>
+
+
+                    <div class="widget features-slide-widget">
+
+                        <img src=@Url.Content("~/images/upload/news-posts/abc.jpg") alt="">
+                    </div>
+
+
+                </div>
+                <!-- End sidebar -->
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<!-- End block-wrapper-section -->

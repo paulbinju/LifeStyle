@@ -1,0 +1,128 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_HomeArticles>
+@using System.Text.RegularExpressions;
+
+<!--Latest version-->
+
+@foreach (var item in Model)
+{
+    <div id="box16-@item.ArticleId" class="box16 effect2">
+
+        <div class="grid-item">
+
+            @if (item.CoverImage != null && item.CoverImage != "")
+            {
+                <img src="@Url.Content(item.CoverImage)?@DateTime.Now"
+                     onclick="window.location.href='@Url.Action("ArticleDetail", "Home", new { ArticleId = @item.ArticleId, category = item.CategoryId })'" />
+            }
+
+            <div class="post @item.Description">
+                @item.CategoryName
+            </div>
+            @if (item.ProfileImage != null && item.ProfileImage != "")
+            {
+                <div class="authorBox  @item.Description">
+
+
+                    <img src="@Url.Content(item.ProfileImage)?@DateTime.Now" class="authorImg @item.Description"
+                         onclick="window.location.href='@Url.Action("Author","Home", new { UserId = item.UserId})'" />
+                    
+
+
+                </div>
+            }
+
+                <div class="box-content">
+                    <div class="colorbox @item.Description ">
+                        <a href=@Url.Action("ArticleDetail", "Home", new { ArticleId = @item.ArticleId, category = item.CategoryId })>
+
+                            <h3 id="smalltitle-@item.ArticleId" class="title">
+                                @{
+                                    string title = "";
+                                    try
+                                    {
+                                        title = @Convert.ToString(item.Title).Substring(0, 40) + "...";
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        title = item.Title;
+                                    }
+                                }
+
+                                @Html.Raw(title)
+                            </h3>
+
+                            <h3 id="fulltitle-@item.ArticleId" class="title ftitle" style="display:none;">
+                                @{
+                                    string fullTitle = "";
+                                    try
+                                    {
+                                        fullTitle = @Convert.ToString(item.Title).Substring(0, 80) + "...";
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        fullTitle = item.Title;
+                                    }
+                                }
+                                @fullTitle<br />
+                                <span class="" id="firstLine-@item.ArticleId" style="display:none;">
+                                    @{
+                                        string firstLine = "";
+                                        if (item.ArticleText != null && item.ArticleText != "")
+                                        {
+                                            firstLine = Regex.Replace(item.ArticleText, "<.*?>", string.Empty);
+                                        }
+
+
+                                        if (title.Length <= 41)
+                                        {
+                                            if (firstLine.Length >= 100)
+                                            {
+                                                firstLine = firstLine.Substring(0, 100) + "...";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (firstLine.Length >= 43)
+                                            {
+                                                firstLine = firstLine.Substring(0, 50) + "...";
+                                            }
+
+                                        }
+                                    }
+
+                                    @Html.Raw(firstLine)
+                                </span>
+                            </h3>
+                        </a>
+                        <p class="txt">
+                            <i class="fa fa-eye"></i>&nbsp; @item.Views &nbsp;&nbsp;
+                            <i class="fa fa-heart"></i> @item.Likes &nbsp;&nbsp;
+                            <i class="fa fa-comments"></i> @item.Comments &nbsp;&nbsp;
+                            <i class="fa fa-calendar"></i>&nbsp;@string.Format("{0:d MMM yyyy}", item.Updated)<br />
+                            <a href="@Url.Action("Author", "Home" , new { UserId=item.UserId })">
+                                <span style="text-align:center;"><i class="fa fa-user"></i> @item.UserName</span>
+                            </a><br />
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+    <script>
+
+                            $('#box16-@item.ArticleId').hover(function (a) {
+                                $('#fulltitle-@item.ArticleId').fadeIn(200);
+                                $('#firstLine-@item.ArticleId').fadeIn(200);
+                                $('#smalltitle-@item.ArticleId').hide();
+                    //alert('test');
+                }, function () {
+                    $('#fulltitle-@item.ArticleId').hide();
+                    $('#firstLine-@item.ArticleId').hide();
+                    $('#smalltitle-@item.ArticleId').fadeIn(200);
+                });
+
+    </script>
+}
+

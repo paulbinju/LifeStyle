@@ -1,0 +1,138 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_UserComments>
+
+<div class="panel panel-default" style="border-color:#593c97;">
+    <div class="panel-heading" style="font-size:16px; font-weight:bold;background-color:#593c97;color:#fff;">
+        My Comments
+    </div>
+    <div class="panel-body" style="padding:2px;">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12 col-xs-12" style="margin:0px 0px 5px 0px; padding:2px; border-bottom:1px solid #e0dede;" id="divMyComments">
+                <div class="col-md-3 col-xs-2 text-center" style="margin:0px; padding:0px 5px 0px 0px;">
+                    @if (item.CoverImage != null && item.CoverImage != "")
+                    {
+                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId })>
+                            <img class="img-responsive" style="width:60px; height:40px;" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId })>
+                            <img class="img-responsive" src="@Url.Content("~/images/ghostimg.png")" />
+                            </a>
+                            }
+                            <br />
+                            @if (item.ProfileImage != null && item.ProfileImage != "")
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=item.AuthorId })">
+                                    <img style="width:30px;height:30px;" class="img-circle" src="@Url.Content(item.ProfileImage)" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=item.AuthorId })">
+                                    <img style="width:30px;height:30px;" class="img-circle" src="@Url.Content("~/images/user.png")" />
+                                </a>
+                            }
+
+                    </div>
+                <div class="col-md-9 col-xs-10" style="margin:0px; padding:0px;">
+                    <p style="font-size:12px; font-weight:600; line-height:15px;margin-bottom:3px;">
+                        <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId }) style="color:dodgerblue"> @item.Title</a>
+                        <span class="pull-right"><i class="fa fa-times-circle" onclick="DeleteUserComment(@item.CommentId)" style="color:red;font-size:16px;cursor:pointer" title="Delete Article"></i></span>
+                    </p>
+                    
+                    <p>
+                        <sapn class="badge @item.Description" style="color:white; font-size:11px;margin:0px;">@item.CategoryName</sapn><br />
+
+                        @item.CommentText
+                    </p>
+                    
+                    @*<ul class="post-tags">
+         <li>
+
+         </li>
+        <li><i class="fa fa-user"></i>by <a href="#">@item.FullName</a></li>
+                    </ul>*@
+                </div>
+            </div>
+        }
+
+        <div class="table-responsive" id="tblMyComments">
+            <table class="table table-condensed" style="font-family:Arial;font-size:12px;">
+                <tr>
+                    <th>
+                        Cover Image
+                    </th>
+
+                    <th>
+                        Article Info
+                    </th>
+                    <th>
+                        Author
+                    </th>
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.CoverImage != null && item.CoverImage != "")
+                            {
+                                <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId })>
+                                    <img style="width:90px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId= item.AuthorId })">
+                                    <img style="width:90px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+                                </a>
+                            }
+                        </td>
+
+                        <td>
+                            <b>
+                                <a href=@Url.Action("ArticleDetail","Home",new { ArticleId=item.ArticleId, category=item.CategoryId }) style="color:dodgerblue">
+                                    @item.Title
+                                </a>
+                            </b>
+                            <p>@item.CommentText</p>
+                            <ul class="post-tags">
+                                <li><sapn class="badge @item.Description" style="color:white;">@item.CategoryName</sapn></li>
+                                <li><i class="fa fa-user"></i>by <a href="#">@item.FullName</a></li>
+                                @*<li><i class="fa fa-clock-o"></i>@(item.Created != null ? String.Format("{0:MM/dd/yyyy}", item.Created) : " ") </li>*@
+                                @*<li><a href="#"><i class="fa fa-comments-o"></i><span>0</span></a></li>*@
+                                @*<li><i class="fa fa-eye"></i>@item.Views</li>*@
+                            </ul>
+                        </td>
+                        <td>
+                            @if (item.ProfileImage != null && item.ProfileImage != "")
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=item.AuthorId })">
+                                    <img style="width:60px;height:50px;border:1px solid #ececec" src="@Url.Content(item.ProfileImage)" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Author", "Home" , new { UserId=item.AuthorId })">
+                                    <img style="width:60px;height:50px;border:1px solid #ececec" src="@Url.Content("~/images/user.png")" />
+                                </a>
+                            }
+                        </td>
+                        <td valign="middle" style="vertical-align:central;padding-top:25px;">
+                            <i class="fa fa-times-circle" onclick="DeleteUserComment(@item.CommentId)"
+                               style="cursor:pointer;font-size:16px;"></i>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer" style="background-color:#593c97;"></div>
+</div>

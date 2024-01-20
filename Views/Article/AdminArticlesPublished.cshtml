@@ -1,0 +1,179 @@
+﻿@model IEnumerable<LifestyleBeta.Models.View_HomeArticles>
+
+@{
+    //  Layout = "~/Views/Shared/_LayoutCMS.cshtml";
+    ViewBag.Title = "Admin - Articles Published";
+}
+
+
+
+<section class="main-section" style="font-family:Arial;font-size:12px; margin-top:280px;">
+    <div class="container sub-sections" id="option1">
+
+
+        <a style="font-family:Arial;font-size:13px; margin:0 10px" type="button" class="btn btn-warning pull-right btn-lg" href="@Url.Content("~/Article/AdminArticlesWApproval")">Awaiting Approval</a>
+        <a style="font-family:Arial;font-size:13px;" type="button" class="btn btn-success pull-right btn-lg" href="@Url.Content("~/Article/AdminArticlesPublished")">Published</a>
+
+
+        <br style="clear:both" />
+        <br style="clear:both" />
+        <table class="table table-striped" style="font-family:Arial;font-size:12px;">
+            <tr>
+                <th>
+                    Cover Image
+                </th>
+
+                <th>
+                    Article
+                </th>
+
+                <th style="width:130px;">
+                    Info
+                </th>
+
+
+                <th style="width:200px;">
+                    Dates
+                </th>
+
+                <th  style="width:80px;">Modify</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @if (item.CoverImage != null && item.CoverImage != "")
+                    {
+                        <a href="@Url.Content("~/Article/Edit/" + item.ArticleId)">
+                            <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content(item.CoverImage)" onerror="this.src='@Url.Content("~/images/ghostimg.png")';" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img style="width:100px;height:60px;border:1px solid #ececec" src="@Url.Content("~/images/ghostimg.png")" />
+
+                    }
+                </td>
+
+                <td>
+                    <b>
+                        <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)" style="color:dodgerblue">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </b> <br />
+                    <b>Category:</b>@Html.DisplayFor(modelItem => item.CategoryName)<br />
+                    <b>Author: </b>@Html.DisplayFor(modelItem => item.UserName)<br />
+                </td>
+
+                <td>
+                    <b>Lead Article:</b>  @(item.LeadArticle == null ? "No" : "Yes")<br />
+                    <b>Views:</b>  @Html.DisplayFor(modelItem => item.Views)<br />
+                    <b>Comments:</b>  @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+
+
+                <td>
+                    <b>Created On:</b>   @Convert.ToDateTime(item.Created).ToString("dd-MMM-yyyy")<br />
+                    <b>Updated On:</b>  @(item.Updated == null ? "" : Convert.ToDateTime(item.Updated).ToString("dd-MMM-yyyy")) <br />
+                    <b>Status:</b>
+                    @if (item.Status.Trim() == "C")
+                    {
+                        <span class="badge badge-info">Draft</span>
+                    }
+                    else if (item.Status.Trim() == "D")
+                    {
+                        <span class="badge badge-info">Draft</span>
+                    }
+                    else if (item.Status.Trim() == "A")
+                    {
+                        <span class="badge" style="background-color:orange">Waiting for Approval</span>
+                    }
+                    else if (item.Status.Trim() == "P")
+                    {
+                        <span class="badge" style="background-color:green">Published</span>
+                    }
+                </td>
+
+                <td>
+                    <a href="@Url.Content("~/Article/Edit/"+ item.ArticleId)"><i class="fa fa-edit" title="Edit Article" style="color:lightseagreen;font-size:20px;"></i></a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" style="color:red;font-size:20px;cursor:pointer" title="Delete Article" onclick="DeleteArticle(@item.ArticleId)"></i>
+                </td>
+            </tr>
+            }
+
+        </table>
+    </div>
+</section>
+
+
+
+<div class="modal fade" id="myModal" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("Article/Create")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Article</h4>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><b>Category</b></div>
+                            <div class="col-md-6">
+                                <select class="form-control" name="CategoryId" required>
+                                    <option value="">Select</option>
+                                    @foreach (var cat in ViewBag.Category)
+                                    {
+                                        <option value="@cat.CategoryId">@cat.CategoryName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-2"><b>Title</b></div>
+                            <div class="col-md-12">
+                                <input type="text" name="Title" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">NEXT</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    function DeleteArticle(ArticleId) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteArticle/")" + ArticleId,
+                success: function (data) {
+                    window.location.href = "@Url.Content("~/Article")";
+                },
+                error: function () {
+                    alert("Unable to delete article!");
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,612 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <title>@ViewBag.Title : GDN-LifeStyle</title>
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href=@Url.Content("~/images/upload/favicon/apple-touch-icon.png")>
+    <link rel="icon" type="image/png" sizes="32x32" href=@Url.Content("~/images/upload/favicon/favicon-32x32.png")>
+    <link rel="icon" type="image/png" sizes="16x16" href=@Url.Content("~/images/upload/favicon/favicon-16x16.png")>
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href='https://fonts.googleapis.com/css?family=Hind Siliguri' rel='stylesheet'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,400italic' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/bootstrap.min.css") media="screen">
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/jquery.bxslider.css") media="screen">
+    <link href="~/Content/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/font-awesome.css") media="screen">
+
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/magnific-popup.css") media="screen">
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/owl.carousel.css") media="screen">
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/owl.theme.css") media="screen">
+
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/style-layout-v41.css") media="screen">
+
+    @*<link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/css/imgzoom.css") media="screen">*@
+
+ 
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Theme/main/variety/style-masnory-v29.css")>
+    <!-- js -->
+
+    <script src=@Url.Content("~/Theme/main/variety/js/jquery-1.9.1.min.js")></script>
+    <script src=@Url.Content("~/Theme/main/variety/js/modernizr.custom.js")></script>
+
+    <script type="text/javascript" src=@Url.Content("~/Theme/main/js/jssocials.min.js")></script>
+
+    <link type="text/css" rel="stylesheet" href=@Url.Content("~/Theme/main/css/jssocials.css") />
+
+    <link type="text/css" rel="stylesheet" href=@Url.Content("~/Theme/main/css/jssocials-theme-flat.css") />
+
+    <style>
+        * {
+            font-family: 'Hind Siliguri';
+        }
+
+        .top-line-list li, .top-line-list li a {
+            font-size: 14px !important;
+        }
+
+            .top-line-list li a {
+                color: #2e53b3 !important;
+                font-family: 'Hind Siliguri' !important;
+            }
+
+                .top-line-list li a.register {
+                    color: #ffffff !important;
+                    font-family: 'Hind Siliguri' !important;
+                }
+    </style>
+</head>
+<body style="background-color:#ffffff">
+
+    <!-- Container -->
+    <div id="container">
+
+        <!-- Header
+    ================================================== -->
+        <header class="clearfix second-style">
+            <!-- Bootstrap navbar -->
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="background-color:#f9fafc">
+
+                <!-- Top line -->
+                <div class="top-line">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-9">
+                                @*<div class="col-md-2 col-xs-2 col-sm-2 topLogoGdn">
+                                <a href="index.html">
+                                    <img src=@Url.Content("~/images/logo-gdn.png") alt="" style="width:60px;">
+                                </a>
+                                                    </div>*@
+
+
+                                <ul class="top-line-list" style="font-family: 'Hind Siliguri' !important;">
+
+
+                                    @if (ViewBag.LoggedInUserId == null)
+                                    {
+                                        <li><a class="log-in-popup" href="#log-in-popup" onclick="showForm(1)">Log In</a></li>
+                                        <li><a class="log-in-popup register btn" href="#log-in-popup" onclick="showForm(2)" style="background-color:#de1a22; color:#fff;">Join Now</a></li>
+                                    }
+                                    else
+                                    {
+                                        if (ViewBag.AdminUser == "NO")
+                                        {
+                                            <li id="dsktpUserName">Welcome :  @ViewBag.UserName </li>
+                                            <li id="dsktpWriteArticle"><a class="btn register" href="#" data-toggle="modal" data-target="#modalArticle" style="background-color:#de1a22; color:#fff;">Write Article</a></li>
+                                            @*<li class="btn" data-toggle="modal" data-target="#modalArticle" style="background-color:#de1a22; color:#fff; border-left:none; margin-left:0;
+                padding-left:0;">
+                                                <i class="fas fa-file-plus" style="margin-left:0; padding-left:0;"></i>Write Article
+                                            </li>*@
+                                            <li id="dsktpDashboard"><a href="@Url.Action("MyAccount", "Article")">Dashboard </a></li>
+                                            @*<li><a href="@Url.Action("Index", "Article")">My Articles</a></li>*@
+                                            <li id="dsktpLogout"><a href="@Url.Action("LogOut", "Article")">Logout</a></li>
+
+
+
+                                            <!--Mobile Menu tachometer-alt-->
+                                            @*<li id="mbMenuUserName" ><i class="fa fa-user" ></i> @ViewBag.UserName </li>
+                <li id="mbMenuWriteArticle">
+                    <a class="btn register" href="#" data-toggle="modal" data-target="#modalArticle" style="background-color:#de1a22; color:#fff;">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </li>
+                <li id="mbMenuDashboard"><a href="@Url.Action("MyAccount", "Article")"><i class="fas fa-align-justify"></i></a></li>
+                <li id="mbMenuLogout"><a href="@Url.Action("LogOut", "Article")"><i class="fa fa-sign-out"></i></a></li>*@
+
+
+                                        }
+                                        else if (ViewBag.AdminUser == "YES")// Admin
+                                        {
+                                            <li>Welcome : @ViewBag.UserName</li>
+                                            <li><a href="@Url.Action("AdminArticlesWApproval", "Article")">Dashboard</a></li>
+                                            @*<li><a href="@Url.Action("AdminAllEditors", "Article")">All Editors</a></li>*@
+                                            <li><a href="@Url.Action("LogOut", "Article")">Logout</a></li>
+                                        }
+                                    }
+                                    <li id="dsktpSearch" class="pull-right"><a href="#" data-toggle="modal" data-target="#SearchModal"><i class="fa fa-search" style="font-size:16px;"></i></a></li>
+
+
+
+
+
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+
+                                <ul class="social-icons">
+                                    <li><a href="@Url.Action("Contact", "Home")"><i class="fa fa-envelope" style="color:#000;font-size:16px;"></i></a></li>
+                                    <li><a class="facebook" href="https://web.facebook.com/GulfDailyNews/" target="_blank"><i class="fa fa-facebook" style="color:#000;font-size:16px;"></i></a></li>
+                                    <li><a class="twitter" href="https://twitter.com/gdnonline" target="_blank"><i class="fa fa-twitter" style="color:#000;font-size:16px;"></i></a></li>
+                                    @*<li><a class="instagram" href="#"><i class="fa fa-google-plus" target="_blank" style="color:#000;font-size:16px;"></i></a></li>*@
+                                    <li><a class="instagram" href="https://www.instagram.com/gdnonline/" target="_blank"><i class="fa fa-instagram" style="color:#000;font-size:16px;"></i></a></li>
+                                    <li><a class="linkedin" href="https://www.linkedin.com/in/gdnonline/" target="_blank"><i class="fa fa-linkedin" style="color:#000;font-size:16px;"></i></a></li>
+                                    <li><a class="youtube" href="https://www.youtube.com/channel/UC1GB-bB6mVD8-i6gV3gT5rQ" target="_blank"><i class="fa fa-youtube" style="color:#000;font-size:16px;"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Top line -->
+                <!-- Logo & advertisement -->
+
+                <div class="Logo-New">
+                    <div class="container">
+                        <div class="row topLogoRow">
+
+                            <div class="col-md-6  col-md-offset-3">
+                                <a href="@Url.Action("Index","Home")">
+                                    <img src=@Url.Content("~/images/GDNLIfeLogo.png") class="img-responsive" alt="" id="gdnLogo" style="margin:0 auto;">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                @{
+                    Html.RenderAction("Menu", "Common", new { page = ViewBag.ActivePage });
+                }
+                <!-- SearchBar -->
+                <div class="searchBar" style="background-color:#f9fafc;" id="SearchBar">
+                    <div class="container" style="padding:0px 3px;">
+                        <div class="col-md-4 col-xs-8 text-center">
+                            @using (Html.BeginForm("SearchList", "Home", FormMethod.Post, new { @class = "login-form1" }))
+                            {
+                                <div class="input-group">
+                                    <input type="text" name="SearchText" class="form-control" placeholder="Search" style="border:1px solid #c0b9ba;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">
+                                            <i class="fa fa-search-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @if (Request.QueryString["p"] != null && Request.QueryString["p"] != "" || Convert.ToString(Session["action"]) == "Index")
+                        {
+
+                            <div class="col-md-6 col-xs-4 pull-right">
+
+                                <form class="pull-right">
+                                    <div class="form-group">
+                                        <select class="form-control" id="ddlArticleType">
+                                            <option value="mRecent" @(Request.QueryString["type"] == "mRecent" ? "selected" : "")>Most Recent</option>
+                                            <option value="mRead" @(Request.QueryString["type"] == "mRead" ? "selected" : "")>Most Read</option>
+                                            @{
+                                                if (ViewBag.LoggedInUserId != 0 && ViewBag.LoggedInUserId != null)
+                                                {
+                                                    @*<option value="followers" @(Request.QueryString["type"] == "followers" ? "selected" : "")>Followers</option>*@
+                                                    <option value="following" @(Request.QueryString["type"] == "following" ? "selected" : "")>Following</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+
+                        }
+
+
+                    </div>
+                </div>
+
+            </nav>
+            <!-- End Bootstrap navbar -->
+
+            <div class="container" id="MobileNav">
+                <div class="col-xs-5">
+                    <a href="@Url.Action("Index","Home")">
+                        <img src=@Url.Content("~/images/GDNLIfeLogo.png") class="img-responsive" alt="" id="gdnLogo" style="margin:0px;">
+                    </a>
+                </div>
+                <div class="col-xs-5">
+                    @if (Request.QueryString["p"] != null && Request.QueryString["p"] != "" || Convert.ToString(Session["action"]) == "Index")
+                    {
+                    <form>
+                        <div class="form-group">
+                            <select class="form-control" id="mddlArticleType">
+                                <option value="mRecent" @(Request.QueryString["type"] == "mRecent" ? "selected" : "")>Most Recent</option>
+                                <option value="mRead" @(Request.QueryString["type"] == "mRead" ? "selected" : "")>Most Read</option>
+                                @{
+                                    if (ViewBag.LoggedInUserId != 0 && ViewBag.LoggedInUserId != null)
+                                    {
+                                        @*<option value="followers" @(Request.QueryString["type"] == "followers" ? "selected" : "")>Followers</option>*@
+                                        <option value="following" @(Request.QueryString["type"] == "following" ? "selected" : "")>Following</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </form>
+                    }
+                        
+                    </div>
+                <div class="col-xs-2 pull-right">
+                    <a class="btn btn-default pull-right" data-toggle="modal" data-target="#MobileNavModal">
+                        <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+
+
+
+        </header>
+        <!-- End Header -->
+
+        <!-- MobileNavModal -->
+        <div class="modal fade" id="MobileNavModal" role="dialog" style="margin-top:110px;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" style="background-color:#f5f5f5;">
+                    <div class="modal-header" style="padding:20px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        @*<h4 class="modal-title">Search Article</h4>*@
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            
+                                @{
+                                    Html.RenderAction("MobileMenu", "Common", new { page = ViewBag.ActivePage });
+                                }
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding:10px;">
+                        @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SearchModal -->
+        <div class="modal fade" id="SearchModal" role="dialog" style="margin-top:220px;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:10px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Search Article</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="col-md-12 col-xs-12 text-center">
+                                @using (Html.BeginForm("SearchList", "Home", FormMethod.Post, new { @class = "login-form1" }))
+                                {
+                                    <div class="input-group">
+                                        <input type="text" name="SearchText" class="form-control" placeholder="Search" style="border:1px solid #c0b9ba;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">
+                                                <i class="fa fa-search-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding:10px;">
+                        @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        @RenderBody()
+
+
+        <div class="modal fade" id="modalArticle" role="dialog" style="margin-top:100px;z-index:99999999;font-family:Arial">
+            <div class="modal-dialog modal-lg">
+                <form method="post" action="@Url.Content("~/Article/Create")"  enctype="multipart/form-data">
+                    <div class="modal-content">
+                   
+
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h3 class="modal-title">Write Article</h3>
+                            <br style="clear:both" />
+
+                            <div class="col-lg-12">
+
+
+                                <b>Category <span style="color:red">*</span></b>
+
+                                <select class="form-control" name="CategoryId" required style="font-size:18px;height:40px;">
+                                    <option value="">Select</option>
+                                    @if (ViewBag.AdminUser == "NO")
+                                    {
+                                        foreach (var cat in ViewBag.Category)
+                                        {
+                                            <option value="@cat.CategoryId">@cat.CategoryName</option>
+                                        }
+                                    }
+                                </select>
+
+
+                            </div>
+
+                            <br style="clear:both" />
+                            <br style="clear:both" />
+                            <div class="col-lg-12">
+
+
+                                <b>Title <span style="color:red">*</span></b>
+
+                                <textarea name="Title" class="form-control" required rows="2" style="font-size:18px;"></textarea>
+
+
+                            </div>
+
+                            <br style="clear:both" />
+                            <br style="clear:both" />
+                            <div class="col-lg-12">
+
+                                <b>Cover Image  <span style="color:red">*</span></b>
+
+                                <input type="file" name="file" id="file" class="form-control" required style="font-size:18px;height:40px;" />
+
+
+                            </div>
+                            <script>
+                                $('#file').bind('change', function () {
+
+                                    var extension = $('#file').val().split('.').pop().toLowerCase();
+                                    if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                                        alert('Only .jpg, .jpeg, .png, .gif are allowed');
+                                        $('#file').val("");
+                                        return false;
+                                    }
+
+                                });
+                            </script>
+
+                            <br style="clear:both" />
+                            <br style="clear:both" />
+
+                            <button type="submit" class="btn btn-danger pull-right" style="background-color:#de1a22; color:#ffffff;margin:0 12px 0 0">NEXT</button>
+                            <br style="clear:both" />
+
+
+                        </div>
+
+                       
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- footer
+    ================================================== -->
+        <footer style="background-color: #4d4c4c; color: #FFFFFF;" id="footer">
+            <div class="container">
+                <div class="footer-widgets-part">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="widget text-widget">
+                                <h1 style="border-bottom: 1px dashed #c0b9ba;">About</h1>
+                                <p style="color: #f5f5f5;">
+                                    GDNonline.com is the GCC's most dynamic digital news source providing a selected mix of local, regional and international news and features
+                                    to a readership across the Gulf countries and internationally. The website offers compelling and extensive content which includes local and regional input from The Gulf Daily News, the region's oldest daily newspaper.
+                                </p>
+                                <p style="color: #f5f5f5;"> GDNonline provides the paper's readers with an extensive online edition adapted to be accessed on all available technological platforms.</p>
+                            </div>
+                            <div class="widget social-widget">
+                                <h1 style="border-bottom: 1px dashed #c0b9ba;">Stay Connected</h1>
+                                <ul class="social-icons">
+                                    <li><a href="https://web.facebook.com/GulfDailyNews/" target="_blank" class="facebook"><i class="fa fa-facebook" style="color: #f5f5f5;"></i></a></li>
+                                    @*<li><a href="#" class="google"><i class="fa fa-google-plus" style="color: #f5f5f5;"></i></a></li>*@
+                                    <li><a href="https://twitter.com/gdnonline" target="_blank" class="twitter"><i class="fa fa-twitter" style="color: #f5f5f5;"></i></a></li>
+                                    <li><a href="https://www.instagram.com/gdnonline/" target="_blank" class="instagram"><i class="fa fa-instagram" style="color: #f5f5f5;"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/in/gdnonline/" target="_blank" class="linkedin"><i class="fa fa-linkedin" style="color: #f5f5f5;"></i></a></li>
+                                    <li><a href="https://www.youtube.com/channel/UC1GB-bB6mVD8-i6gV3gT5rQ" target="_blank" class="youtube"><i class="fa fa-youtube" style="color: #f5f5f5;"></i></a></li>
+                                    @*<li><a href="#" class="vimeo"><i class="fa fa-vimeo-square" style="color: #f5f5f5;"></i></a></li>
+                                    <li><a href="#" class="dribble"><i class="fa fa-dribbble" style="color: #f5f5f5;"></i></a></li>
+                                    <li><a href="#" class="pinterest"><i class="fa fa-pinterest" style="color: #f5f5f5;"></i></a></li>
+                                    <li><a href="#" class="flickr"><i class="fa fa-flickr" style="color: #f5f5f5;"></i></a></li>
+                                    <li><a href="#" class="rss"><i class="fa fa-rss" style="color: #f5f5f5;"></i></a></li>*@
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        @{
+                            Html.RenderAction("Category", "Common");
+                        }
+
+
+                        @*<div class="col-md-3">
+                            <div class="widget categories-widget">
+                                <h1 style="border-bottom: 1px dashed #c0b9ba;"></h1>
+
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="footer-last-line" style="border-top: 1px dashed #c0b9ba;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="color: #f5f5f5;">&copy; COPYRIGHT 2019 gdnlifestyle.com</p>
+                        </div>
+                        <div class="col-md-6">
+                            <nav class="footer-nav">
+                                <ul>
+                                    <li><a href=@Url.Action("Index","Home") style="color: #f5f5f5;">Home</a></li>
+                                    @*<li><a href=@Url.Action("About","Home") style="color: #f5f5f5;">About</a></li>*@
+                                    <li><a href=@Url.Action("Contact","Home") style="color: #f5f5f5;">Subscribe</a></li>
+                                    <li><a href=@Url.Action("Contact","Home") style="color: #f5f5f5;">Contact</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- End footer -->
+
+
+
+    </div>
+    <!-- End Container -->
+    <!-- Contents of log in popup-->
+    <div id="log-in-popup" class="mfp-hide white-popup">
+
+
+        @{
+            Html.RenderAction("UserRegistration", "Article", new { Countries = ViewBag.Countries });
+        }
+
+    </div>
+
+    
+
+    <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.migrate.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.bxslider.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.magnific-popup.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/bootstrap.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.ticker.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.imagesloaded.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.isotope.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/owl.carousel.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/Scripts/retina-1.1.0.min.js")></script>
+
+    @*<script type="text/javascript" src=@Url.Content("~/Scripts/jquery.imgzoom.js")></script>
+            <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.imgzoom.min.js")></script>
+        <script type="text/javascript" src=@Url.Content("~/Scripts/jquery.imgzoom.pack.js")></script>*@
+
+
+    @*<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="js/gmap3.min.js"></script>*@
+    <script type="text/javascript" src=@Url.Content("~/Scripts/script.js")></script>
+
+
+    <script src=@Url.Content("~/Theme/main/variety/js/masonry.pkgd.js")></script>
+    <script src=@Url.Content("~/Theme/main/variety/js/imagesloaded.pkgd.js")></script>
+
+    <script>
+        var grid = document.querySelector('.grid');
+        var msnry = new Masonry(grid, {
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-sizer',
+            percentPosition: true
+        });
+        imagesLoaded(grid).on('progress', function () {
+            msnry.layout();
+        });
+        //# sourceURL=pen.js
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#ddlArticleType").change(function () {
+                var val = this.value;
+                var category = $("#cat").val();
+                //window.location.href = "Home/Index?type=" + val + '&category=' + category;
+                if (category == "") {
+                    category = "ALL";
+                    }
+                window.location.href = '@Url.Content("~/Home/")Index?type=' + val + '&category=' + category;
+
+                //window.location.href = "http://172.18.0.20/SOURCECODE/Lifestyle/Home/Index?type=" + val + '&category=' + category;
+                //window.location.href = "http://localhost/LifestyleBeta/Home/Index?type=" + val + '&category=' + category; 
+            });
+
+            $("#mddlArticleType").change(function () {
+                var val = this.value;
+                var category = $("#cat").val();
+                //window.location.href = "Home/Index?type=" + val + '&category=' + category;
+                if (category == "") {
+                    category = "ALL";
+                    }
+                window.location.href = '@Url.Content("~/Home/")Index?type=' + val + '&category=' + category;
+
+                //window.location.href = "http://172.18.0.20/SOURCECODE/Lifestyle/Home/Index?type=" + val + '&category=' + category;
+                //window.location.href = "http://localhost/LifestyleBeta/Home/Index?type=" + val + '&category=' + category; 
+            });
+            
+
+
+
+
+
+           if ($(window).width() < 1200) {
+               $("#tbDashboard").removeClass("nav-justified");
+               $("#imgArticle").addClass("img-responsive");
+            }
+        else{
+            $("#tbDashboard").addClass("nav-justified");
+        }   
+
+            //$("#ddlArticleType").onchange(function () {
+            //    var selectedString = select.options[select.selectedIndex].value;
+            //    alert(selectedString);
+            //});
+
+            //$("#nav-mobile").html($("#nav-main").html());
+            //$("#nav-trigger span").click(function () {
+            //    if ($("nav#nav-mobile ul").hasClass("expanded")) {
+            //        $("nav#nav-mobile ul.expanded").removeClass("expanded").slideUp(250);
+            //        $(this).removeClass("open");
+            //    } else {
+            //        $("nav#nav-mobile ul").addClass("expanded").slideDown(250);
+            //        $(this).addClass("open");
+            //    }
+            //});
+
+            //$('[data-toggle="tooltip"]').tooltip();
+
+            //function over() {
+            //    document.write("Mouse Over");
+            //}
+            //function out() {
+            //    document.write("Mouse Out");
+            //}
+
+            //function ShowTitle(ArticleId) {
+            //    alert(ArticleId);
+            //}
+        });
+
+        
+    </script>
+
+</body>
+</html>

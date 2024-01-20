@@ -1,0 +1,2001 @@
+﻿@model LifestyleBeta.Models.tblArticle
+
+@{
+    ViewBag.Title = "Edit";
+    // Layout = null;
+
+}
+
+
+
+
+<link href="~/Content/basscss.css" rel="stylesheet" />
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<script src="~/Scripts/html5sortable.js"></script>
+
+<script src="~/Scripts/tinymce/tinymce.js"></script>
+
+<style>
+    .form-control {
+        font-size: 16px;
+    }
+
+    .tinymcebody {
+        font-size: 20px;
+    }
+
+    .heading {
+        color: #de1a22 !important;
+    }
+
+    .addtext {
+        font-size: 20px;
+        color: black;
+        font-family: Hind Siliguri;
+    }
+
+    #SuperArticleText a {
+        color: #de1a22 !important;
+        text-decoration: underline;
+    }
+
+    #desktopCoverImage img {
+        max-height: 137px;
+        margin: 0 auto;
+    }
+
+    .imgAdditional img {
+        width: 100%;
+    }
+
+    #divImgSlider img, #divMobileSliderImage img {
+        width: 130px;
+        max-height: 110px;
+    }
+
+    .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask .tinymce-mobile-content-container .tinymce-mobile-content-tap-section .tinymce-mobile-mask-tap-icon::before {
+        content: "Edit Text";
+        font-family: 'tinymce-mobile', sans-serif;
+    }
+
+    .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask {
+        background: rgba(130, 126, 126, 0.07);
+        border: 1px solid #ece9e98c;
+    }
+
+        .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask .tinymce-mobile-content-container .tinymce-mobile-content-tap-section {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px;
+        }
+
+            .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask .tinymce-mobile-content-container .tinymce-mobile-content-tap-section .tinymce-mobile-mask-tap-icon {
+                border-radius: 2%;
+                height: 40px;
+                width: 130px;
+                background-color: #de1a22;
+                color: #ffffff;
+                -webkit-box-shadow: 0px 0px 13px 4px rgba(0,0,0,0.41);
+                box-shadow: 9px 8px 21px -1px rgba(0,0,0,0.39);
+            }
+
+    .tinymce-mobile-icon-back::before {
+        content: "Done";
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .tinymce-mobile-toolstrip .tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) .tinymce-mobile-toolbar-group:first-of-type,
+    .tinymce-mobile-toolstrip .tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) .tinymce-mobile-toolbar-group:last-of-type {
+        background: #de1a22;
+        color: #ffffff;
+    }
+
+    @@media (max-width: 768px) {
+        .container {
+            width: 100%;
+            max-width: none;
+            padding: 0px;
+        }
+    }
+</style>
+
+
+
+<script>
+    //tinymce.init({
+    //    selector: '.maintextarea',
+    //    content_style: "h1,h2,h3,h4,h5,h6 { font-family: Hind Siliguri !important; color: black !important;font-weight:normal} h1 { font-size: 35px !important;} p,ul,li {font-size: 20px;color:black !important;font-family: Hind Siliguri !important;} a{color:red !important} blockquote { background: #f0f0f0; border-left: 10px solid #ccc; padding: 15px; font-family: Hind Siliguri !important;position:relative }blockquote:before { color: #000;content: open-quote;position:absolute;top:30px; font-size: 100px; font-style: italic;  margin: 0px; padding: 0px; line-height: 40px;}  blockquote p {position:relative;padding: 20px 5px 0px 5px; } ",
+    //    height: 650,
+    //    menubar: false,
+    //    resize: false,
+    //    branding: false,
+    //    plugins: "paste",
+    //    paste_as_text: true,
+    //    plugins: [
+    //        'advlist autolink lists link image charmap print preview anchor textcolor',
+    //        'searchreplace visualblocks code fullscreen',
+    //        'insertdatetime media table paste code help wordcount',
+    //        'code'
+    //    ],
+    //    toolbar: 'undo redo | formatselect | bold italic backcolor forecolor  | alignleft aligncenter alignright alignjustify | bullist numlist | removeformat | link | blockquote ',
+    //    content_css: [
+    //        '//fonts.googleapis.com/css?family=Hind Siliguri:300,300i,400,400i',
+    //        '//www.tiny.cloud/css/codepen.min.css'
+    //    ],
+
+    //});
+
+    tinymce.PluginManager.add('gdnlife-plugin', function (editor) {
+        editor.ui.registry.addMenuItem('image', {
+            icon: 'image',
+            text: 'Image',
+            onAction: function () {
+                console.log('context menu clicked');
+                alert('context menu clicked');
+            }
+        });
+
+        editor.ui.registry.addContextMenu('image', {
+            update: function (element) {
+                return !element.src ? '' : 'image';
+            }
+        });
+    });
+
+
+
+    tinymce.init({
+        selector: '.subtextarea',
+        //theme: 'mobile',
+        content_style: "h1,h2,h3,h4,h5,h6 { font-family: Hind Siliguri !important; color: black !important;font-weight:normal} h1 { font-size: 35px !important;} p,ul,li {font-size: 20px;color:black !important;font-family: Hind Siliguri !important;} a{color:red !important} blockquote { background: #f0f0f0; border-left: 10px solid #ccc; padding: 15px; font-family: Hind Siliguri !important;position:relative }blockquote:before { color: #000;content: open-quote;position:absolute;top:30px; font-size: 100px; font-style: italic;  margin: 0px; padding: 0px; line-height: 40px;}  blockquote p {position:relative;padding: 20px 5px 0px 5px; } ",
+        height: 350,
+        menubar: false,
+        resize: false,
+        branding: false,
+        plugins: "paste",
+        paste_as_text: true,
+        max_height: 100,
+        plugins: [
+            'advlist autolink autosave lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount', 'gdnlife-plugin',
+            'code'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor forecolor  | alignleft aligncenter alignright alignjustify | bullist numlist | removeformat | link | blockquote',
+        contextmenu: "image",
+        content_css: [
+            '//fonts.googleapis.com/css?family=Hind Siliguri:300,300i,400,400i',
+            '//www.tiny.cloud/css/codepen.min.css'
+        ],
+        mobile: {
+            selector: '.subtextarea',  // change this value according to your HTML
+            //theme: 'mobile',
+            plugins: ['advlist autolink autosave lists  textcolor link image charmap print preview anchor textcolor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount'],
+            toolbar: ['undo redo | bold italic styleselect | backcolor forecolor | bullist numlist']
+        },
+        setup: function (ed) {
+            ed.on('blur', function (e) {
+                SuperSubArticleText(ed.id, ed.getBody().innerHTML);
+            });
+        }
+    });
+
+    if ($(window).width() < 700) {
+        tinymce.init({
+            theme: 'mobile'
+        });
+    }
+
+</script>
+
+<style>
+
+    /*@@media (max-width: 768px) {
+        .container {
+            width: 100%;
+            max-width: none;
+            padding: 0px;
+        }
+    }*/
+
+</style>
+
+
+<section class="main-section" style="font-family:Arial;">
+    <div class="container sub-sections" id="option1">
+        <form>
+            <div>
+
+
+                <div class="col-lg-8" style="padding:0px;margin:10px 0px;padding:0 0 0px 0">
+
+
+                    <div class="col-xs-12" style="margin-bottom:10px;">
+                        <div class="col-xs-3 pull-left" id="MbArticleStatus" style="padding:0px;margin:0px;">
+                            @if (Model.Status.Trim() == "C")
+                            {
+                                <span class="badge badge-info " style="font-family:Arial;font-weight:normal">Draft</span>
+                            }
+                            else if (Model.Status.Trim() == "D")
+                            {
+                                <span class="badge badge-info" style="font-family:Arial;font-weight:normal">Draft</span>
+                            }
+                            else if (Model.Status.Trim() == "A")
+                            {
+                                <span class="badge" style="background-color:orange;font-family:Arial;font-weight:normal">Waiting for Approval</span>
+                            }
+                            else if (Model.Status.Trim() == "P")
+                            {
+                                <span class="badge" style="background-color:green;font-family:Arial;font-weight:normal">Published</span>
+                            }
+                            else if (Model.Status.Trim() == "R")
+                            {
+                                <span class="badge" style="background-color:#de1a22;font-family:Arial;font-weight:normal">Rejected</span>
+                            }
+
+                        </div>
+
+                        <div class="col-xs-9 pull-right" id="MbArticleDate" style="float:right;padding:0px;margin:0px;">
+                            <span style="float:right">
+                                <i class="fa fa-calendar"></i> @Convert.ToDateTime(Model.Updated).ToString("dd MMM yyyy hh:mm:ss tt")
+                            </span>
+                        </div>
+                    </div>
+
+
+
+                    @*<br /><br />*@
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ArticleId)
+
+                    <div class="col-lg-12" style="margin-bottom:15px; padding:0px;">
+                        <div class="col-lg-8">
+
+                            <div class="col-lg-4" style="padding:0px;">
+                                <b>Category</b><br style="clear:both" />
+                                <select class="form-control" name="CategoryId" id="SuperCategoryId" required>
+                                    <option value="">Select</option>
+                                    @foreach (var cat in ViewBag.Category)
+                                    {
+                                        <option @(cat.CategoryId == Model.CategoryId ? "selected" : "") value="@cat.CategoryId">@cat.CategoryName</option>
+                                    }
+                                </select>
+                            </div>
+
+
+                            <div class="col-lg-4" id="ArticleStatus">
+                                <br style="clear:both" />
+                                @if (Model.Status.Trim() == "C")
+                                {
+                                    <span class="badge badge-info pull-right" style="font-family:Arial;font-weight:normal">Draft</span>
+                                }
+                                else if (Model.Status.Trim() == "D")
+                                {
+                                    <span class="badge badge-info" style="font-family:Arial;font-weight:normal">Draft</span>
+                                }
+                                else if (Model.Status.Trim() == "A")
+                                {
+                                    <span class="badge" style="background-color:orange;font-family:Arial;font-weight:normal">Waiting for Approval</span>
+                                }
+                                else if (Model.Status.Trim() == "P")
+                                {
+                                    <span class="badge" style="background-color:green;font-family:Arial;font-weight:normal">Published</span>
+                                }
+                                else if (Model.Status.Trim() == "R")
+                                {
+                                    <span class="badge" style="background-color:#de1a22;font-family:Arial;font-weight:normal">Rejected</span>
+                                }
+                                <br style="clear:both;" />
+                                <br style="clear:both;" />
+                            </div>
+
+                            <div class="col-lg-4" style="padding:0px;" id="ArticleDate">
+                                <br style="clear:both" />
+                                <i class="fa fa-calendar"></i> @Convert.ToDateTime(Model.Updated).ToString("dd MMM yyyy hh:mm:ss tt")
+                            </div>
+
+                            <br style="clear:both" />
+
+                            <b>Title</b><br style="clear:both;" />
+                            <textarea name="Title" id="SuperTitle" class="form-control" rows="3">@Model.Title</textarea>
+
+                        </div>
+
+                        <div class="col-lg-4 pull-right hidden-xs">
+
+                            @foreach (var img in ViewBag.ArticleImages)
+                            {
+                                if (img.ImagePath != "" && img.ImagePath != null)
+                                {
+                                    if (img.ImageOrder == 1)
+                                    {
+                                        <div style="float:left"><b>Cover Image</b></div>
+                                        <div class="pull-right" style="width:60px;margin:-2px 10px 0 0">
+                                            <i class="fa fa-edit" style="color:#de1a22;font-size:20px;cursor:pointer; margin-left:20px; float:right;" data-toggle="modal" data-target="#ModalSliderImgEdit-@img.ArticleImageID"></i>
+                                            <b><i class="fas fa-redo" onclick="RotateCoverImage('@img.ArticleImageID','desktop','cover')" style="color:#de1a22; cursor:pointer;font-weight:600;font-size:16px;float:right; "></i></b>
+                                        </div>
+                                        <div id="desktopCoverImage" style="clear:both; margin-top:5px;">
+                                            <img id="imgArticle" style="max-height:137px;clear:both; margin:0 auto;" class="img-responsive" src="@Url.Content(img.ImagePath)?@DateTime.Now" />
+                                        </div>
+
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="hidden-lg"><br /></div>
+
+                    <div class="col-xs-12 hidden-md hidden-lg">
+
+                        @foreach (var img in ViewBag.ArticleImages)
+                        {
+                            if (img.ImagePath != "" && img.ImagePath != null)
+                            {
+                                if (img.ImageOrder == 1)
+                                {
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading col-xs-12" style="padding:10px 0px">
+                                            <div class="col-xs-8 pull-left">
+                                                <b>Cover Image</b>
+                                            </div>
+                                            <div class="col-xs-2 text-center">
+                                                <a onclick="RotateCoverImage('@img.ArticleImageID','mobile','cover')" style="color:#de1a22; cursor:pointer;font-weight:600; font-size:16px; ">
+                                                    <b><i class="fas fa-redo"></i></b>
+                                                </a>
+                                            </div>
+
+                                            <div class="col-xs-2 pull-right">
+                                                <i class="fa fa-edit" style="color:#de1a22;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalSliderImgEdit-@img.ArticleImageID"></i>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-xs-12" id="mobileCoverImage" style="padding-top:20px;">
+                                                <img id="imgCover" class="img-responsive" src="@Url.Content(img.ImagePath)?@DateTime.Now" />
+                                                @*<div class="col-xs-12" id="divCoverPartial"></div>*@
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                }
+                            }
+                        }
+
+                    </div>
+
+                    <script>
+                         @*document.ready(function () {
+                            var url = "@Url.Content("~/Article/CoverImageRotate/")";
+                            $("#divPartial").load(url);
+                          });*@
+
+                        function RotateCoverImage (imgId,screen,imgtype) {
+                             //alert(imgId+'-'+screen+'-'+imgtype);
+                            $.ajax({
+                                method: "POST",
+                                url: "@Url.Content("~/Article/CoverImageRotate")",
+                                data: { ImageId: imgId,ImageType:imgtype},
+                                success: function (data) {
+
+                                    //$("#divPartial").load(url);
+                                    if (imgtype == 'cover') {
+
+                                        if (screen == 'mobile') {
+                                            $("#mobileCoverImage").empty();
+                                            $("#mobileCoverImage").html(data);
+                                        }
+                                        else {
+                                            $('#desktopCoverImage').empty();
+                                            $("#desktopCoverImage").html(data);
+                                        }
+                                    }
+                                    else if(imgtype == 'slider'){
+                                        //imgSlider_img.ArticleImageID
+                                        if (screen == 'desktop') {
+                                            $("img").remove("#imgSlider__" + imgId);
+                                        $("#divImgSlider_" + imgId).html(data);
+                                        }
+                                        else {
+                                            $("img").remove("#imgMobileSliderImage_" + imgId);
+                                        $("#divMobileSliderImage_" + imgId).html(data);
+
+                                        }
+
+
+                                    }
+                                    else {
+                                        $("img").remove("#img_" + imgId);
+                                        $("#imgAdditional_"+imgId).html(data);
+                                    }
+
+                                },
+                                error: function () {
+                                }
+                            });
+
+
+                        }
+
+
+                    </script>
+
+
+                    @foreach (var subart in ViewBag.SubArticles)
+                    {
+
+                        @*<a class="pageanchor" name="addartspoint-@subart.AdditionalArticleId" style="color:white;font-size:11px;font-style:italic; float:left;line-height:0px;">.</a>*@
+                        <div>
+                            @if (subart.Type == 1)
+                            {
+                                <div class="pull-right col-lg-10 col-xs-12" style="width:15px;margin:10px 10px 0 0"><i class="fa fa-times" style="color:#de1a22;font-size:20px;cursor:pointer" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)"></i></div>
+                            }
+
+                            @*@if (subart.Type == 3)
+                                {
+                                    <br style="clear:both" />
+                                    <div class=" col-lg-12 col-xs-12" style="text-align:right">
+                                        <i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer;float:right;margin-left:30px;" data-toggle="modal" data-target="#ModalEditArticleImage-@subart.AdditionalArticleId"></i>
+                                        <b><i class="fas fa-redo" onclick="RotateCoverImage('@subart.AdditionalArticleId','none','imgAdditional')" style="color:red; cursor:pointer;font-weight:600;font-size:16px;float:right; "></i></b>
+                                    </div>
+                                    <br style="clear:both" />
+
+                                }*@
+                            @*@if (subart.Type == 4)
+                                {
+                                    <br style="clear:both" />
+                                    <div class=" col-lg-12 col-xs-12" style="text-align:right">
+                                        <i class="fa fa-edit" style="color:red;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalEditArticleVideo-@subart.AdditionalArticleId"></i>
+                                    </div>
+                                    <br style="clear:both" />
+                                }*@
+                            @*@if (subart.Type == 5)
+                                {
+                                    <br style="clear:both" />
+                                    <div class=" col-lg-12 col-xs-12" style="text-align:right">
+                                        <a href="http://www.gdnlife.com@(Url.Content(subart.ArticleImage))"><i class="fa fa-video"></i></a>
+                                        <i class="fa fa-times" style="color:red;font-size:20px;cursor:pointer" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)"></i>
+                                    </div>
+                                    <br style="clear:both" />
+
+                                }*@
+
+
+                            @if (subart.Type == 6)
+                            {
+                                <br style="clear:both" />
+
+
+                                if (ViewBag.ArticleImages.Count != 0)
+                                {
+
+                                    <div class="hidden-xs" style="margin:0 10px">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading col-lg-12" style="padding:10px 0px;">
+                                                <a name="sliderpoint-@subart.AdditionalArticleId" style="color:white;font-size:11px;font-style:italic">.</a>
+                                                <div class="col-md-2"><b>Slider</b></div>
+                                                <div class="col-md-7 text-right"> To change the order of your pictures, 'Drag and Drop' (Max 8 images)</div>
+                                                <div class=" col-lg-1 col-xs-12 text-right">
+                                                    <i class="fa fa-times" style="color:#de1a22;font-size:20px;cursor:pointer" onclick="RemoveSlider(@subart.AdditionalArticleId)"></i>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="col-lg-10" style="border:0px;padding:10px 0 0 5px;">
+                                                    <div class="p3 clearfix bg-yellow maroon" style="min-height:350px;background-color:white">
+                                                        <div class="col col-12">
+                                                            <div id="main" class="js-grid sortable grid clearfix ml4 myn1">
+
+
+                                                                @foreach (var img in ViewBag.ArticleImages)
+                                                                {
+                                                                    if (img.ImagePath != "" && img.ImagePath != null && img.ImageOrder != 1)
+                                                                    {
+
+                                                                        <div class="col col-3 px2 py1" id="@img.ArticleImageID" style="height:180px;">
+                                                                            <div class="bg-maroon py4 yellow ">
+                                                                                <div class="pull-right" style="width:60px;margin:10px 0px 0 0">
+                                                                                    <i class="fa fa-edit" style="color:#de1a22;font-size:20px;cursor:pointer;float:right;margin-left:10px;" data-toggle="modal" data-target="#ModalSliderImgEdit-@img.ArticleImageID"></i>
+                                                                                    <b><i class="fas fa-redo" onclick="RotateCoverImage('@img.ArticleImageID','desktop','slider')" style="color:#de1a22; cursor:pointer;font-weight:600;font-size:16px;float:right; "></i></b>
+                                                                                </div>
+                                                                                <div class="row" style="height:110px;  overflow:hidden;clear:both;padding:0 20px;cursor:grabbing" id="divImgSlider_@img.ArticleImageID">
+                                                                                    <img style="width:130px;height:110px;" src="@Url.Content(img.ImagePath)?@DateTime.Now" id="imgSlider_@img.ArticleImageID" />
+
+                                                                                </div>
+                                                                                <div style="padding:5px 5px 0 5px;"> @img.Caption</div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2 hidden-xs" style="background-color:white">
+                                                    @if (ViewBag.ArticleImages.Count <= 8)
+                                                    {
+                                                        <br style="clear:both" />
+
+                                                        <div class="col-lg-12 col-xs-12 text-center" style="background-color: #f0f0f0;">
+                                                            <br />
+
+                                                            <i style="font-size:25px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalSliderImage" class="fa fa-image"></i>
+
+                                                            <br />
+                                                            <i style="font-size:13px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalSliderImage" class="fa fa-plus"></i>
+                                                            <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalSliderImage">Image</a>
+
+                                                            <br />
+                                                            <br />
+
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br style="clear:both" />
+
+
+                                    </div>
+
+                                    <div class="col-xs-12 hidden-md hidden-lg">
+                                        <div class="panel panel-default" style="padding:0px;">
+
+                                            <div class="panel-heading">
+                                                <b>Slider Images</b>
+
+                                                <div class="col-xs-2 pull-right" style="margin-right:0px; padding-right:0px;">
+                                                    <i class="fa fa-times pull-right" style="color:#de1a22;font-size:20px;cursor:pointer" onclick="RemoveSlider(@subart.AdditionalArticleId)"></i>
+                                                </div>
+
+                                                @if (ViewBag.ArticleImages.Count <= 8)
+                                                {
+                                                    <div class="pull-right" style="background-color: #f0f0f0;">
+                                                        <i style="font-size:18px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalSliderImage" class="fa fa-image"></i>
+                                                        <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalSliderImage"> Add Image</a>
+                                                    </div>
+                                                }
+
+
+
+                                            </div>
+                                            <div class="panel-body" style="padding:5px 0px 5px 0px; ">
+                                                @foreach (var img in ViewBag.ArticleImages)
+                                                {
+                                                    if (img.ImagePath != "" && img.ImagePath != null && img.ImageOrder != 1)
+                                                    {
+                                                        <div class="col-xs-3" style="padding:0px 0px 0px 3px;">
+                                                            <div class="pull-right" style="width:60px;margin:10px 5px 0 0">
+                                                                <i class="fa fa-edit" style="color:#de1a22;font-size:18px;cursor:pointer;float:right;margin-left:10px;" data-toggle="modal" data-target="#ModalSliderImgEdit-@img.ArticleImageID"></i>
+                                                                <b><i class="fas fa-redo" onclick="RotateCoverImage('@img.ArticleImageID','mobile','slider')" style="color:#de1a22; cursor:pointer;font-weight:600;font-size:16px;float:right; "></i></b>
+                                                            </div>
+                                                            <div id="divMobileSliderImage_@img.ArticleImageID">
+                                                                <img style="width:100%" src="@Url.Content(img.ImagePath)?@DateTime.Now" id="imgMobileSliderImage_@img.ArticleImageID" />
+                                                            </div>
+
+
+                                                            @if (img.Caption != "" && img.Caption != null)
+                                                            {
+                                                                <div style="background-color:black;color:white;font-size:12px; text-align:center;padding:4px;clear:both">@img.Caption</div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <br style="clear:both;" /><br style="clear:both;" />
+                                                            }
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                }
+                                <input type="hidden" id="children" />
+                                @*<br style="clear:both" />*@
+                            }
+
+
+
+                            @if (subart.ArticleImage != null && subart.ArticleImage != "")
+                            {
+
+                                if (subart.Type == 3)
+                                {
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading col-lg-12 col-xs-12" style="padding:10px 0px;">
+                                                <div class=" col-lg-12 col-xs-12" style="text-align:right">
+                                                    <i class="fa fa-edit" style="color:#de1a22;font-size:20px;cursor:pointer;float:right;margin-left:30px;" data-toggle="modal" data-target="#ModalEditArticleImage-@subart.AdditionalArticleId"></i>
+                                                    <b><i class="fas fa-redo" onclick="RotateCoverImage('@subart.AdditionalArticleId','none','imgAdditional')" style="color:#de1a22; cursor:pointer;font-weight:600;font-size:16px;float:right; "></i></b>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="col-lg-12 col-xs-12 imgAdditional" id="imgAdditional_@subart.AdditionalArticleId" style="padding-top:15px;">
+
+                                                    <img id="img_@subart.AdditionalArticleId" style="width:100%" src="@Url.Content(subart.ArticleImage)?@DateTime.Now" />
+                                                    @if (subart.Caption != "" && subart.Caption != null)
+                                                    {
+                                                        <div style="background-color:black;color:white;text-align:center;padding:10px 25px;clear:both">@subart.Caption</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                }
+                                else if (subart.Type == 5)
+                                {
+                                    <div class=" col-lg-12 col-xs-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading col-lg-12 col-xs-12" style="padding:10px 0px;">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:right">
+                                                    <a href="http://www.gdnlife.com@(Url.Content(subart.ArticleImage))"><i class="fa fa-video fa-lg"></i></a>
+                                                    <i class="fa fa-times fa-lg" style="color:#de1a22;font-size:20px;cursor:pointer;margin-left:25px;" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)"></i>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <video width="100%" controls style="padding-top:15px;">
+                                                    <source src="@Url.Content(subart.ArticleImage)" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+
+                                                @if (subart.Caption != "" && subart.Caption != null)
+                                                {
+                                                    <div style="background-color:black;color:white;text-align:center;padding:10px 25px;clear:both">@subart.Caption</div>
+                                                }
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                }
+                            }
+
+                            @if (subart.Type == 4)
+                            {
+
+                                if (subart.YoutubeVideoURL != null && subart.YoutubeVideoURL != "")
+                                {
+
+                                    <div class="col-lg-12 col-xs-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading col-lg-12 col-xs-12" style="padding:10px 0px;">
+                                                <div class=" col-lg-12 col-xs-12" style="text-align:right">
+                                                    <i class="fa fa-edit" style="color:#de1a22;font-size:20px;cursor:pointer" data-toggle="modal" data-target="#ModalEditArticleVideo-@subart.AdditionalArticleId"></i>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <iframe width="100%" height="400" style="padding-top:15px;" src="https://www.youtube.com/embed/@subart.YoutubeVideoURL" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                }
+
+                            }
+
+                            @if (subart.Type == 2)
+                            {
+                                <br style="clear:both" />
+
+                                if (subart.ArticleText != null && subart.ArticleText != "")
+                                {
+                                    <div class="col-lg-12 col-xs-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading col-lg-12 col-xs-12" style="padding:10px 0px;">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:right">
+                                                    <i class="fa fa-times" style="color:#de1a22;font-size:20px;cursor:pointer" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)"></i>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div style="padding-top:35px;">
+                                                    <textarea class="subtextarea" id="@subart.AdditionalArticleId">@subart.ArticleText</textarea>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br style="clear:both" />
+                                }
+                            }
+
+
+
+                        </div>
+
+                    }
+
+                    <div class="col-lg-12 hidden-xs"> <br style="clear:both" /></div>
+
+                    <script>
+                        sortable('.js-sortable-copy', {
+                            forcePlaceholderSize: true,
+                            copy: true,
+                            acceptFrom: false,
+                            placeholderClass: 'mb1 bg-navy border border-yellow',
+                        });
+                        sortable('.js-sortable-copy-target', {
+                            forcePlaceholderSize: true,
+                            acceptFrom: '.js-sortable-copy,.js-sortable-copy-target',
+                            placeholderClass: 'mb1 border border-maroon',
+                        });
+                        sortable('.js-grid', {
+                            forcePlaceholderSize: true,
+                            placeholderClass: 'col col-4 border border-maroon'
+                        });
+                        sortable('.js-sortable-connected', {
+                            forcePlaceholderSize: true,
+                            connectWith: '.js-connected',
+                            handle: '.js-handle',
+                            items: 'li',
+                            placeholderClass: 'border border-white bg-orange mb1'
+                        });
+                        sortable('.js-sortable-inner-connected', {
+                            forcePlaceholderSize: true,
+                            connectWith: 'js-inner-connected',
+                            handle: '.js-inner-handle',
+                            items: '.item',
+                            maxItems: 3,
+                            placeholderClass: 'border border-white bg-orange mb1'
+                        });
+                        document.querySelector('.sortable').addEventListener('sortupdate', function (e) {
+                            console.log('Sortupdate: ', e.detail);
+                            console.log('Container: ', e.detail.origin.container, ' -> ', e.detail.destination.container);
+                            console.log('Index: ' + e.detail.origin.index + ' -> ' + e.detail.destination.index);
+                            console.log('Element Index: ' + e.detail.origin.elementIndex + ' -> ' + e.detail.destination.elementIndex);
+                         //   alert('Index: ' + e.detail.origin.index + ' -> ' + e.detail.destination.index);
+                        });
+
+                        document.querySelector('.sortable').addEventListener('sortstart', function (e) {
+                            console.log('Sortstart: ', e.detail);
+                        });
+
+                        document.querySelector('.sortable').addEventListener('sortstop', function (e) {
+                            console.log('Sortstop: ', e.detail);
+
+                            var arr = $("#main > div").map(function () { return this.id });
+                            $('#children').val(arr.get().join(","));
+
+
+                            $.ajax({
+                                url: "@Url.Content("~/SortSliderPics/")" + $('#children').val(),
+                                success: function (data) {
+
+                                },
+                                error: function () {
+                                   // window.location.reload();
+                                }
+                            });
+
+                           // alert("You've successfully sorted");
+                        });
+
+                        sortable('.js-sortable-buttons', {
+                            forcePlaceholderSize: true,
+                            items: 'li',
+                            placeholderClass: 'border border-white mb1',
+                            hoverClass: 'bg-yellow'
+                        });
+                        // buttons to add items and reload the list
+                        // separately to showcase issue without reload
+                        document.querySelector('.js-add-item-button').addEventListener('click', function () {
+                            doc = new DOMParser().parseFromString(`<li class="p1 mb1 blue bg-white">new item</li>`, "text/html").body.firstChild;
+                            document.querySelector('.js-sortable-buttons').appendChild(doc);
+                        });
+
+                        document.querySelector('.js-reload').addEventListener('click', function () {
+                            console.log('Options before re-init:');
+                            console.log(document.querySelector('.js-sortable-buttons').h5s.data.opts);
+                            sortable('.js-sortable-buttons');
+                            console.log('Options after re-init:');
+                            console.log(document.querySelector('.js-sortable-buttons').h5s.data.opts);
+                        });
+                        // JS DISABLED
+                        document.querySelector('.js-disable').addEventListener('click', function () {
+                            var $list = document.querySelector('[data-disabled]');
+                            if ($list.getAttribute('data-disabled') === 'false') {
+                                this.innerHTML = 'Enable';
+                                sortable($list, 'disable');
+                                $list.setAttribute('data-disabled', true);
+                                $list.classList.add('muted');
+                            } else {
+                                this.innerHTML = 'Disable';
+                                sortable($list, 'enable');
+                                $list.setAttribute('data-disabled', false);
+                                $list.classList.remove('muted');
+                            }
+                        });
+
+                        // Destroy & Init
+                        document.querySelector('.js-destroy').addEventListener('click', function () {
+                            sortable('.js-sortable-buttons', 'destroy');
+                        });
+                        document.querySelector('.js-init').addEventListener('click', function () {
+                            sortable('.js-sortable-buttons', {
+                                forcePlaceholderSize: true,
+                                items: 'li',
+                                placeholderClass: 'border border-white mb1'
+                            });
+                        });
+                    </script>
+
+
+                    <div class="hidden-xs" style="float:right;color:darkgrey;font-size:30px;position:absolute;top: 250px;left: 152px;z-index:-50;">
+                        Build your story with tools from the toolbox <i class="fa fa-angle-double-right"></i>
+                    </div>
+
+
+                </div>
+
+                <script>
+                    $(document).ready(function () {
+
+
+                        $(".box").animate({
+                            height: "toggle"
+                        });
+                        $(".slide-toggle").delay(1).animate({
+                            bottom: '0px',
+                        }, 400);
+
+
+                        $(".slide-toggle").click(function () {
+                            $(".box").animate({
+                                height: "toggle"
+                            });
+
+
+                            if ($('#boxicon').hasClass('fa-angle-up')) {
+                                $("#boxicon").addClass('fa-angle-down');
+                                $("#boxicon").removeClass('fa-angle-up');
+                                $(".slide-toggle").delay(1).animate({
+                                    bottom: '165px',
+                                }, 400);
+
+                            }
+                            else {
+                                $("#boxicon").removeClass('fa-angle-down');
+                                $("#boxicon").addClass('fa-angle-up');
+
+                                $(".slide-toggle").delay(1).animate({
+                                    bottom: '0px',
+                                }, 400);
+                            }
+
+                        });
+                    });
+                </script>
+
+                <style>
+                    .box {
+                        width: 100%;
+                        overflow: hidden;
+                        background: #f0f0f0;
+                        margin: 10px 0;
+                        position: fixed;
+                        bottom: -10px;
+                        z-index: 100;
+                    }
+
+                    .box-inner {
+                        width: 100%;
+                        padding: 0px;
+                        margin: 0px;
+                        /*height: 200px;*/
+                    }
+
+                    .menubutton {
+                        float: right;
+                        padding: 14px 21px;
+                        background-color: #de1a22;
+                        margin: 0px 0;
+                        position: fixed;
+                        bottom: 165px;
+                        z-index: 200;
+                        width: 100%;
+                    }
+
+                    /*.sidebarsc {
+                        position: -webkit-sticky;
+                        position: sticky;
+                        top: 250px;
+                        height: 1px;
+                        z-index:-100;
+                    }*/
+
+
+                    .sidebarsc {
+                        position: fixed;
+                        width: 375px;
+                    }
+
+
+                    #footer, #SearchBar {
+                        display: none;
+                    }
+                </style>
+                <div class="col-md-4" style="position:relative">
+                    <div class="sidebarsc hidden-xs">
+                        <div class="" style="background-color:#f5f5f5;text-align:center">
+
+
+                            <br style="clear:both" />
+                            <br style="clear:both" />
+
+                            <div class="col-lg-12 col-xs-12 text-center hidden-xs ">
+
+
+                                @if (ViewBag.AdminUser != "YES")
+                                {
+                                    <div class="btn-group"><button style="font-family:Arial;font-size:14px;margin:0 0px 0 0;color:white;width:220px;z-index:10;background-color:#434954" class="btn" type="submit" formmethod="post" formaction="@Url.Content("~/Article/EditD")" onclick="SaveSubArticleText()"><i class="fa fa-save"></i>&nbsp;&nbsp;SAVE AS DRAFT</button></div>
+
+                                    <div style="clear:both;height:5px;"></div>
+                                    <div class="btn-group"><button style="font-family:Arial;font-size:14px;margin:0 3px;color:white;width:220px;background-color:#f36e21" class="btn" type="submit" formmethod="post" formaction="@Url.Content("~/Article/EditA")" onclick="SaveSubArticleText()"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;SUBMIT FOR APPROVAL</button></div>
+                                    <div style="clear:both;height:5px;"></div>
+                                    <div class="btn-group">
+                                        <a style="font-family:Arial;font-size:14px;margin:0 0 0 0px;color:white;width:220px;background-color:#0085cb" class="btn" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"&e=edit")" target="_blank" onclick="SaveSubArticleText()">
+                                            <i class="fa fa-search"> </i>&nbsp;&nbsp;PREVIEW
+                                        </a>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="btn-group"><input type="submit" value="UPDATE" class="btn btn-warning" style="font-family:Arial;font-size:14px;margin:0 0px 0 0;color:white;width:220px;z-index:10;" formmethod="post" formaction="@Url.Content("~/Article/EditA")" onclick="SaveSubArticleText()" /></div>
+                                    <br style="clear:both" />
+                                    <br style="clear:both" />
+                                    <div class="btn-group"><input type="submit" value="PUBLISH" class="btn btn-success" style="font-family:Arial;font-size:14px;margin:0 0px 0 0;color:white;width:220px;z-index:10;" formmethod="post" formaction="@Url.Content("~/Article/Publish")" onclick="SaveSubArticleText()" /></div>
+                                    <br style="clear:both" />
+                                    <br style="clear:both" />
+                                    <div class="btn-group"><input type="submit" value="REJECT" class="btn btn-danger" style="font-family:Arial;font-size:14px;margin:0 0px 0 0;background-color:#de1a22;color:white;width:220px;z-index:10;" data-toggle="modal" data-target="#ModalAddNote" onclick="SaveSubArticleText()" /></div>
+                                    <br style="clear:both" />
+                                    <br style="clear:both" />
+                                    <div class="btn-group"><a type="button" class="btn btn-info" style="font-family:Arial;font-size:14px;margin:0 0px 0 0;color:white;width:220px;z-index:10;" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"&e=edit")" target="_blank" onclick="SaveSubArticleText()">PREVIEW</a></div>
+
+                                }
+
+
+
+                            </div>
+                            <br style="clear:both" />
+                            <br style="clear:both" />
+
+                            <div style="background-color:white"><br style="clear:both" /></div>
+                            <div style="float:left;margin: 13px 252px -9px 63px;color:#de1a22"><b>Toolbox</b></div>
+
+                            <div class="pull-left  hidden-xs" style="text-align:center;width:55px; margin:0 0 0 50px">
+
+                                <br />
+
+                                <i style="font-size:35px;color:#ec2027;cursor:pointer" onclick="CreateblankSubArt()" class="fa fa-file-text"></i>
+                                <br style="clear:both" />
+                                <a href="" style="color:#ec2027" onclick="CreateblankSubArt()">Text</a>
+
+                                <br />
+                                <br />
+
+                            </div>
+                            <div class="pull-left    hidden-xs" style="text-align:center;;width:55px; ">
+
+
+                                <br />
+
+                                <i style="font-size:35px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalAddArticle" class="fa fa-photo"></i>
+                                <br style="clear:both" />
+
+                                <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalAddArticle">Image</a>
+
+                                <br />
+                                <br />
+
+
+                            </div>
+                            <div class="pull-left    hidden-xs" style="text-align:center;width:55px;">
+
+
+
+                                <br />
+
+                                <i @(ViewBag.HasSlider == "NO" ? " onclick=CreateSlider()  style=color:#ec2027;cursor:pointer;font-size:35px;" : "style=color:#cccccc;font-size:35px;") class="far fa-images"></i>
+                                <br style="clear:both" />
+                                <span @(ViewBag.HasSlider == "NO" ? " onclick=CreateSlider() style=color:#ec2027;cursor:pointer " : "style=color:#cccccc")>Slider</span>
+
+                                <br />
+                                <br />
+
+
+
+
+                            </div>
+                            <div class="pull-left   hidden-xs" style="text-align:center;width:55px; ">
+
+
+                                <br />
+
+                                <i style="font-size:35px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalAddArticleVideo" class="fa fa-youtube"></i><br style="clear:both" />
+                                <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalAddArticleVideo">Youtube</a>
+
+                                <br />
+                                <br />
+
+
+                            </div>
+                            <div class="pull-left    hidden-xs text-center" style="text-align:center;width:55px; ">
+
+
+                                <br />
+
+                                <i style="font-size:35px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalAddVideoFile" class="fa fa-video"></i><br style="clear:both" />
+                                <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalAddVideoFile">Video</a>
+
+                                <br />
+                                <br />
+
+                            </div>
+
+                            <br style="clear:both" />
+
+
+                        </div>
+                        <br style="clear:both" />
+                        <br style="clear:both" />
+
+
+                    </div>
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+
+
+                <div class="slide-toggle menubutton hidden-lg text-center">
+
+                    <i style="font-weight:600;font-size:20px;color:#ffffff;cursor:pointer" id="boxicon" class="fa fa-angle-up"></i>
+                    <span style="margin-left:3px; color:white;font-weight:600;"> Build your story with tools from the toolbox</span>
+                </div>
+                <div class="box hidden-lg">
+                    <div class="box-inner">
+                        @*<div class="col-xs-12 text-center" style="padding:0px; margin:0px;"></div>*@
+                        <br style="clear:both" />
+                        <div class="col-xs-12 text-center" style="padding:0px; margin:0px;">
+                            <div style="padding:0px; margin:0 auto; width:100%;display:flex; justify-content:center;">
+                                <div class="col-xs-2 text-center  hidden-lg hidden-md" style="border: 1px solid #e1e0e0;margin: 2px; padding:2px;float:left;border-radius:4px;background-color:#ece9e9;">
+                                    <i style="font-size:35px;color:#ec2027;cursor:pointer" onclick="CreateblankSubArt()" class="fa fa-file-text"></i>
+                                    <br style="clear:both" />
+                                    <a href="" style="color:#ec2027" onclick="CreateblankSubArt()">Text</a>
+                                </div>
+                                <div class="col-xs-2 text-center hidden-lg hidden-md" style="border: 1px solid #e1e0e0;margin: 2px; padding: 2px;float:left;border-radius:4px;background-color:#ece9e9;">
+                                    <i style="font-size:35px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalAddArticle" class="fa fa-photo"></i>
+                                    <br style="clear:both" />
+                                    <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalAddArticle">Image</a>
+                                </div>
+                                <div class="col-xs-2 text-center  hidden-lg hidden-md" style="border: 1px solid #e1e0e0;margin: 2px; padding: 2px;float:left;border-radius:4px;background-color:#ece9e9;">
+                                    <i @(ViewBag.HasSlider == "NO" ? " onclick=CreateSlider()  style=color:#ec2027;cursor:pointer;font-size:33px;" : "style=color:#cccccc;font-size:33px;") class="far fa-images"></i>
+                                    <br style="clear:both" />
+                                    <span @(ViewBag.HasSlider == "NO" ? " onclick=CreateSlider() style=color:#ec2027;cursor:pointer " : "style=color:#cccccc")>Slider</span>
+                                </div>
+                                <div class="col-xs-2 text-center hidden-lg hidden-md" style="border: 1px solid #e1e0e0;margin: 2px; padding: 2px;float:left;border-radius:4px;background-color:#ece9e9;">
+                                    <i style="font-size:35px;color:#ec2027;cursor:pointer;" data-toggle="modal" data-target="#ModalAddArticleVideo" class="fa fa-youtube"></i>
+                                    <br style="clear:both" />
+                                    <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalAddArticleVideo">Link</a>
+                                </div>
+                                <div class="col-xs-2 text-center hidden-lg hidden-md" style="border: 1px solid #e1e0e0;margin: 2px; padding: 2px;float:left;border-radius:4px;background-color:#ece9e9;">
+                                    <i style="font-size:35px;color:#ec2027;cursor:pointer" data-toggle="modal" data-target="#ModalAddVideoFile" class="fa fa-video"></i>
+                                    <br style="clear:both" />
+                                    <a href="" style="color:#ec2027" data-toggle="modal" data-target="#ModalAddVideoFile">Video</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12 col-xs-12 text-center" style="padding:0px; margin:0px;">
+                            <br style="clear:both" />
+                            @if (ViewBag.AdminUser != "YES")
+                            {
+                                <div class="col-xs-4" style="padding:0px; margin:0px;">
+                                    <button style="font-family:Arial;font-size:12px;margin:0px;color:white;width:100%;z-index:10;background-color:#434954;border-radius:unset;
+                                                   font-weight:600;"
+                                            class="btn" type="submit" formmethod="post" formaction="@Url.Content("~/Article/EditD")">
+                                        <i class="fa fa-save"></i><br />SAVE AS<br /> DRAFT
+                                    </button>
+                                </div>
+
+                                <div class="col-xs-4" style="padding:0px; margin:0px;">
+                                    <button style="font-family:Arial;font-size:12px;margin:0px;color:white;width:100%;background-color:#f36e21;border-radius:unset;
+                                                font-weight:600;"
+                                            class="btn" type="submit" formmethod="post" formaction="@Url.Content("~/Article/EditA")">
+                                        <i class="fa fa-paper-plane"></i><br />SUBMIT <br />FOR APPROVAL
+                                    </button>
+                                </div>
+
+                                <div class="col-xs-4" style="padding:0px; margin:0px;">
+                                    <a style="font-family:Arial;font-size:12px;margin:0 0 0 0px;color:white;width:100%;background-color:#0085cb;border-radius:unset;
+                                                font-weight:600;height:65px;"
+                                       class="btn" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"&e=edit")">
+                                        <i class="fa fa-search" style="margin-bottom:10px;"></i><br style="margin-bottom:5px;" />PREVIEW
+                                    </a>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="col-xs-3" style="padding:0px; margin:0px;">
+                                    <input type="submit" value="UPDATE" class="btn btn-warning" formmethod="post" formaction="@Url.Content("~/Article/EditA")"
+                                           style="border-radius: unset; width: 100%; height: 60px; padding: 20px 0px; font-weight: 600;" />
+                                </div>
+                                <div class="col-xs-3" style="padding:0px; margin:0px;">
+                                    <input type="submit" value="PUBLISH" class="btn btn-success" formmethod="post" formaction="@Url.Content("~/Article/Publish")"
+                                           style="border-radius: unset;width: 100%;height: 60px;padding: 20px 0px;font-weight: 600;" />
+                                </div>
+                                <div class="col-xs-3" style="padding:0px; margin:0px;">
+                                    <input type="submit" value="REJECT" class="btn btn-danger" data-toggle="modal" data-target="#ModalAddNote"
+                                           style="border-radius: unset;width: 100%;height: 60px;padding: 20px 0px;font-weight: 600;background-color:#de1a22;color:#FFF;" />
+                                </div>
+                                <div class="col-xs-3" style="padding:0px; margin:0px;">
+                                    <a type="button" class="btn btn-info" href="@Url.Content("../../Home/ArticleDetail?ArticleId="+Model.ArticleId+"&category="+Model.CategoryId+"&e=edit")"
+                                       style="border-radius: unset;width: 100%;height: 60px;padding: 20px 0px;font-weight: 600;">PREVIEW</a>
+                                </div>
+
+                            }
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+
+
+    </div>
+</section>
+
+@*MODALS BEGIN*@
+
+@foreach (var img in ViewBag.ArticleImages)
+{
+    if (img.ImagePath != null)
+    {
+        <div class="modal fade" id="ModalSliderImgEdit-@img.ArticleImageID" role="dialog" style="z-index:109999;font-family:Arial">
+            <div class="modal-dialog modal-lg">
+                <form method="post" action="@Url.Content("../../Article/ArticleImageUpdate")" enctype="multipart/form-data">
+                    <div class="modal-content">
+
+
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <br style="clear:both" />
+
+                            <input type="hidden" value="@img.ArticleImageID" name="ArticleImageID" />
+                            <input type="hidden" value="@Model.ArticleId" name="ArticleID" />
+
+
+                            <b>Image</b><br style="clear:both;" />
+                            <input type="file" name="file" class="hidden-xs" id="SliderImgEdit" onchange="showimgpreviewMain();document.getElementById('previewimgMain').src = window.URL.createObjectURL(this.files[0]);" />
+                            <label for="SliderImgEdit" class="hidden-lg" style="background-color:#de1a22;color:white;padding:10px 20px"><i class="fa fa-upload"></i> Choose a file</label>
+                            <br style="clear:both" />
+
+                            <img id="previewimgMain" height="60" />
+
+                            <script>
+                                $("#previewimgMain").hide();
+                                function showimgpreviewMain() {
+                                    $("#previewimgMain").show();
+                                }
+                            </script>
+                            <br style="clear:both" />
+
+
+
+                            @if (img.ImageOrder != 1)
+                            {
+                                <b>Caption</b> <br style="clear:both;" />
+                                <input type="text" name="caption" class="form-control" value="@img.Caption" />
+                            }
+                            <br style="clear:both" />
+
+                            <button type="submit" class="btn btn-info pull-right">SAVE</button>
+
+                            @if (img.ImageOrder != 1)
+                            {
+                                <button type="button" onclick="DeleteSliderPic(@img.ArticleImageID)" class="btn btn-danger pull-left" style="background-color:#de1a22; color:#FFF;">DELETE</button>
+                            }
+
+                            <br style="clear:both" />
+
+
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+}
+
+<div class="modal fade" id="ModalAddNote" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/Reject")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Reject Article</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Rejection Reason</b><br style="clear:both;" />
+                            <textarea rows="3" type="text" name="Note" class="form-control" required></textarea>
+                        </div>
+                    </div>
+
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">ADD</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalAddArticle" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+
+            <div class="modal-body">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <br style="clear:both" />
+
+                <form id="frmImagePost" method="post" action="@Url.Content("../../Article/AdditionalArticle")" enctype="multipart/form-data">
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+
+                    <b>Image</b><br style="clear:both;" />
+                    <input type="file" class="hidden-xs" name="file" id="imgAddArticle" onchange="showimgpreview2();document.getElementById('previewimg2').src = window.URL.createObjectURL(this.files[0]);" />
+                    <label for="imgAddArticle" class="hidden-lg" style="background-color:#de1a22;color:white;padding:10px 20px"><i class="fa fa-upload"></i> Choose a file</label>
+                    <br style="clear:both;" />
+                    <img id="previewimg2" height="60" />
+
+                    <br style="clear:both" />
+                    <br style="clear:both" />
+
+                    <b>Caption</b> <br style="clear:both;" />
+
+                    <input type="text" name="caption" class="form-control" />
+
+                    <br style="clear:both" />
+
+                    <button type="submit" id="btnAddImage" class="btn btn-info pull-right">ADD</button>
+                </form>
+                <br style="clear:both" />
+                <div id="loaderImagex">
+                    <img src="@Url.Content("~/images/loader.gif")" class="pull-right" style="width:100px;" />
+                </div>
+                <p style="font-size:11px;color:gray;">Speed depends on the file size and your connection speed.</p>
+
+                <script>
+                    $("#previewimg2,#loaderImagex").hide();
+                    function showimgpreview2() {
+                        $("#previewimg2").show();
+                    }
+
+                    $("#frmImagePost").submit(function () {
+                        $("#loaderImagex").show();
+                        $("#btnAddImage").hide();
+                    });
+
+                </script>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="ModalAddVideoFile" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form id="frmvpost" method="post" action="@Url.Content("../../Article/AdditionalArticleVideoFile")" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-body">
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <br style="clear:both" />
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+
+
+
+
+                    <b>Attach Video</b><br style="clear:both;" />
+                    <input type="file" name="file" id="VideoFileAddArticle" class="hidden-xs" required />
+                    <label class="custom-file-label hidden-lg" for="VideoFileAddArticle" style="background-color:#de1a22;color:white;padding:10px 20px"><i class="fa fa-upload"></i> Choose a file</label>
+                    <br />
+
+
+
+                    <script>
+
+                        $('#VideoFileAddArticle').on('change', function (e) {
+
+
+                            var extension = $('#VideoFileAddArticle').val().split('.').pop().toLowerCase();
+                            if ($.inArray(extension, ['mov', 'mp4', 'webm']) == -1) {
+                                alert('Only .mov, .mp4, .webm are allowed');
+                                $('#VideoFileAddArticle').val("");
+                                return false;
+                            }
+                            //get the file name
+                            var fileName = e.target.files[0].name;
+                            var filesize = ((e.target.files[0].size / 1024) / 1024).toFixed(4);
+                            $(this).next('.custom-file-label').html(fileName + ' (' + filesize + 'MB) ');
+                        });
+
+
+                        $("#frmvpost").submit(function () {
+
+                            $("#loadervido").css('visibility', 'visible');
+                            $("#loadbtn").hide();
+                        });
+
+                    </script>
+                    <br style="clear:both" />
+                    <div id="loadervido" style="font-size:11px;color:gray;visibility:hidden">
+                        Uploading... please wait, speed depends on the file size and your connection speed.
+                        If your video length is more that 2 minutes or file size is too big, please upload to your Youtube account and add the link via Youtube button.<br />
+                        <img src=@Url.Content("~/images/loader.gif") class="pull-right" style="width:100px;" />
+                    </div>
+
+                    <button id="loadbtn" type="submit" class="btn btn-info pull-right">Upload</button>
+                    <br style="clear:both" />
+
+                </div>
+
+
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalAddArticleVideo" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/AdditionalArticleVideo")">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+                    <br style="clear:both" />
+
+                    <b>Youtube Video URL</b>
+
+                    <input type="text" name="YoutubeVideoURL" class="form-control" required />
+
+                    <br /><span style="color:gray">Eg:  https://www.youtube.com/watch?v=qTy320CMO74</span>
+                    <br style="clear:both" />
+                    <button type="submit" class="btn btn-info pull-right">ADD</button>
+
+                    <br style="clear:both" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalAddArticleDetails" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/AdditionalArticleDetails")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Article</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+                    <div class="form-group">
+                        <div class="col-md-12"><b>Article</b></div>
+                        <div class="col-md-12">
+                            <textarea name="ArticleText" class="form-control addtextarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">ADD</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalSliderImage" role="dialog" style="z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form id="frmSliderImagePost" method="post" action="@Url.Content("../../Article/ArticleImage")" enctype="multipart/form-data">
+            <div class="modal-content">
+
+
+                <div class="modal-body">
+
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <br style="clear:both" />
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+
+                    <div class="form-group">
+
+                        <b>Image</b><br style="clear:both;" />
+                        <input type="file" class="hidden-xs" name="file" required id="SliderImgAdd" onchange="showimgpreview();document.getElementById('previewimg').src = window.URL.createObjectURL(this.files[0]);" />
+                        <label for="SliderImgAdd" class="hidden-lg" style="background-color:#de1a22;color:white;padding:10px 20px"><i class="fa fa-upload"></i> Choose a file</label>
+                        <br style="clear:both" />
+
+                        <img id="previewimg" height="60" />
+
+                        <script>
+                            $("#previewimg").hide();
+                            function showimgpreview() {
+                                $("#previewimg").show();
+                            }
+
+                            $("#frmSliderImagePost").submit(function () {
+                                $("#loaderSliderImage").css('visibility', 'visible');
+                                $("#btnAddSliderImage").hide();
+                            });
+                        </script>
+                        <br style="clear:both" />
+                        <br style="clear:both" />
+
+
+
+
+                        <b>Caption</b> <br style="clear:both;" />
+                        <input type="text" name="caption" class="form-control" />
+                        <br style="clear:both" />
+                        <div id="loaderSliderImage" style="font-size:11px;color:gray;visibility:hidden">
+                            Uploading... please wait speed depends on the file size and your connection speed.
+                            <br /><img src=@Url.Content("~/images/loader.gif") class="pull-right" style="width:100px;" />
+                        </div>
+                        <button id="btnAddSliderImage" type="submit" class="btn btn-info pull-right">ADD</button>
+                        <br style="clear:both" />
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalYoutubeVideo" role="dialog" style="margin-top:200px;z-index:109999;font-family:Arial">
+    <div class="modal-dialog modal-lg">
+        <form method="post" action="@Url.Content("../../Article/CreateArticleVideo")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Youtube Video URL</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" value="@Model.ArticleId" name="ArticleId" />
+
+                    <br style="clear:both" />
+                    <div class="form-group">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12">
+                                <b>Youtube Video URL</b>
+                                <br /><span style="color:gray">Eg:  https://www.youtube.com/watch?v=qTy320CMO74</span>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" name="YoutubeVideoURL" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">ADD</button>
+                    <button type="button" onclick="DeleteVideo(@Model.ArticleId)" class="btn btn-danger pull-left" style="background-color:#de1a22;color:#FFF;">DELETE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@foreach (var subart in ViewBag.SubArticles)
+{
+
+    if (subart.Type == 1)
+    {
+        <div class="modal fade" id="ModalEditArticleTitle-@subart.AdditionalArticleId" role="dialog" style="z-index:109999;font-family:Arial">
+            <div class="modal-dialog modal-lg">
+                <form method="post" action="@Url.Content("../../Article/EditAdditionalArticleTitle")">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edit Title</h4>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <input type="hidden" value="@subart.ArticleId" name="addArticleId" />
+                            <input type="hidden" value="@subart.AdditionalArticleId" name="AdditionalArticleId" />
+
+                            <br style="clear:both" />
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <b>Title</b><br style="clear:both;" />
+                                    <input type="text" name="Title" class="form-control" required value="@subart.Title" />
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <br style="clear:both" />
+                        <br style="clear:both" />
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-info">ADD</button>
+                            <button type="button" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)" class="btn btn-danger pull-left" style="background-color:#de1a22;color:#FFF;">DELETE</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    }
+    else if (subart.Type == 2)
+    {
+
+        <div class="modal fade" id="ModalAddArticleDetailsEdit-@subart.AdditionalArticleId" role="dialog" style="z-index: 109999;
+        font-family: Arial
+">
+            <div class="modal-dialog modal-lg">
+                <form method="post" action="@Url.Content("../../Article/EditAdditionalArticleText")">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edit Article</h4>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <input type="hidden" value="@subart.ArticleId" name="addArticleId" />
+                            <input type="hidden" value="@subart.AdditionalArticleId" name="AdditionalArticleId" />
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-12"><b>Article</b></div>
+                                <div class="col-md-12">
+                                    <textarea name="ArticleText" class="form-control addtextarea">@subart.ArticleText</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br style="clear:both" />
+                        <br style="clear:both" />
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-info">ADD</button>
+                            <button type="button" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)" class="btn btn-danger pull-left" style="background-color:#de1a22;color:#FFF;">DELETE</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    }
+    else if (subart.Type == 3)
+    {
+
+
+        <div class="modal fade" id="ModalEditArticleImage-@subart.AdditionalArticleId" role="dialog" style="z-index:109999;font-family:Arial">
+            <div class="modal-dialog modal-lg">
+                <form id="frmEditArticleImage-@subart.AdditionalArticleId" method="post" action="@Url.Content("../../Article/EditAdditionalArticle")" enctype="multipart/form-data">
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <br style="clear:both" />
+
+                            <input type="hidden" value="@subart.ArticleId" name="addArticleId" />
+                            <input type="hidden" value="@subart.AdditionalArticleId" name="AdditionalArticleId" />
+
+                            <b>Image</b><br style="clear:both;" />
+                            <input type="file" name="file" class="hidden-xs" id="imgAddArticleedit-@subart.AdditionalArticleId" onchange="showimgpreview3();document.getElementById('previewimg-@subart.AdditionalArticleId').src = window.URL.createObjectURL(this.files[0]);" />
+                            <label for="imgAddArticleedit-@subart.AdditionalArticleId" id="mbimgAddArticleedit" class="hidden-lg" style="background-color:#de1a22;color:white;padding:10px 20px"><i class="fa fa-upload"></i> Choose a file</label>
+                            <br style="clear:both;" />
+                            <img id="previewimg-@subart.AdditionalArticleId" height="60" />
+
+                            <script>
+                                $("#previewimg-@subart.AdditionalArticleId").hide();
+
+                                function showimgpreview3() {
+
+                                    $("#previewimg-@subart.AdditionalArticleId").show();
+                                }
+
+                                $("#frmEditArticleImage-@subart.AdditionalArticleId").submit(function () {
+
+                                    $("#loaderEditArticleImage-@subart.AdditionalArticleId").css('visibility', 'visible');
+                                    $("#btnEditArticleImage-@subart.AdditionalArticleId").hide();
+                                });
+
+                            </script>
+
+
+                            <br style="clear:both" />
+                            <b>Caption</b>
+                            <input type="text" name="addcaption" class="form-control" value="@subart.Caption" />
+
+                            <br style="clear:both" />
+                            <div id="loaderEditArticleImage-@subart.AdditionalArticleId" style="font-size:11px;color:gray;visibility:hidden">
+                                Uploading... please wait speed depends on the file size and your connection speed.
+                                <br /><img src=@Url.Content("~/images/loader.gif") class="pull-right" style="width:100px;" />
+                            </div>
+                            <br style="clear:both" />
+
+                            <button id="btnEditArticleImage-@subart.AdditionalArticleId" type="submit" class="btn btn-info pull-right">SAVE</button>
+                            <button type="button" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)" class="btn btn-danger pull-left" style="background-color:#de1a22;color:#FFF;">DELETE</button>
+                            <br style="clear:both" />
+
+                        </div>
+
+
+                    </div>
+                </form>
+
+
+                
+            </div>
+        </div>
+
+    }
+    if (subart.Type == 4)
+    {
+        <div class="modal fade" id="ModalEditArticleVideo-@subart.AdditionalArticleId" role="dialog" style="z-index:109999;font-family:Arial">
+            <div class="modal-dialog modal-lg">
+                <form method="post" action="@Url.Content("../../Article/EditAdditionalArticleVideo")">
+                    <div class="modal-content">
+
+
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <input type="hidden" value="@subart.ArticleId" name="addArticleId" />
+                            <input type="hidden" value="@subart.AdditionalArticleId" name="AdditionalArticleId" />
+
+                            <br style="clear:both" />
+
+
+
+                            <b>Youtube Video URL</b>
+                            <br /><span style="color:gray">Eg:  https://www.youtube.com/watch?v=qTy320CMO74</span>
+
+                            <input type="text" name="YoutubeVideoURL" class="form-control" required />
+
+
+
+                            <br style="clear:both" />
+                            <button type="submit" class="btn btn-info pull-right">ADD</button>
+                            <button type="button" onclick="DeleteSubArt(@subart.AdditionalArticleId,@subart.ArticleId)" class="btn btn-danger pull-left" style="background-color:#de1a22;color:#FFF;">DELETE</button>
+                            <br style="clear:both" />
+                        </div>
+
+
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    }
+
+
+
+}
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $(".tinymce-mobile-toolbar-button, .tinymce-mobile-toolbar-group-item, .tinymce-mobile-icon-back, .tinymce-mobile-icon").blur(function () {
+            alert("Done");
+        });
+    });
+
+
+
+    function SaveSubArticleText() {
+        tinyMCE.triggerSave();
+
+      //let elements = table.getElementsByTagName('textarea');
+        let elements = document.getElementsByClassName('subtextarea');
+        for (let element of elements) {
+            //alert(element.id + ':' + element.value);
+       SuperSubArticleText(element.id, element.value);
+      }
+    }
+
+    function SuperSaver() {
+        tinyMCE.triggerSave();
+        $.ajax({
+            method: "POST",
+            url: "@Url.Content("~/Article/UpdateSuper")",
+            data: { ArticleId: @Model.ArticleId, Title: $("#SuperTitle").val(), CategoryId: $("#SuperCategoryId").val(), ArticleText: $("#SuperArticleText").val() },
+            success: function (data) {
+               // alert('Auto saving done!');
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function SuperSubTitle(AdditionalArticleId) {
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Content("~/Article/SuperSubTitle")",
+            data: { AdditionalArticleId: AdditionalArticleId, Title: $("#SubTitle-" + AdditionalArticleId).val() },
+            success: function (data) {
+
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function SuperSubArticleText(AdditionalArticleIdx, contentx) {
+     tinyMCE.triggerSave();
+    //alert(contentx);
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Content("~/Article/SuperSubArticleText")",
+            data: { AdditionalArticleId: AdditionalArticleIdx, ArticleText: contentx },
+            success: function (data) {
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function CreateblankSubArt() {
+       // SuperSaver();
+        $.ajax({
+            method: "POST",
+            url: "@Url.Content("~/Article/AdditionalArticleDetails")",
+            data: { ArticleId: @Model.ArticleId},
+            success: function (data) {
+                //alert('Article added');
+                window.location.reload();
+            },
+            error: function () {
+            }
+        });
+
+    }
+
+
+    function CreateSlider() {
+        // SuperSaver();
+        $.ajax({
+            method: "POST",
+            url: "@Url.Content("~/Article/AddSlider")",
+            data: { ArticleId: @Model.ArticleId},
+            success: function (data) {
+                window.location.reload();
+
+            },
+            error: function () {
+            }
+        });
+
+    }
+
+
+    function RemoveSlider(additionalarticleid) {
+
+
+        // if (confirm("Are you sure to remove the slider?")) {
+            $.ajax({
+                method: "POST",
+                url: "@Url.Content("~/Article/RemoveSlider")",
+                data: { AdditionalArticleId: additionalarticleid},
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function () {
+                }
+            });
+       // }
+
+    }
+
+
+
+
+    function DeleteSubArt(AdditionalArticleId, ArticleId) {
+
+        //if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteSubArt/")" + AdditionalArticleId,
+                success: function (data) {
+
+                    window.location.reload();
+                },
+                error: function () {
+
+                }
+            });
+        //}
+    }
+
+    function DeletePic(pictypeid, ArticleId) {
+      //  if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeletePic/")" + pictypeid + "/" + ArticleId,
+                success: function (data) {
+
+                    window.location.reload();
+                },
+                error: function () {
+
+                }
+            });
+       // }
+    }
+
+    function DeleteSliderPic(ArticleImageId) {
+      //  if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteSliderPic/")" + ArticleImageId,
+                success: function (data) {
+
+                    window.location.reload();
+                },
+                error: function () {
+
+                }
+            });
+       // }
+    }
+
+
+
+    function DeleteVideo(ArticleId) {
+       // if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                url: "@Url.Content("~/DeleteVideo/")" + ArticleId,
+                success: function (data) {
+
+                   window.location.reload();
+                },
+                error: function () {
+
+                }
+            });
+       // }
+    }
+
+
+
+    $('#coverpic').bind('change', function () {
+
+        var extension = $('#coverpic').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#coverpic').val("");
+            return false;
+        }
+
+    });
+
+
+    $('#imgAddArticle').bind('change', function () {
+
+        var extension = $('#imgAddArticle').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#imgAddArticle').val("");
+            return false;
+        }
+
+    });
+
+    $('#SliderImgEdit').bind('change', function () {
+
+        var extension = $('#SliderImgEdit').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#SliderImgEdit').val("");
+            return false;
+        }
+
+    });
+
+    $('#SliderImgAdd').bind('change', function () {
+
+        var extension = $('#SliderImgAdd').val().split('.').pop().toLowerCase();
+        if ($.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            alert('Only .jpg, .jpeg, .png, .gif are allowed');
+            $('#SliderImgAdd').val("");
+            return false;
+        }
+
+        if ($("#SliderImgAdd")[0].files.length > 1) {
+            alert("You can select only one image!");
+            $('#SliderImgAdd').val("");
+            return false;
+        }
+    });
+
+
+
+
+</script>
+
+
+

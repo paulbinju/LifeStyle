@@ -1,0 +1,54 @@
+﻿<div class="col-md-7">
+    <div class="widget categories-widget">
+        <h1 style="border-bottom: 1px dashed #c0b9ba;">Category</h1><br />
+        <div class="col-md-6">
+            <ul class="category-list">
+                <li>
+                    <a  href="@Url.Action("Index","Home",new { p = "ALL" })"
+                       style="color: #f5f5f5; border-bottom: 1px dashed #c0b9ba;">ALL 
+                        <span id="linkAllCat" class="ALL">@ViewBag.All</span></a>
+                </li>
+                @{
+                    foreach (var category in ViewBag.Category1)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Home",new { p = category.Description })" 
+                               style="color: #f5f5f5; border-bottom: 1px dashed #c0b9ba;">@category.CategoryName 
+                            <span class="@category.Description @(category.CategoryName == ViewBag.ActivePage ? "active" : "")">@category.ArticleCount</span></a>
+                        </li>
+                    }
+                }
+
+
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <ul class="category-list">
+                @{
+                    foreach (var category in ViewBag.Category2)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Home",new { p = category.Description })" 
+                               style="color: #f5f5f5; border-bottom: 1px dashed #c0b9ba;"> @category.CategoryName 
+                            <span class="@category.Description @(category.CategoryName == ViewBag.ActivePage ? "active" : "")">@category.ArticleCount</span></a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+</div>
+<style>
+    #linkAllCat {
+        color: #ffffff;
+        background-color: #de1a22;
+        border-color: #000000;
+    }
+
+        #linkAllCat:hover {
+            background-color: #ff0000;
+            color: #ffffff;
+            border-color: #000000;
+        }
+</style>

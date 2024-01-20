@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Admin Login";
+}
+
+<section class="main-section" style="font-family:Arial;font-size:12px;margin-top:280px;">
+    <div class="container sub-sections" id="option1">
+        <div class="col-md-12">
+            <br style="clear:both" />
+            <h3>Admin Login</h3>
+            <br style="clear:both" />
+
+            <form method="post" action="@Url.Content("~/Article/AdminLogin")">
+                <div class="col-md-4">
+                    <label for="email-address">User ID<span>*</span></label>
+                    <input type="text" name="email" required class="form-control" />
+                </div>
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="col-md-4">
+                    <label for="password">Password<span>*</span></label>
+                    <input type="password" name="password" id="password2" class="form-control"  required/>
+                </div>
+                <br style="clear:both" />
+                <br style="clear:both" />
+                <div class="col-md-4">
+                    <button type="submit" id="submit-register" class="btn btn-danger">
+                        <i class="fa fa-arrow-circle-right"></i> Login
+                    </button>
+                    <br />
+                    <br />
+                    <div style="color:red">@ViewBag.LoginStatus</div>
+                </div>
+                
+            </form>
+
+            
+        </div>
+
+        <br style="clear:both" />
+        <br style="clear:both" />
+        <br style="clear:both" />
+        <br style="clear:both" />
+        <br style="clear:both" />
+        <br style="clear:both" />
+    </div>
+</section>
+

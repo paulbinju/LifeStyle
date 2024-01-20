@@ -1,0 +1,57 @@
+﻿    <div class="panel panel-default" style="border-color:#3453a4;">
+    <div class="panel-heading" style="font-size:16px; font-weight:bold;background-color:#3453a4;color:#fff;">
+        My Followers
+    </div>
+    <div class="panel-body" style="padding:3px; margin:0px;">
+
+        @{
+                foreach (var flws in ViewBag.Followers)
+                {
+            <div class="col-md-1 col-xs-3 text-center" background-color:#fafafa;" style="margin:0px;">
+
+               
+                    @if (flws.ProfileImage != null && flws.ProfileImage != "")
+                    {
+                    <a href="@Url.Action("Author", "Home" , new { UserId=flws.UserId })">
+                        <img src="@Url.Content(flws.ProfileImage)" class="img-circle img-responsive" id="imgFollowing"  />
+                    </a>
+            }
+            else
+            {
+                    <a href="@Url.Action("Author", "Home" , new { UserId=flws.UserId })">
+                        <img src="@Url.Content("~/images/user.png")" class="img-circle img-responsive" id="avtFollowing" />
+                    </a>
+            }
+                    @*<p><button>@flws.FullName</button></p>*@
+            <span class="">@flws.FullName</span>
+
+
+                @{ string followback = "No"; }
+
+                @foreach (var flusers in ViewBag.followedUsers)
+                        {
+
+                            if (flws.UserId == flusers.FollwerId)
+                            {
+                                followback = "Yes";
+                            }
+                        }
+
+                @if (followback == "No")
+                        {
+                <div class="btn btn-primary btn-xs" id="btnFollow_@flws.Id" onclick="follow(@flws.UserId,@flws.Id);">
+                    Followback @*<i class="fas fa-user-tag"></i>*@
+                </div>
+                        }
+            </div>
+                }
+        }
+
+
+    </div>
+    <div class="panel-footer" style="background-color:#3453a4;"></div>
+</div>
+    
+    
+
+

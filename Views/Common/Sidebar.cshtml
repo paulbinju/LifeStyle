@@ -1,0 +1,246 @@
+﻿
+
+
+    <div class="col-sm-4" style="margin-top:30px;">
+
+        <div class="col-md-12 text-center">
+            <div class="col-xs-12 col-md-12 text-center" style="margin-top:20px;">
+
+                <img src=@Url.Content("~/images/upload/news-posts/gdn.jpg") alt="" class="img-responsive">
+            </div>
+
+            <div class="col-xs-12 col-md-12 text-center" style="margin-top:20px; margin-bottom:20px;">
+
+                <img src=@Url.Content("~/images/upload/news-posts/abc.jpg") alt="" class="img-responsive">
+            </div>
+
+        </div>
+
+        <!-- sidebar -->
+        <div class="sidebar">
+
+
+
+
+            @{
+                @*if (!string.IsNullOrEmpty(Session["UserName"] as string))
+                {
+                    <div class="widget post-widget">
+                        <div class="title-section">
+                            <h1><span>Trending Video</span></h1>
+                        </div>
+                        <div class="news-post video-post">
+                            @{
+
+                                foreach (var article in ViewBag.Article)
+                                {
+                                    if (article.CoverImage != null && article.CoverImage != "")
+                                    {
+                                    <img alt="" src=@Url.Content(article.CoverImage)>
+
+                                    <a href="https://www.youtube.com/watch?v=LL59es7iy8Q" class="video-link"><i class="fa fa-play-circle-o"></i></a>
+                                    <div class="hover-box">
+                                        <h2><a href=@Url.Action("ArticleDetail","Home",new { ArticleId = article.ArticleId, category = article.CategoryId })>@article.Title</a></h2>
+                                        <ul class="post-tags">
+                                            <li><i class="fa fa-clock-o"></i>27 may 2013</li>
+                                        </ul>
+                                    </div>
+                                    }
+                                }
+                            }
+
+
+                        </div>
+                    </div>
+                }*@
+            }
+
+
+
+
+
+            <div class="widget tab-posts-widget">
+
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active">
+                        <a href="#option1" data-toggle="tab">Trending</a>
+                    </li>
+                    <li>
+                        <a href="#option2" data-toggle="tab">Latest</a>
+                    </li>
+                    <li>
+                        <a href="#option3" data-toggle="tab">Most Liked</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="option1">
+                        <ul class="list-posts">
+                            @{
+                                foreach (var popluar in ViewBag.Popular)
+                                {
+                                    <li>
+                                        <div style="height:100px; min-width:80px; float:left; overflow:hidden;">
+                                            @if (popluar.CoverImage != null && popluar.CoverImage != "")
+                                            {
+                                                <a href="@Url.Action("ArticleDetail","Home",new { ArticleId = popluar.ArticleId, category = popluar.CategoryId })"> <img src=@Url.Content(popluar.CoverImage) /></a>
+                                            }
+                                        </div>
+
+                                        <div class="post-content">
+                                            <h2><a href=@Url.Action("ArticleDetail","Home",new { ArticleId = popluar.ArticleId, category = popluar.CategoryId })>@popluar.Title</a></h2>
+                                            <ul class="post-tags">
+                                                <li><sapn class="badge @popluar.Description" style="color:white; border-radius:4px;font-style:normal;">@popluar.CategoryName</sapn> -  <i class="fa fa-clock-o"></i>@string.Format("{0:d MMM yyyy}", popluar.Created)</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane" id="option2">
+                        <ul class="list-posts">
+                            @{
+                                foreach (var recent in ViewBag.Recent)
+                                {
+                                    <li>
+
+                                        @*<img src=@Url.Content(recent.CoverImage) alt="">*@
+                                        <div style="height:100px; min-width:80px; float:left; overflow:hidden;">
+                                            @if (recent.CoverImage != null && recent.CoverImage != "")
+                                            {
+                                                <img src=@Url.Content(recent.CoverImage) />
+                                            }
+                                        </div>
+
+
+                                        <div class="post-content">
+                                            <h2><a href=@Url.Action("ArticleDetail","Home",new { ArticleId = recent.ArticleId, category = recent.CategoryId })>@recent.Title</a></h2>
+                                            <ul class="post-tags">
+                                                <li><sapn class="badge @recent.Description" style="color:white; border-radius:4px;font-style:normal;">@recent.CategoryName</sapn> -  <i class="fa fa-clock-o"></i>@string.Format("{0:d MMM yyyy}", recent.Created)</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane" id="option3">
+                        <ul class="list-posts">
+                            @{
+                                foreach (var reviews in ViewBag.Reviews)
+                                {
+                                    <li>
+                                        @*<img src=@Url.Content(reviews.CoverImage) alt="">*@
+                                        <div style="height:100px; min-width:80px; float:left; overflow:hidden;">
+                                            @if (reviews.CoverImage != null && reviews.CoverImage != "")
+                                            {
+                                                <img src=@Url.Content(reviews.CoverImage) />
+                                            }
+                                        </div>
+
+                                        <div class="post-content">
+                                            <h2><a href=@Url.Action("ArticleDetail","Home",new { ArticleId = reviews.ArticleId, category = reviews.CategoryId })>@reviews.Title</a></h2>
+                                            <ul class="post-tags">
+                                                <li><sapn class="badge @reviews.Description" style="color:white; border-radius:4px;font-style:normal;">@reviews.CategoryName</sapn> -  <i class="fa fa-clock-o"></i>@string.Format("{0:d MMM yyyy}", reviews.Created)</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            @*<div class="widget categories-widget">
+                <div class="title-section">
+                    <h1><span>Hot Categories</span></h1>
+                </div>
+                <ul class="category-list">
+
+                    @{
+                        foreach (var category in ViewBag.HotCategories)
+                        {
+                            <li>
+                                <a href="#">@category.CategoryName <span>@category.ArticleCount</span></a>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </div>*@
+
+            <div class="widget subscribe-widget">
+                <form class="subscribe-form">
+                    <h1>Subscribe to Newsletter</h1>
+                    <input type="text" name="sumbscribe" id="subscribe" placeholder="Email" />
+                    <button id="submit-subscribe">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                    <p>Get all latest content delivered to your email a few times a month.</p>
+                </form>
+            </div>
+
+            <div class="widget tags-widget">
+
+                <div class="title-section">
+                    <h1><span>Popular Tags</span></h1>
+                </div>
+
+                <ul class="tag-list">
+
+                    <li>
+                        <a id="linkAll" class="ALL"
+                           href="@Url.Action("Index","Home",new { p = "ALL" })">ALL</a>
+                    </li>
+
+                    @{
+                        foreach (var category in ViewBag.HotCategories)
+                        {
+                            <li>
+                                <a class="@category.Description @(category.CategoryName == ViewBag.ActivePage ? "active" : "")" style="color:#ffffff;"
+                                   href="@Url.Action("Index","Home",new { p = category.CategoryName })">@category.CategoryName</a>
+                            </li>
+                        }
+                    }
+
+                    @*<a class="@item.Description @(item.CategoryName == ViewBag.ActivePage ? "active" : "")" href="@Url.Action("Index","Home",new { p = item.CategoryName })">@item.CategoryName</a>*@
+                </ul>
+
+            </div>
+
+            <div class="advertisement">
+                <div class="desktop-advert">
+                    <span>Advertisement</span>
+                    <img src=@Url.Content("~/images/upload/news-posts/abc.jpg") alt="">
+                </div>
+                <div class="tablet-advert">
+                    <span>Advertisement</span>
+                    <img src=@Url.Content("~/images/upload/addsense/200x200.jpg") alt="">
+                </div>
+                <div class="mobile-advert">
+                    <span>Advertisement</span>
+                    <img src=@Url.Content("~/images/upload/addsense/300x250.jpg") alt="">
+                </div>
+            </div>
+
+        </div>
+        <!-- End sidebar -->
+
+    </div>
+<style>
+    #linkAll {
+        color: #ffffff;
+        background-color: #de1a22;
+    }
+
+        #linkAll:hover {
+            background-color: #000000;
+            color: #ffffff;
+            border-color: #000000;
+        }
+</style>
